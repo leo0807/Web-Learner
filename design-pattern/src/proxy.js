@@ -21,13 +21,13 @@ class ProxyImg{
 }
 // 场景
 // 1.网页事件代理
-var div = document.getElementById('div1');
-div1.addEventListener('click', function(e){
-    var target = e.target;
-    if(target.nodeName === 'A'){
-        alert(target.innerHTML);
-    }
-});
+// var div = document.getElementById('div1');
+// div1.addEventListener('click', function(e){
+//     var target = e.target;
+//     if(target.nodeName === 'A'){
+//         alert(target.innerHTML);
+//     }
+// });
 // 2.Es6 Proxy
 let star = {
     name: 'Taylor',
@@ -59,4 +59,7 @@ console.log(agent.name);
 console.log(agent.phone);
 console.log(agent.age);
 console.log(agent.price);
+
+agent.customerPrice = 1500000;
+console.log(agent.customerPrice);
 // 3.$.proxy
