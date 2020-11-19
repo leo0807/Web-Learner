@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@webpack-cli/init": "^1.0.3"
+    "@webpack-cli/init": "^1.0.3",
+    "core-decorators": "^0.20.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
