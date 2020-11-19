@@ -39,7 +39,12 @@ function log(target, name, description){
     }
     return descriptor;
 }
-
+class Math{
+    @log
+    add(a, b){
+        return a + b;
+    }
+}
 
 class Person{
     constructor(){

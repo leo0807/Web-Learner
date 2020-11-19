@@ -38,3 +38,8 @@ let o3 = new Observer('o3', s);
 s.setState(1);
 s.setState(2);
 s.setState(3);
+// 场景
+// 网页事件绑定
+// Promise
+// JQuery callbacks
+// nodejs 自定义事件
