@@ -1,3 +1,5 @@
+package Java.Array;
+
 public class Array{
     private int[] data;
     private int size;
