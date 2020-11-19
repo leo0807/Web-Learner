@@ -58,3 +58,4 @@ result.then(function(img){
 ).catch(function(err){
     alert(err);
 })
+
