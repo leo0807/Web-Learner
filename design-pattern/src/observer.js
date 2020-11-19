@@ -1,3 +1,5 @@
+const { EventEmitter } = require('events');
+
 class Subject{
     constructor(){
         this.state = 0;
@@ -43,3 +45,27 @@ s.setState(3);
 // Promise
 // JQuery callbacks
 // nodejs 自定义事件
+const eventEmitter = require('events').EventEmitter;
+
+class Dog extends eventEmitter{
+    constructor(name){
+        super();
+        this.name = name;
+    }
+}
+
+var simon = new Dog('simon');
+simon.on('bark', function(){
+    console.log(this.name, 'barked');
+});
+setInterval(function(){
+    simon.emit('bark');
+}, 1000);
+const emitter1 = new EventEmitter();
+emitter1.on('some', info =>{
+    console.log('fn1', info);
+});
+emitter1.on('some', info => {
+    console.log('fn2', info);
+});
+emitter1.emit('some', 'xxxx');
