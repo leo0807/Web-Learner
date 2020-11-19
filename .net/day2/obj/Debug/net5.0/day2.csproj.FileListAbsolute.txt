@@ -1,0 +1,5 @@
+/Users/scott/Documents/.net/day2/obj/Debug/net5.0/day2.csprojAssemblyReference.cache
+/Users/scott/Documents/.net/day2/obj/Debug/net5.0/day2.GeneratedMSBuildEditorConfig.editorconfig
+/Users/scott/Documents/.net/day2/obj/Debug/net5.0/day2.AssemblyInfoInputs.cache
+/Users/scott/Documents/.net/day2/obj/Debug/net5.0/day2.AssemblyInfo.cs
+/Users/scott/Documents/.net/day2/obj/Debug/net5.0/day2.csproj.CoreCompileInputs.cache

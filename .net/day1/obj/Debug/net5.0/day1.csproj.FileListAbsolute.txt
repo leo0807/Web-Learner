@@ -1,0 +1,15 @@
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/day1.deps.json
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/day1.runtimeconfig.json
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/day1.runtimeconfig.dev.json
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/day1.dll
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/ref/day1.dll
+/Users/scott/Documents/.net/day1/bin/Debug/net5.0/day1.pdb
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.csprojAssemblyReference.cache
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.GeneratedMSBuildEditorConfig.editorconfig
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.AssemblyInfoInputs.cache
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.AssemblyInfo.cs
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.csproj.CoreCompileInputs.cache
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.dll
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/ref/day1.dll
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.pdb
+/Users/scott/Documents/.net/day1/obj/Debug/net5.0/day1.genruntimeconfig.cache
