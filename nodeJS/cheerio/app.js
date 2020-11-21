@@ -16,6 +16,15 @@ const getTotalNum = async() =>{
     const allNum = $('.pagination li').eq(length - 2).find('a').text();
     return allNum;
 }
+
+// 将延迟函数封装成promise对象
+async function lcWait(milleSeconds){
+    return new Promise(function(resolve, reject){
+        setTimeout(function(){
+            resolve("成功延迟"+milleSeconds)
+        }, milleSeconds);
+    })
+}
 // Get current page info
 
 const getPageInfo = async(pageNum) =>{
@@ -33,6 +42,7 @@ const getPageInfo = async(pageNum) =>{
                 if(err) console.log(err);
                 else console.log(`Directory './img/'+ ${title} create successfully!`);
             });
+            await lcWait(50 * i);
             parsePage(pageUrl, title);
             console.log(title);
         })
@@ -64,6 +74,7 @@ const parsePage = async(url, title) =>{
 const spider = async() => {
     const allPageNum = await getTotalNum();
     for(let i = 0; i < allPageNum; i++){
+        await lcWait(3000 * i);
         getPageInfo(i);
     }
 };
