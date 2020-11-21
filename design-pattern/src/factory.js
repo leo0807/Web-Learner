@@ -26,3 +26,4 @@ p.init();
 p.func1();
 
 // 场景
+// React.createElement
