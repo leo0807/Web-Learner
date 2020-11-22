@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="800">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        console.log([canvas1]);
+        // 2.上下文对象，画笔
+        const ctx = canvas1.getContext("2d");
+        ctx.fillRect(0,0,50,50);
+        ctx.font = "50px 微软雅黑";
+
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = "rgba(0,0,0,1)";
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 10;
+
+        ctx.fill();
+        let x = 600;
+        setInterval(() => {
+            // 清空画布
+            ctx.clearRect(0, 0, 600, 600);
+            x -= 10;
+            if(x < -100) x = 600;
+                ctx.fillText("Hello World", x, 100);// x y
+                ctx.strokeText("镂空",x, 200);
+        }, 30);
+
+    </script>
+</body>
+</html>

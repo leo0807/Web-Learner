@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="800">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        console.log([canvas1]);
+        // 2.上下文对象，画笔
+        const ctx = canvas1.getContext("2d");
+        // 坐标1，2 半径3 起始位置4，5 顺时针，逆时针，6
+        ctx.arc(300, 300, 100, 0, Math.PI, false);
+        ctx.stroke();
+        ctx.fillStyle = "auqa;"
+        ctx.fill();
+
+    </script>
+</body>
+</html>

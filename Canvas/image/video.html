@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="600">
+
+    </canvas>
+    <video src="./video.mp4" width="800" height="" controls="controls" ></video>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        const video = document.querySelector("video");
+        var interId;
+        var ctx = canvas1.getContext("2d");
+        video.onplay = function(){
+            interId = setInterval(function(){
+                ctx.clearRect(0,0,600,600);
+
+                ctx.drawImage(video,0, 0, 800, 600);
+                // 添加水印
+                ctx.strokeStyle = "#999";
+                ctx.font = "20px 微软雅黑";
+                ctx.strokeText("JXZ", 50, 50);
+                // 也可以用来添加字幕
+            }, 16);
+        }
+        video.onpause = function(){
+            clearInterval(interId);
+        }
+
+
+    </script>
+</body>
+</html>

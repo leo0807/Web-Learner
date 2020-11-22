@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="800">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        console.log([canvas1]);
+        // 2.上下文对象，画笔
+        const ctx = canvas1.getContext("2d");
+        // 绘制图像 图片位置 x位置 y位置
+        const img = new Image();
+        img.src = "./download.jpeg";
+        // 图片载入后再进行绘制
+        img.onload = function(){
+            ctx.drawImage(img, 50, 50);     
+        }
+
+    </script>
+</body>
+</html>
