@@ -22,5 +22,7 @@ const httpUrl = 'https://sobooks.cc';
             }, milliSeconds);
         })
     }
-    
+    const parseTxt = async() => {
+
+    };
 })()
