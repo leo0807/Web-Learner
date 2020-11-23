@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="600">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        const video = document.querySelector("video");
+        var interId;
+        var ctx = canvas1.getContext("2d");
+        // 均是对整个幕布（或者说是画笔）对作用
+        ctx.scale(2,4);//恢复=> ctx.scale(0.5, 0.25);
+        ctx.translate(300, 0);// 整个画布都移动
+        ctx.rotate(Math.PI / 4);
+        ctx.fillStyle = "deepskyblue";
+        ctx.fillRect(100, 100, 300, 100);
+        // 保留当前环境（画笔）对状态   
+        ctx.save();
+        // 恢复
+         ctx.restore(); //一层一层传递
+
+    </script>
+</body>
+</html>

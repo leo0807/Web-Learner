@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw A Clock</title>
+</head>
+<body>
+    <canvas id="canvas1" width="800" height="600">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1.找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+        const ctx = canvas1.getContext("2d");
+        function renderClock(){
+            ctx.clearRect(0,0, 800, 600);
+            ctx.save(); // Keep the original format
+            ctx.translate(400, 300); // Move the canva the center of the screen
+            ctx.rotate(-2 * Math.PI / 4);
+            // The screen of the clock
+            ctx.save();
+            ctx.arc(0,0,200,0, 2 * Math.PI);
+            ctx.strokeStyle = "darkgrey";
+            ctx.lineWidth = 10;
+            ctx.stroke();
+            ctx.closePath();
+
+            // Draw the niddle of the clock
+
+            // Minutes
+
+            for(let i = 0; i < 60; i++){
+                ctx.rotate(Math.PI / 30);
+                ctx.beginPath();
+                ctx.moveTo(180, 0);
+                ctx.lineTo(200, 0);
+                ctx.lineWidth = 2
+                ctx.strokeStyle = "orangered";
+                ctx.stroke();
+                ctx.closePath();
+            }
+            ctx.restore();
+            ctx.save();
+            // Hours
+            for(let i = 0; i < 12; i++){
+                ctx.rotate(Math.PI / 6);
+                ctx.beginPath();
+                ctx.moveTo(180, 0);
+                ctx.lineTo(200, 0);
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = "darkgrey";
+                ctx.stroke();
+                ctx.closePath();
+            }
+            ctx.restore();
+            ctx.save();
+
+            const time = new Date();
+            let hour = time.getHours();
+            hour = hour > 12? hour - 12: hour;
+            const min = time.getMinutes();
+            const sec = time.getSeconds();
+
+            // Draw the second niddle
+            ctx.beginPath();
+            ctx.rotate(2*Math.PI / 60 * sec);
+            ctx.moveTo(-30, 0);
+            ctx.lineTo(170, 0);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.restore();
+            ctx.save()
+
+            // Draw the second niddle
+            ctx.beginPath();
+            ctx.rotate(2 * Math.PI / 60 * min + 2 * Math.PI / 3600 * sec);
+            ctx.moveTo(-20, 0);
+            ctx.lineTo(150, 0);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "darkblue";
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.restore();
+            ctx.save()
+
+            // Draw the second niddle
+            ctx.beginPath();
+            ctx.rotate(2 * Math.PI / 12 * hour + 2 * Math.PI / 60 / 12 * min + 2 * Math.PI / 3600 / 12 * sec);
+            ctx.moveTo(-10, 0);
+            ctx.lineTo(140, 0);
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = "darkslategray";
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.restore();
+            ctx.save();
+
+            ctx.beginPath();
+            ctx.arc(0,0,15,0,2*Math.PI);
+            ctx.fillStyle = "deepskeblue";
+            ctx.fill();
+            ctx.closePath();
+            
+            ctx.restore();
+            ctx.restore();
+        }
+        setInterval(function(){
+            renderClock();
+        },1000);
+    </script>
+</body>
+</html>
