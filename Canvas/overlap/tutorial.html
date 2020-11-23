@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="600">
+
+    </canvas>
+    <script type="text/javascript"> 
+        // 1找到画布对象
+        const canvas1 = document.getElementById("canvas1");
+
+        var ctx = canvas1.getContext("2d");
+        // target image
+        ctx.fillStyle = "hotpink";
+        ctx.fillRect(100, 100, 200, 200);
+
+        ctx.globalCompositeOperation = "source-in";
+        // source-out =>
+        // destination-over => 在源图像上显示目标图像
+        // destination-in/ xor / lighter
+        // original image
+        ctx.fillStyle = "deepblue";
+        ctx.fillRect(200, 200, 200, 200);
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        #ggk{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            margin:200px auto;
+            font-size: 50px;
+            line-height: 100px;
+        }
+        #ggk .jp{
+            width: 600px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-align: center;
+            background-color: red;
+            color: wheat;
+            font-size: 50px;
+            line-height: 300px;
+        }
+        #ggk #canvas{
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="ggk">>
+        <div class="jp">谢谢惠顾</div>
+        <canvas id="canvas" width="600" height="300"></canvas>
+    </div>   
+
+    <script type="text/javascript"> 
+        // 1找到画布对象
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const ggkDom = document.getElementById("ggk");
+        const jp = document.querySelector(".jp");
+
+        ctx.fillStyle = "darkgrey";
+        ctx.fillRect(0,0,600,300);
+        ctx.font = "50px Arial";
+        ctx.fillStyle = "#fff";
+        ctx.fillText("刮刮卡",280,150);
+
+
+        var isDraw = false;
+        // 设置isDraw 为true， 即为允许绘制
+        canvas.onmousedown = function() {
+            isDraw = true;
+        }
+
+        // 鼠标移动的时候，将源图像內的目标内容给清楚掉
+        canvas.onmousemove = function(e){
+            if(isDraw){
+                var x = e.pageX - ggkDom.offsetLeft;
+                var y = e.pageY - ggkDom.offsetTop;
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.arc(x, y, 20, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        canvas.onmouseup = function() {
+            isDraw = false;
+        }
+
+        var arr = [{content:"First Prize: Mac Pro", p: 0.1}, {content:"Second Prize: Mac Air", p: 0.1},{content:"Third Prize: Iphone", p: 0.2},{content:"No Prize: Thanks", p: 0.6}];
+        var randomNum = Math.random();
+        if(randomNum < arr[0].p){
+            jp.innerHTML = arr[0].content;
+        }else if(randomNum < arr[0].p + arr[1].p){
+            jp.innerHTML = arr[1].content;
+        }else if(randomNum < arr[0].p + arr[1].p + arr[2].p){
+            jp.innerHTML = arr[2].content;
+        }else{
+            jp.innerHTML = arr[3].content;
+        }
+    </script>
+</body>
+</html>
