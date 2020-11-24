@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG</title>
+</head>
+<body>
+    <svg width="100%" height="100%">
+        <!-- 默认宽300px，高150px -->
+        <!-- 所有SVG代码全部在SVG中 -->
+        <circle id="mycircle" cx="50" cy="50" r="50" fill="orange"></circle>
+    </svg>
+    <svg width="100px" height="100px">
+        <circle id="mycircle" cx="50" cy="50" r="50" fill="orange"></circle>
+    </svg>
+
+    <svg width="100px" height="100px" viewBox="50 50 50 50">
+        <!-- 前两个参数 坐标 后两个为宽高 -->
+        <!-- 如果SVG不设置宽高 则viewBox决定其宽高比 大小为SVG内部的HTML元素 -->
+        <circle id="mycircle" cx="50" cy="50" r="50" fill="orange"></circle>
+        <!-- 1.圆心X轴 2.圆心Y轴 3.半径-->
+    </svg>
+</body>
+</html>

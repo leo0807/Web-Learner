@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line</title>
+    <style type="text/css">
+        .line{
+            stroke: #00BFFF;
+            stroke-width: 5px;
+            transition: all .2s;
+            transform-origin: center;
+            animation: roll 2s linear infinite;
+        }
+        @keyframes roll {
+            from{
+                transform: rotate(0deg);
+            }
+            to{
+                transform: rotate(360deg);
+            }
+        }
+        .line:hover{
+            stroke: yellow;
+        }
+        .polyline{
+            stroke: deeppink;
+            stroke-width: 5px;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+    <svg width="100%" height="100%">
+        <line x1="50" y1="50" x2="350" y2="350" class="line"></line>
+        <polyline points="50,150 50,300 350,300" class="polyline"></polyline>
+    </svg>
+</body>
+</html>

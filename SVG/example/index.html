@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG</title>
+    <style type="text/css">
+        .text{
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+        body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <svg width="700" height="700" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="350" cy="350" r="300" fill="none" stroke="grey" stroke-width="40" stroke-linecap="round"></circle>
+        <!-- 设置进度条 -->
+        <circle class="progress" transform="rotate(-90, 350, 350)" cx="350" cy="350" r="300" 
+            fill="none" stroke="red" stroke-width="40" 
+            stroke-linecap="round" stroke-dasharray="0,10000"></circle>
+            <!-- stroke-dasharray 一个表示长度 一个表示间距 -->
+            <text class="text" x="350" y="350" font-size="200" fill="red">36</text>
+    </svg>
+    <script src="app.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
