@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        const $ = function(selector){
+            const domList = document.querySelectorAll(selector);
+            domList.__proto__.html = function(value){
+                domList.forEach(function(item, i){
+                    item.innerHTML = value;
+                })
+            }
+            domList.__proto__.css = function(key, value){
+                if(typeof key === "string"){
+                    domList.forEach(function(item, i){
+                    item.style[key] = value;
+                })
+                }else{
+                    for (const i in key) {
+                        domList.forEach(function(item, index){
+                            item.style[i] = key[i];
+                        })
+                    }
+                }
+
+            }
+            return domList;
+        }
+    </script>
+</body>
+</html>

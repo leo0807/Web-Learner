@@ -1,0 +1,26 @@
+!<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <script type="text/javascript">
+        // Set the css style
+        $("h1").css("background","skyblue");
+        $("h1").css({
+            color:"red",
+            border: "10px solid #ccc",
+            // 多个单词的属性 可使用单引号 或者驼峰命名法
+            "border-radius": "10px"
+        })
+        $("#d1").hasClass("active");
+        $("#d1").addClass("active");
+        $("#d1").removehasClass("active");
+        $("#d1").toggleClass("active");
+    </script>
+</body>
+</html>

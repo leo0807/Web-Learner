@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style type="text/css">
+        .btnList{
+            width: 900px;
+            margin: 0 auto;
+            height: 100px;
+            display: flex;
+        }
+        .btn{
+            width: 300px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            border: 1px solid #ccc;
+        }
+        .btn.active{
+            background-color: orangered;
+            color: #fff;
+        }
+        .contentList{
+            width: 900px;
+            height: 600px;
+            position: relative;
+        }
+        .content{
+            width: 900px;
+            height: 600px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #efefef;
+            padding: 50px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: all .3s;
+        }
+        .content.active{
+            opacity: 1;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class=" btnList">
+        <div class="btn active">Content A</div>
+        <div class="btn">Content B</div>
+        <div class="btn">Content C</div>
+    </div>
+    <div class="contentList">
+        <div class="content active">
+            One advanced diverted domestic sex repeated bringing you old. Possible procured her trifling laughter thoughts property she met way. Companions shy had solicitude favourable own. Which could saw guest man now heard but. Lasted my coming uneasy marked so should. Gravity letters it amongst herself dearest an windows by. Wooded ladies she basket season age her uneasy saw. Discourse unwilling am no described dejection incommode no listening of. Before nature his parish boy. 
+        </div>
+        <div class="content">Folly words widow one downs few age every seven. If miss part by fact he park just shew. Discovered had get considered projection who favourable. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods or an. Use off agreeable law unwilling sir deficient curiosity instantly. Easy mind life fact with see has bore ten. Parish any chatty can elinor direct for former. Up as meant widow equal an share least. 
+        </div>
+        <div class="content">Another journey chamber way yet females man. Way extensive and dejection get delivered deficient sincerity gentleman age. Too end instrument possession contrasted motionless. Calling offence six joy feeling. Coming merits and was talent enough far. Sir joy northward sportsmen education. Discovery incommode earnestly no he commanded if. Put still any about manor heard. 
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(".btn").click(function(e){
+            const index = $(this).index();
+            $(".btn").eq(index).addClass("active").siblings().removeClass("active");
+        })
+    </script>
+</body>
+</html>

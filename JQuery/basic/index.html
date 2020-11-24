@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <script type="text/javascript">
+     const h1 = $("h1");
+    // jQuery 是对对象的封装 
+    $(function(){
+        // HTML载入后再执行代码
+        $("h1").html("Hello");
+        // $ === jQuery
+        jQuery("h1").html("Hello");
+        // 选择数组中第二个
+        $("h1:eq(1)").html("Hello");
+        // 类似操作
+        // :gt :lt :odd :even :first :last
+        $("h1").eq(4).css('color', "#fff");
+        $("h1:gt(5)").css("background", "pink");
+        $("div:odd)").css("background", "wheat");
+        $("div:first)").css("background", "blue");
+        $("div:last)").css("background", "red");
+    })
+    // 另一种方式   
+    $(document).ready(function(){
+        $("h1").html("world");
+    })
+    window.onload = function(){
+
+    }
+    // 原装方式
+    window.addEventListener("DOMContentLoaded", function(){
+
+    })
+    </script>
+</body>
+</html>

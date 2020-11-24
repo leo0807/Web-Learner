@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="d1"></div>
+    <script type="text/javascript">
+        // Create h1 element
+        const h2 = $('<h1>Hello World</h1>');
+        const h1 = $('<h1>exmaple</h1>');
+
+        // 通过设置html来创建内容
+        $('#d1').html(h1);
+        // 通过append 追加
+        $('#d1').append(h1);
+        h1.appendTo('#d1');
+        // prepen 在内容的最前面插入
+        $('#d1').prepend(h1);
+        // 在元素的前面添加元素
+        $('#d1').before('<h1></h1>');
+        $('#d1').after(h1);
+        // clear
+        $('#d1').empty();
+        $('#d1').html('');
+        // 删除自己和内部的所有元素
+        $('#d1').remove();
+        // clone 复制元素
+        const copy = $('#d1').clone();
+    </script>
+</body>
+</html>
