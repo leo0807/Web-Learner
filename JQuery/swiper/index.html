@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <style type="text/css">
+        .swiper{
+            width: 800px;
+            height: 600px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .imgList{
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+        }
+        .imgList .imgItem{
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            transform: translate(0, 0);
+            transition: transform 1s ease-in-out;
+        }
+        .btns .btn{
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            position: absolute;
+            top: calc(50% - 25px);
+            font-size: 10px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, .6);
+        }
+        .btns .prev{
+            left: 0;
+        }
+        .btns .next{
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="swiper">
+        <div class="imgList">
+            <div class="imgItem" style="background-image: url(./img/bg1.jpeg);"></div>
+            <div class="imgItem" style="background-image: url(./img/bg2.jpeg);"></div>
+            <div class="imgItem" style="background-image: url(./img/bg3.jpeg);"></div>
+            <div class="imgItem" style="background-image: url(./img/bg.jpeg);"></div>
+        </div>
+        <div class="btns">
+            <div class="btn prev"><<</div>
+            <div class="btn next">>></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("imgItem").each(function(i, item){
+            $(item).css("transform", "translate("+i*800+"px, 0)");
+        })
+        let page = 0;
+        $(".prev").click(function(){
+            
+            page++;
+            if(page >= $("imgItem").length){
+                page = 0;
+            }
+            $(".imgList").css("transform", "translate(-"+page*800+"px, 0)");
+            // console.log(1);
+        })
+        $(".next").click(function(){
+            page--;
+            if(page < 0){
+                page = $("imgItem").length - 1;
+            }
+            $(".imgList").css("transform", "translate(-"+page*800+"px, 0)");
+        })
+
+        const autoPlay = setInterval(function(){
+            page++;
+            if(page >= $(".imgItem").length){
+                page = 0;
+            }
+            $(".imgList").css("transform", "translate(-"+page*800+"px, 0)");
+        },3000)
+        $(".imgList").mouseover(function(){
+            clearInterval(autoPlay);
+        })
+
+        $(".imgList").mouseleave(function(){
+            setInterval(function(){
+            page++;
+            if(page >= $(".imgItem").length){
+                page = 0;
+            }
+            $(".imgList").css("transform", "translate(-"+page*800+"px, 0)");
+            },1500)
+        })
+    </script>
+</body>
+</html>

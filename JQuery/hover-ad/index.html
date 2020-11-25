@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Hover advertisement</title>
+    <style type="text/css">
+        .left,.right{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: calc(50% - 50px);;
+        }
+        .left{
+            left: 0;
+        }
+        .right{
+            right: 100px;
+        }
+        .left img{
+            height: 100%;
+            width: auto;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        $(function(){
+            //  listen the scroll event
+            window.scroll(function(e){
+                const scrollY = $(window).scrollTop();
+                const height = $(window).height();
+
+                // Set 
+                const y = scrollY + height / 2;
+                $(".ad").stop().animate({
+                    top:y+"px"
+                }, 1000)
+            })
+        })
+    </script>
+    <div class="left ad">
+        <img src="./dark.png" alt="">
+    </div>
+    <div class="right ad">
+        <img src="./light.png" alt="">
+    </div>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+    <h1>Content</h1>
+</body>
+</html>

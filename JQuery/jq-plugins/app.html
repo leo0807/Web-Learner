@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        const httpURL = "https://api.apiopen.top/getJoke";
+        // Ajax from jQuery
+        // $.get(httpURL, function(res){
+        //     console.log(res);
+        // })
+
+        const options = {
+            page:1,
+            count: 1,
+            type: "image"
+        }
+        $.get(httpURL, options).then(function(res){
+            console.log(res.result[0].text);
+            res.result.forEach(function(item, i){
+                $("body").append(`<h1>${item.text}</h1>`);
+                $("body").append(`<img src="${item.images}">`);
+            })
+        })
+
+        $.ajax({
+            url: httpURL,
+            data:options,
+            method: "GET",
+            // success:function(){
+
+            // },
+            // fail:function(){
+
+            // },
+
+            // 无论成功与否 都会执行的函数
+            complete:function(res){
+                res.result.forEach(function(item, i){
+                $("body").append(`<h1>${item.text}</h1>`);
+                $("body").append(`<img src="${item.images}">`);
+            })
+            }
+        })
+    </script>
+</body>
+</html>
