@@ -1,11 +1,10 @@
-const { log } = require("console");
 const mysql = require("mysql");
 // Set the configuration
 const options = {
     host: "localhost",
     port: "3306", //optianal, the default setting is 3306
     password: "Aa416260!",
-    database: "MyDatabase"
+    database: "mysql"
 }
 // Create Connection Object
 const con = mysql.createConnection(options);
@@ -13,11 +12,12 @@ const con = mysql.createConnection(options);
 con.connect((err) => {
     // if the connection is failed
     if (err) {
-        console.log("The connection is failed");
+        console.log(err);
     } else {
         console.log("success");
     }
-})
+});
+console.log(1);
 
 // Execute the database query
 
@@ -31,7 +31,7 @@ const createSql = `
         PRIMARY KEY ('id')
     )
 `;
-con.query(deleteSql, (err, results) => {
+con.query(createSql, (err, results) => {
     
 });
 
