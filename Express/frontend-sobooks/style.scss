@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header{
+    height: 170px;
+    width: 100%;
+    min-width: 1200px;
+    background-image: url(./book.png);
+    background-position: top center;
+    background-size: auto 100px;
+    background-repeat: no-repeat;
+    background-color: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.navheader{
+    height: 110px;
+    width: 100%;
+}
+.nav{
+    height: 60px;
+    width: 100%;
+    background: rgba(255,255,255,.2);
+}
+.navList{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+}
+.link{
+    width: 100px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #fff;
+}
+.search{
+    width: 300px;
+    height: 60px;
+    display: flex;
+    input{
+        border: none;
+        outline: none;
+        line-height: 60px;
+        width: 200px;
+        padding: 0 20px;
+        background-color: rgba(255, 255, 255, .3);
+        color: #fff;
+        font-size: 25px;
+    }
+    button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 60px;
+        background-color: rgba(0,0,0,.3);
+        border: none;
+        outline: none;
+        .icon{
+            background-image: url(./serach.png);
+            width: 30px;
+            height: 30px;
+            background-size: 30px 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+    }
+}
