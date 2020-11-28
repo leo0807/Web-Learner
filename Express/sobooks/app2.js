@@ -1,7 +1,7 @@
 const sqlQuery = require("./mysql");
 const express = require('express')
 const app = express()
-const port = 3000
+// const port = 3000
 
 app.get('/', async (req, res) => {
     let strSql = "select id,bookName,bookImg,authorName,category from book limit 0, 28";
@@ -21,6 +21,6 @@ app.get('/books/:bookid', async (req, res) => {
     let result = await sqlQuery(strSql, [bookid]);
     res.json(Array.from(result)); 
 });
-app.listen(port, () => console.log(`Example app listening on port port!`))
+// app.listen(port, () => console.log(`Example app listening on port!`+3000))
 
 module.exports = app;

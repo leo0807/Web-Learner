@@ -29,8 +29,9 @@ app.get('/books/:bookid', async (req, res) => {
     let strSql = "select * from book where id = ?";
     let bookid = req.params.bookid;
     let result = await sqlQuery(strSql, [bookid]);
-    res.json(Array.from(result)); 
+    // res.json(Array.from(result)); 
+    res.send("123")
 });
-app.listen(port, () => console.log(`Example app listening on port port!`))
+// app.listen(port, () => console.log(`Example app listening on port port!`))
 
 module.exports = app;
