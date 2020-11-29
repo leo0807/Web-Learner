@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <!-- 表单上传文件时，需改边属性enctype为"multipart/form-data"， 即定义表单的上传类型为文件类型 -->
+    <form id="uploadForm" action="/imgUpload" method="POST" enctype="multipart/form-data">
+        <input id="imgInput" type="file" name="imgFile">
+        <div class="btn">Submit</div>
+        <div>
+            <h1>Preview</h1>
+            <img id="preview" src="" alt="">
+        </div>
+    </form>
+    <script type="text/javascript">
+        const formDataObj = new FormData()
+        let file;
+        $("#imgInput").change(function(e){
+            file = this.files;
+            // 创建FormData对象，将文件追加到FormData对象里面
+            formDataObj.append("imgFile", file);
+        })
+        $(".btn").click(function(){
+            $.ajax({
+                url: "/imgUpload",
+                method: "POST",
+                data: formDataObj,
+                processData:false,
+                contentType:false,
+            }).then(function(res){
+                console.log(res);
+                $("body").append(`<h1> Upload Success</h1><img src=${res.imgUrl} />`)
+            })
+        })
+    </script>
+</body>
+</html>
