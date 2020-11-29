@@ -8,12 +8,51 @@
     <script src="./layui.js"></script>
 </head>
 <body>
+    <button id="openAlert" type="button" class="layui-btn layui-btn-primary">打开弹框</button>
+    <button id="weatherBtn" type="button" class="layui-btn layui-btn-primary">获取天气</button>
+    <button id="openiframe" type="button" class="layui-btn layui-btn-primary">获取iframe页面</button>
+
     <script>
         layui.use(['layer', 'form'], function(){
             var layer = layui.layer
             , form = layui.form;
 
-            layer.msg("Hello World");
+            // layer.msg("Hello World");
+
+            let $ = layui.$;
+            $('#openAlert').click(function(e){
+                let index = layer.open({
+                    title: "This is a notification",
+                    content: "Its time to lunch",
+                    btn: ['跳转至淘宝', '让页面变红','关闭弹框'],
+                    yes:function(){
+                        location.href = "http://www.taobao.com"
+                    },
+                    btn2:function(){
+                        $('body').css('background', 'pink')
+                    },
+                    btn3:function(){
+                        layer.close(index);
+                    }
+                })
+
+            })
+            $('#weatherBtn').click(function(e){
+                $.get('https://api.apiopen.top/getJoke?page=1&count=1&type=text').then(function(res){
+                    layer.open({
+                        title: res.result[0].name,
+                        content:res.result[0].text
+                    })
+                    layer.msg('Unhappy',{icon:1});
+                    layer.alert('Awsome!',{icon:1});
+                })
+            })
+            $('openiframe').click(function(e){
+                layer.open({
+                    type:2,
+                    content: 'http://www.baidu.com'
+                })
+            })
         });  
     </script>
 </body>
