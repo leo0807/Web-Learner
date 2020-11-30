@@ -43,13 +43,7 @@ module.exports = {
             // 对html的loader处理
             {
                 test: /\.html$/,
-                exclude: [/node_modules/, require.resolve('./src/index.html')],
-                use: {
-                    loader: 'file-loader',
-                    query: {
-                        name: '[name].[ext]'
-                    },
-                },
+                loader: 'html-loader'
             }
         ]
     },
