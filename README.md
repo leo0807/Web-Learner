@@ -9,7 +9,8 @@
 - Backend
     - Nodejs
     - MySQL
-- Devops
+- DevOps
     - Git
     - Docker
-    - Webpack    
+    - Webpack
+    - Nginx    
