@@ -58,9 +58,16 @@
           <div class="layui-form-item">
               <label class="layui-form-label"><span class="we-red">*</span>角色</label>
               <div class="layui-input-block">
-                <input type="radio" name="roleid" lay-skin="primary" title="超级管理员" checked="">
-                <input type="radio" name="roleid" lay-skin="primary" title="编辑人员">
-                <input type="radio" name="roleid" lay-skin="primary" title="宣传人员" >
+                  <%for(let i = 0: i < roles.length; i++) %>
+                        <input type="radio" 
+                        name="roleid" 
+                        value="<%-roles[i].id%>" 
+                        lay-skin="primary" title="<%-roles[i].rolename%>">
+                        <%if(roles[i].id === users.roleid){%>
+                            checked = "true"
+                        <%}%>
+                        >
+                  <%}%>
               </div>
           </div>
           <div class="layui-form-item">
@@ -75,6 +82,20 @@
                   6到16个字符
               </div>
           </div>
+
+          <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="we-red"></span>上传头像
+            </label>
+            <div class="layui-input-inline">
+                <input type="file" id="imgfile" name="imgfile"
+                autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                6到16个字符
+            </div>
+            </div>
+
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
                   <span class="we-red">*</span>确认密码
