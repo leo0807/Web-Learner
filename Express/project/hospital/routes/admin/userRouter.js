@@ -13,12 +13,14 @@ router.get('/selfinfo', async (req, res) => {
     const sqlStr = "select * from user where username = ?";
     const result = await sqlSquery(sqlStr, [username]);
     const users = result[0];
-    const options = { users };
+    const roles = await getRoles();
+    // 通过角色表获取所有角色
+    const options = { users, roles };
     res.render('admin/users/selfinfo', options);
 })
 
 // 获取所有角色
-async function getRole() {
+async function getRoles() {
     const sqlStr = "select * from role";
     const result = await sqlSquery(sqlStr);
     return Array.from(result);          
