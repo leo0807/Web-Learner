@@ -6,11 +6,26 @@
     - CSS3 (Less & Sass)
     - Javascriptp (TypeScript)
     - JQuery
+    - MVVN
+        - React
+        - Vue
+    - UI
+        - Bootstrap
+        - Font-awsome
+        - Ant-design
+        - Layui
 - Backend
     - Nodejs
-    - MySQL
+    - Koa
+    - Database
+        - MySQL
+        - MongoDB
 - DevOps
     - Git
     - Docker
     - Webpack
-    - Nginx    
+    - Nginx
+- Interview
+    - Basic Algorithm
+    - HackerRank & Leetcode
+    - Interview Questions
