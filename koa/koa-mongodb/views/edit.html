@@ -9,12 +9,14 @@
     <h2>Edit
          Account</h2>
 
-    <form action="/edit" method="post">
-        username: <input type="text" name="name">
+    <form action="/doEdit" method="post">
+        username: <input type="hidden" name="id" value="{{@list._id}}">
         <br>
-        age: <input type="text" name="age">
+        username: <input type="text" name="name" value="{{list.username}}">
         <br>
-        sex: <input type="text" name="sex">
+        age: <input type="text" name="age" value="{{list.age}}">
+        <br>
+        sex: <input type="text" name="sex" value="{{list.sex}}">
         <br>
         <input type="submit"> Submit
     </form>

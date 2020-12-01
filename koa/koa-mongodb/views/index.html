@@ -9,7 +9,7 @@
 <body>
     <h2 class="header">Template</h2>
     <a href="/add">Add Acount</a>
-    <br>
+    <table>
     <tr>
         <th>Username</th>
         <th>Age</th>
@@ -23,8 +23,9 @@
         <td>{{$value.username}}</td>
         <td>{{$value.age}}</td>
         <td>{{$value.sex}}</td>
-        <td><a href="/edit?id={{@$value._id}}"></a><a href="/remove"></a></td>
+        <td><a href="/edit?id={{@$value._id}}">EDIT</a>  <a href="/remove?id={{@$value._id}}">DELETE</a></td>
     </tr>
     {{/each}}
+</table>
 </body>
 </html>

@@ -8,6 +8,7 @@ const static = require('koa-static');
 const artTemplate = require('koa-art-template');
 const path = require('path');
 const DB = require('./module/db');
+const { request } = require('http');
 
 // 配置路由之前打印日期
 app.use(async (ctx, next)=>{
@@ -39,15 +40,36 @@ router.get('/', async (ctx) => {
 
 // add
 router.get('/add', async (ctx) => {
-    const result = await DB.insert('user', { 'username': 'haha' });
     await ctx.render('add');
 })
 
 router.get('/edit', async (ctx) => {
     const id = ctx.query.id;
-    const dat = await DB.find('user', { '_id': 'haha' });
-    await ctx.render('edit');
+    const data = await DB.find('user', { '_id':DB.getObjectID(id)});
+    await ctx.render('edit',{
+        list: data[0]
+    });
 })
+router.post('/doEdit', async (ctx) => {
+    
+    const id = ctx.request.body.id;
+    const username = ctx.request.body.name;
+    const age = ctx.request.body.age;
+    const sex = ctx.request.body.sex;
+    const data = await DB.update('user', { '_id': DB.getObjectID(id) }, { username, age, sex });
+
+
+    try {
+        if (data.result.ok) {
+            ctx.redirect('/');
+        }
+    } catch (error) {
+        console.log(error);
+        ctx.redirect('/add');
+    }
+})
+
+
 
 router.get('/update', async (ctx) => {
     const result = await DB.update('user', { 'username': 'haha' }, {'username': 'huhuhhu'});
@@ -55,10 +77,10 @@ router.get('/update', async (ctx) => {
     console.log(result.result);
 })
 // delete member
-router.get('/delete', async (ctx) => {
-    const result = await DB.remove('user', { 'username': 'haha' });
-    ctx.body = result;
-    console.log(result.result);
+router.get('/remove', async (ctx) => {
+    const id = ctx.query.id;
+    const data = await DB.remove('user', { '_id': DB.getObjectID(id) });
+    if (data) ctx.redirect('/');
 })
 
 // 接收post提交的数据

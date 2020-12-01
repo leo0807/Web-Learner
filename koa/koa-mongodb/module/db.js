@@ -84,7 +84,9 @@ class DB{
                 })
             })
     }
-    getObject
+    getObjectID(id) {
+        return new ObjectID(id);
+    }
 }
 // const myDb = DB.getInstance();
 // myDb.find('user', {}).then(function (data) {
