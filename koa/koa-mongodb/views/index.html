@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h2 class="header">Template</h2>
+    <a href="/add">Add Acount</a>
+    <br>
+    <tr>
+        <th>Username</th>
+        <th>Age</th>
+        <th>Sex</th>
+        <th>Operation</th>
+    </tr>
+
+
+    {{each list}}
+    <tr>
+        <td>{{$value.username}}</td>
+        <td>{{$value.age}}</td>
+        <td>{{$value.sex}}</td>
+        <td><a href="/edit?id={{@$value._id}}"></a><a href="/remove"></a></td>
+    </tr>
+    {{/each}}
+</body>
+</html>
