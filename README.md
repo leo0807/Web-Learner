@@ -1,6 +1,6 @@
 # Read Me
 ### This repository is used to record my learning path to be a fullstack developer.
-## Technology stack for the front-end part
+## Technology stack
 - Frontend Part
     - HTML5 (Canvas & SVG)
     - CSS3 (Less & Sass)
@@ -16,8 +16,10 @@
         - Layui
 - Backend
     - Nodejs
-    - Koa
+        - Koa
+        - Express
     - Database
+        - GraphQL
         - MySQL
         - MongoDB
 - DevOps
@@ -25,6 +27,7 @@
     - Docker
     - Webpack
     - Nginx
+    - Jest
 - Interview
     - Basic Algorithm
     - HackerRank & Leetcode
