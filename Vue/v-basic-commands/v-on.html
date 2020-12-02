@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <!-- v-on 修饰符 -->
+    <div id="app">
+        {{message}}
+        <div @click="divClick">
+            <button @click.stop="btnClick">BUTTON</button>
+            <!-- 阻止事件冒泡 -->
+        </div>
+        <br>
+        <form action="baidu">
+            <input type="submit" @click.prevent="clickInput">
+            <!-- 阻止默认方法 -->
+        </form>
+
+        <input type="text" @keyup.enter="keyUp">
+        <!-- 只敲击enter键才会出发 -->
+        <button>CAN ONLY CLICK ONCE</button>
+        <!-- ，once 只触发一次 -->
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "hello"
+            },
+            methods:{
+                divClick:function(){
+                    console.log('divClick');
+                },
+                btnClick:function(){
+                    console.log('btnClicks');
+                },
+                clickInput:function(){
+                    console.log('clickInput');
+                },
+                keyUp(){
+                    console.log('keyUp');
+                }
+            }
+        })
+    </script>
+</body>
+</html>
