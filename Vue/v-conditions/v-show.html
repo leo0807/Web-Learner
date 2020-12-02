@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <div id="app">
+        <h2 v-if="isShow">{{message}}</h2>
+        <!-- 消失在DOM中-->
+        <h2 v-show="isShow">{{message}}</h2>
+        <!-- => 没有消失在DOM中 style{ display: none}-->
+        <!-- 显示和隐藏模式切换频率较高时 使用v-show -->
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "hello",
+                isShow: true
+            }
+        })
+    </script>
+</body>
+</html>
