@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 3 使用组件 -->
+        <cpn :number1="num1" :number2="num2" @num1change="num1change" @num2change="num2change"></cpn>
+    </div>
+    <template id="cpn">
+        <div>
+            <h2>props:{{number1}}</h2>
+            <h2>data:{{dnumber1}}</h2>
+            <input type="text" v-model="dnumber1">
+            <input type="text" :value="dnumber1" @input="num1Input">
+            <h2>props:{{number2}}</h2>
+            <h2>data:{{dnumber2}}</h2>
+            <input type="text" :value="dnumber2" @input="num2Input">
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        // // 1 创建组建对象
+        // const cpnC = Vue.extend({
+        //     template:`<div><h2>Hello</h2></div>`
+        // })
+        // // 2 注册组件
+        // Vue.component('my-cpn', cpnC);
+        const app = new Vue({
+            el: "#app",
+            data: {
+                num1: 1,
+                num2: 0
+            },
+            methods:{
+                num1change(val){
+                    val = parseInt(val);
+                    this.num1 = val;
+                },
+                num2change(val){
+                    this.num2 = val * 1;
+                },
+            },
+            components:{
+                cpn:{
+                    template: "#cpn",
+                    props:{
+                        number1: Number,
+                        number2: Number
+                    },
+                    data(){
+                        return {
+                            dnumber1: this.number1,
+                            dnumber2: this.number2
+                        }
+                    },
+                    methods:{
+                        num1Input(event){
+                            // 将input的value传入 dnumber1
+                            this.dnumber1 = event.target.value;
+
+                            // 传给父组件 并修改值
+                            this.$emit('num1change', this.dnumber1)
+                        },
+                        num2Input(event){
+                            this.dnumber2 = event.target.value;
+                            this.$emit('num2change', this.dnumber2)
+                        },
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
