@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <!-- Parent component => Child Component : Pass Props -->
+    <!-- Child component => Parent Component : $emit Events -->
+    <div id="app">
+        {{message}}
+        <cpn v-bind:cmovies="movies" :cmessage="message"></cpn>
+    </div>
+    <template id="cpn"> 
+        <!-- A 效果等同 -->
+        <div>
+            <ul>
+                <li v-for="item in cmovies">{{item}}</li>
+            </ul>
+            <h2>{{cmessage}}</h2>
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        const cpn = {
+            template: '#cpn',
+            data(){
+                return {}
+            },
+            // props:['cmovies', "cmessage"],
+
+            props:{
+                // 不能使用驼峰标示 v-bind 不支持
+                cmessage:{
+                    type: String,
+                    default: "aaa",
+                    required: true
+                },
+                cmovies:{
+                    type: Array,
+                    default() {
+                        return ["1", "2", "3"]
+                    }
+                }
+            },
+            methods:{
+
+            }
+        }
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "hello",
+                movies: [11,22,33]
+            },
+            components:{
+                cpn
+            }
+        })
+    </script>
+</body>
+</html>
