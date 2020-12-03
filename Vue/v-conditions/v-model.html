@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <div id="app">
+        {{message}}
+        <input type="text" v-model.lazy="message">
+        <!-- 。lazy 可以在按下enter键 和 输入框失去焦点之后 实现 数据更新 节省性能 -->
+        <input type="number" v-model.number="age">
+        <h2>{{age}}--{{typeof age}}</h2>
+        <!-- number 保持number类型 -->
+        <input type="text" v-model.trim="name">
+
+        <h2>{{name}}--{{typeof name}}</h2>
+        <!-- trim 自动去除空格 -->
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                name: "",
+                message: "hello",
+                age: 0
+            }
+        })
+    </script>
+</body>
+</html>
