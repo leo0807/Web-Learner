@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <!-- Parent component => Child Component : Pass Props -->
+    <!-- Child component => Parent Component : $emit Events -->
+
+    <!-- Parent Compoent -->
+    <div id="app">
+        {{message}}
+        <cpn @itemclick="cpnClick"></cpn>
+    </div>
+
+    <!-- Child Compoent -->
+    <template id="cpn"> 
+        <!-- A 效果等同 -->
+        <div>
+            <button v-for="item in categories" @click="btnClick(item)">{{item.name}}</button>
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        const cpn = {
+            template: '#cpn',
+            data(){
+                return {
+                    categories:[
+                    {id:"1", name:"a"},
+                    {id:"2", name:"b"},
+                    {id:"3", name:"c"},
+                    {id:"4", name:"d"},
+                ]
+                }
+
+            },
+            methods:{
+                btnClick(item){
+                    this.$emit("itemclick", item)
+                }
+            }
+        }
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "hello",
+                movies: [11,22,33]
+            },
+            components:{
+                cpn
+            },
+            methods:{
+                cpnClick(item){
+                    console.log('rece', item.name);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
