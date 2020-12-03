@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <div id="app">
+        <cpn><span slot="left">TITLE</span></cpn>
+        <cpn><span slot="right">TITLE</span></cpn>
+        <cpn></cpn>
+    </div>
+
+    <template id="cpn">
+        <div>
+            <!-- 具名   slot -->
+            <slot name="left"><span>left</span></slot>
+            <slot name="right"><span>right</span></slot>
+            <slot name="top"><span>top</span></slot>
+            <!-- 默认值 -->
+            <!-- 如插槽中有多个元素则全部替代 -->
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            components:{
+                cpn:{
+                    template: "#cpn"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

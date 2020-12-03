@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue basic template</title>
+</head>
+<body>
+    <div id="app">
+        <cpn><button>BUTTON</button></cpn>
+        <cpn><span>SPAN</span></cpn>
+        <cpn><i>I</i></cpn>
+        <cpn></cpn>
+    </div>
+
+    <template id="cpn">
+        <div>
+            <div>Component</div>
+            <h2>h2</h2>
+            <span> span </span>
+            <slot><h2>DEFAULT H2</h2></slot>
+            <!-- 默认值 -->
+            <!-- 如插槽中有多个元素则全部替代 -->
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            components:{
+                cpn:{
+                    template: "#cpn"
+                }
+            }
+        })
+    </script>
+</body>
+</html>
