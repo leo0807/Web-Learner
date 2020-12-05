@@ -28,6 +28,8 @@
     - Webpack
     - Nginx
     - Jest
+    - ESlint
+    - Gulp
 - Interview
     - Basic Algorithm
     - HackerRank & Leetcode
