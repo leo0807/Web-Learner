@@ -55,3 +55,7 @@ const User = () => import('../components/User.vue')
   - $route为VueRouter实例 想要导航到不同URL 则使用$router.push方法
   - $route为当前router跳转对象里面可以获取name, path, query, params等
 # 全局导航守卫 - 监听跳转 类似中间件
+router.beforeAll
+next()
+
+组件切换的时候 会随着切换而重复的创建和销毁 keep-alive
