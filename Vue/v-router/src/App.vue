@@ -2,6 +2,8 @@
   <div id="app">
   <router-link to="/home" tag="button" replace>Home</router-link>
   <router-link to="/about" replace active-class="active">About</router-link>
+
+  <button @click="homeClick"></button>
   <router-view></router-view>
   </div>
 </template>
