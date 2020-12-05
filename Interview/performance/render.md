@@ -2,7 +2,7 @@
 1 随着AJAX的出现，出现了前后端分离开发
 2 后端只提供数据，即API接口，前端负责将从后端得到的数据填充到前端
 3 前后端责任清晰，前端关注于交互和可视化，后端则关注于数据上
-4 IOS和Android，即移动端出现后，后端不需要进行任何处理，依然使用之前的一套API即可
+4 IOS和Android，即**移动端开发**出现后，后端不需要进行任何处理，依然使用之前的一套API即可
 5 一个URL对应一套HTML + css + JS 文件
 ### SPA 但页面应用阶段
 1 最主要特点是在前后端分离的基础上加上了一层前端路由
@@ -11,10 +11,10 @@
 4 通过前端路由对HTML + CSS + JS 进行部分抽取，实现页面切换
 5 一旦URL改变，不对整体页面进行刷新
 ## 前端路由如何修改URL
-6 通过修改HASH，修改URL
-7 HTML5的history中的pushState => URL永远显示栈顶的元素 =>通过back()方法，即出栈，实现返回上一页面的功能
-8 replaceState实现替换URL，但这种情况下无法返回上一页面
-9 go方法类似于back方法 history.go(-1) = history.back(); history.go(1) = history.forward() 
+1 通过修改HASH，修改URL
+2 HTML5的**history**中的**pushState** => URL永远显示栈顶的元素 =>通过**back()**方法，即出栈，实现返回上一页面的功能
+3 **replaceState**实现替换URL，但这种情况下无法返回上一页面
+4 **go**方法类似于**back**方法 history.go(-1) = history.back(); history.go(1) = history.forward() 
 ## 前端渲染
 浏览器中显示的网页中的大部分内容，都是由前写的JS代码在浏览器中执行，最终渲染出来的网页
 1 后端渲染
