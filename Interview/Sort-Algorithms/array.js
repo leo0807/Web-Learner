@@ -97,8 +97,59 @@ function ArrayList() {
                 gap = Math.floor(gap / 2); 
         }
     }
+    // 效率最差为O(N^2) 通常情况下都要比O(N^2)要好
 
     // 快速排序
+    // 大多数情况下是最好的
+    // 选择枢纽pivot
+    ArrayList.prototype.pivot = function (left, right) {
+        // 找到中间的位置
+        var center = Math.floor((left + right) / 2);
+        // 判断大小 进行交换
+        if (this.array[left] > this.array[center]) {
+            this.swap(left, center)
+        }
+        if (this.array[center] > this.array[right]) {
+            this.swap(center, right)
+        }
+        if (this.array[left] > this.array[right]) {
+            this.swap(left, right)
+        }
+        this.swap(center, right - 1);
+        return this.array[right - 1];
+    }
+
+    ArrayList.prototype.quickSort = function () {
+        this.quick(0, this.array.length - 1);
+    }
+
+    ArrayList.prototype.quick = function (left, right) {
+        // 结束条件
+        if (left >= right) return;
+        var pivot = this.pivot(left, right);
+        // 定义变量 用于记录当前位置
+        var i = left,
+            j = right - 1;
+        
+        // 开始进行交换 
+        while (true) {
+            while(this.array[i] < pivot) {i++}
+            while(this.array[j] >= pivot) {j--}
+            if (i < j) {
+                this.swap(i, j);
+            } else {
+                break;
+            }
+        }
+
+        // 将枢纽放在正确的位置 i的位置
+        // this.swap(i, right - 1)
+
+        // Divide and conquer
+        this.quick(left, i - 1);
+        this.quick(i + 1, right);
+        // O(N *log^N)
+    }
 }
 var list = new ArrayList();
 
@@ -108,9 +159,13 @@ list.insert(231);
 list.insert(42);
 list.insert(2);
 list.insert(6);
+list.insert(6);
+list.insert(7);
+list.insert(11);
 console.log(list);
 // list.bubbleSort();
 // list.selectionSort();
 // list.insertionSort();
-list.shellSort();
+// list.shellSort();
+list.quickSort();
 console.log(list.toString());
