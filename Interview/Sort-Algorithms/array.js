@@ -68,6 +68,37 @@ function ArrayList() {
             this.array[j] = temp;
         }
     }
+    // 效率 最多比较次数 N（N-1）/2
+    // 平均 N（N-1）/4
+    // 相对于选择排序和其他排序 比较次数少一半
+    // 复制次数（移动次数）最多N（N-1）/2 平均N（N-1）/4
+
+
+    // 希尔排序
+    // 插入排序的改进版 
+    ArrayList.prototype.shellSort = function () {
+        var length = this.array.length;
+        // 初始化增量
+        var gap = Math.floor(length / 2);
+        // 初始化gap增量
+        while (gap >= 1) {
+            // while外循环 gap不断减小
+            for (var i = gap; i < length; i++) {
+                var temp = this.array[i];
+                var j = i;
+                while (this.array[j - gap] > temp && j > gap - 1) {
+                    this.array[j] = this.array[j - gap];
+                    j -= gap;
+                }
+                // 以gap作为间隔进行分组，对分组进行插入排序
+                this.array[j] = temp;
+            }
+                // 将J位置元赋值temp
+                gap = Math.floor(gap / 2); 
+        }
+    }
+
+    // 快速排序
 }
 var list = new ArrayList();
 
@@ -80,5 +111,6 @@ list.insert(6);
 console.log(list);
 // list.bubbleSort();
 // list.selectionSort();
-list.insertionSort();
+// list.insertionSort();
+list.shellSort();
 console.log(list.toString());
