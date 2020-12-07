@@ -92,6 +92,10 @@ const store = new Vuex.Store({
         
     },
     modules: {
+        // Vue使用单一状态树
+        // 当应用变得非常复杂时， store可以变得非常臃肿
+        //  =》 this.$store.state.a
+        //  =》 this.$store.state.b
         a: {
             state:{},
             mutations:{},
