@@ -39,7 +39,6 @@ export default {
               type:"incrementCount",
               count
             });
-
     },
     updateInfo(){
     //   this.$store.dispatch('aUpdateInfo',{
