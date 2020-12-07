@@ -5,7 +5,7 @@ function Queue() {
         this.items.push(element);
     }
 
-    Queue.prototype.delete = function () {
+    Queue.prototype.dequeue = function () {
         return this.items.shift()
     }
     Queue.prototype.front = function () {
@@ -27,3 +27,20 @@ function Queue() {
 }
 
 var queue = new Queue()
+
+// 击鼓传花
+function pastGame(nameList, num) {
+    var queue = new Queue();
+
+    for (var i = 0; i < nameList; i++){
+        queue.enqueue(nameList[i]);
+    }
+
+    for (var i = 0; i < num - 1; i++){
+        queue.enqueue(queue.dequeue())
+    }
+    queue.dequeue();
+
+    var endname = queue.front();
+    return nameList.indexOf(endname)
+}
