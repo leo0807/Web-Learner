@@ -38,4 +38,38 @@ gulp.task("build", ["copy-html", "images", "data"], function () {
     console.log("Successful");
 })
 
-// 
+// 监听事件 如果监听文件发生变化 会自动去执行相对应的任务 更新数据
+gulp.task("watch", function () {
+    // 第一个参数 是文件监听的路径
+    // 第二个参数 要执行的任务 必须是数组
+    gulp.watch("index.html", ["copy-html"]);
+    gulp.watch("img/**/*", ["images"]);
+    gulp.watch("json/*.json", ["data"]);
+})
+
+// 给gulp添加插件
+const sass = require("gulp-sass");
+gulp.task("sass", function () {
+    // 此插件可以编译.scss文件
+    return gulp.src("./index.scss").
+        pipe(sass()).
+        pipe(gulp.dest("dist/csss")).
+        pipe(minifyCSS()).
+        pipe(rename("index.min.css")).
+        pipe(gulp.dest("dist/css"));
+})
+
+// 压缩css插件
+const minifyCSS = require("gulp-minify-css");
+
+
+
+// 重命名插件 用于文件被压缩之后的二次开发 恢复之前文件的状态
+const rename = require("gulp-rename");
+合并JS文件的插件
+const concat = require("gulp-concat"); 
+gulp.task("scripts", function () {
+    return gulp.src("./js/*.js").
+        pipe(concat("./index.js")).
+        pipe(gulp.dest("./dist/javscript"))
+})
