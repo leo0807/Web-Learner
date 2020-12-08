@@ -1,9 +1,11 @@
 import './App.css';
-
+import Header from './Header';
+import Nav from './Nav';
 function App() {
   return (
-    <div className="App">
-      <h1>hulu-clone</h1>
+    <div className="app">
+      <Header />
+      <Nav />
     </div>
   );
 }
