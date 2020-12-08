@@ -30,6 +30,18 @@ function BinarySearchTree() {
             }
         }
     }
+
+    BinarySearchTree.prototype.preOrderTraversal = function (handler) {
+        this.preOrderTraversalNode(this.root, handler);
+    }
+
+    BinarySearchTree.prototype.preOrderTraversalNode = function (node, hanler) {
+        if (node !== null) {
+            hanler(node.key);
+            this.preOrderTraversalNode(node.left, hanler);
+            this.preOrderTraversalNode(node.right, hanler);
+        }
+    }
 }
 
 var bst = new BinarySearchTree();
