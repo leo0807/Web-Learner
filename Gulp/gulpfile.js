@@ -45,6 +45,8 @@ gulp.task("watch", function () {
     gulp.watch("index.html", ["copy-html"]);
     gulp.watch("img/**/*", ["images"]);
     gulp.watch("json/*.json", ["data"]);
+    gulp.watch("./index.scss", ["sass"]);
+    gulp.watch("./js/*.js", ["scripts"]);
 })
 
 // 给gulp添加插件
@@ -56,7 +58,8 @@ gulp.task("sass", function () {
         pipe(gulp.dest("dist/csss")).
         pipe(minifyCSS()).
         pipe(rename("index.min.css")).
-        pipe(gulp.dest("dist/css"));
+        pipe(gulp.dest("dist/css"))
+        .pipe(connect.reload());
 })
 
 // 压缩css插件
@@ -66,10 +69,31 @@ const minifyCSS = require("gulp-minify-css");
 
 // 重命名插件 用于文件被压缩之后的二次开发 恢复之前文件的状态
 const rename = require("gulp-rename");
-合并JS文件的插件
+// 合并JS文件的插件
 const concat = require("gulp-concat"); 
+// js压缩
+const uglify = require("gulp-uglify");
 gulp.task("scripts", function () {
     return gulp.src("./js/*.js").
         pipe(concat("./index.js")).
+        pipe(gulp.dest("./dist/javscript")).
+        pipe(uglify()).
+        pipe(rename("index.min.js")).
         pipe(gulp.dest("./dist/javscript"))
+        .pipe(connect.reload())
 })
+
+// gulp-connect 服务器
+
+const connect = require("gulp-connect");
+gulp.task("server", function () {
+    connect.server({
+        root: "dist", //设置根目录
+        port: 8888,
+        livereload: true //实时刷新
+    })
+})
+
+// 同时启动监听和服务 default 只需要在控制台敲 gulp 即可
+
+gulp.task("default", ["watch", "server"])
