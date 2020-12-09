@@ -1,4 +1,40 @@
 .banner{
-    background-image: url("https://a0.muscache.com/im/pictures/f0483d09-7d13-42d0-a40a-46d585c42220.jpg?im_w=1440 1x, https://a0.muscache.com/im/pictures/f0483d09-7d13-42d0-a40a-46d585c42220.jpg?im_w=1920 2x");
-    
+    background-image: url("https://a0.muscache.com/im/pictures/1fe846d6-f32b-4928-8016-035964af42fa.jpg");
+    height: 50vh;
+    position: relative;
+}
+.banner__info{
+    background-color: black;
+    color: white;
+    padding-top: 25vh;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 40px;
+    width: 300px;
+}
+
+.banner__info > button{
+    background-color: #ff7779;
+    color: white;
+    text-transform: inherit;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.banner__info > h5{
+    margin-top: 10px;
+}
+.banner__info > button:hover{
+    background-color: white;
+    color: #ff7779;
+}
+.banner__searchButton{
+    background-color: white !important;
+    font-weight: 900 !important;
+    text-transform: inherit !important;
+    color: #ff7779 !important;
+}
+.banner__search{
+    display: flex;
+    flex-direction: column;
 }
