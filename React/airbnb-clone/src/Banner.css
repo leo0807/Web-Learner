@@ -1,19 +1,19 @@
 .banner{
     background-image: url("https://a0.muscache.com/im/pictures/1fe846d6-f32b-4928-8016-035964af42fa.jpg");
-    height: 80vh;
+    height: 100vh;
     position: relative;
     background-size: 100%;
     background-position:center center;
 }
 
 .banner__info{
-    background-color: black;
+    /* background-color: rgba(0, 0, 0, .3); */
     color: white;
     padding-top: 10vh;
     padding-left: 50px;
     padding-right: 50px;
     padding-bottom: 40px;
-    width: 30vw;
+    width: 40vw;
     /* height: 30vh; */
 
 }
@@ -25,10 +25,12 @@
     margin-top: 20px;
     font-weight: 600;
 }
-
-.banner__info > h5{
-    margin-top: 10px;
+.banner__info > h1{
+    margin-top: 20rem;
+    font-size: 4rem;
+    font-weight: bolder !important;
 }
+
 .banner__info > button:hover{
     background-color: white;
     color: #ff7779;

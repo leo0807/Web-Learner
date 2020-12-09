@@ -6,7 +6,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         // 观察者模式
-        // 每一个属性对应以个 Dep Wacther
+        // 每一个属性对应以个 Deep Wacther
         // 组件全部被加入到响应式系统
         // 系统监听所有属性
         // 一旦属性发生变化，则系统通知响应的组件随之发生变化，

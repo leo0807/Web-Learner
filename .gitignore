@@ -5,3 +5,5 @@ node_modules/
 dist/
 npm-debug.log
 /node_modules/
+# ignore build file
+build
