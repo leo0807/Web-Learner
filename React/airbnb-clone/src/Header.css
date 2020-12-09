@@ -1,20 +1,21 @@
-.header{
+.header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     position: sticky;
     top: 0;
     background-color: white;
     z-index: 100;
     width: 100%;
-}
-.header__icon{
-    background-color: red;
-    height: 100px;
+  }
+  
+  .header__icon {
     object-fit: contain;
+    height: 100px;
     margin-left: 20px;
-}
-.header__center{
+  }
+  
+  .header__center {
     display: flex;
     flex: 1;
     align-items: center;
@@ -23,22 +24,22 @@
     height: 30px;
     border: 1px solid lightgray;
     border-radius: 999px;
-}
-.header__center > input{
+  }
+  
+  .header__center > input {
     border: none;
-    /* width: 250px; */
     padding: 10px;
     outline-width: 0;
-    /* 外边框 */
-}
-
-.header__right{
+    /* width: 250px; */
+  }
+  
+  .header__right {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 15vw;
+    width: 20vw;
     margin-right: 80px;
-}
-.header__center > .MuiSvgIcon-root{
-    cursor: pointer;
-}
+  }
+  .header__right > .MuiSvgIcon-root{
+      cursor: pointer;
+  }

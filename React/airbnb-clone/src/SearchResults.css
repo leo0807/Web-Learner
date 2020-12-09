@@ -10,10 +10,10 @@
 .searchResults:hover{
     opacity: .8;
 }
-.searchResults >img{
+.searchResults > img{
     height: 200px;
     width: 350px;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
 }
 .searchResults__info{
@@ -35,3 +35,23 @@
     font-weight: 300;
     margin-top: 10px;
 } 
+.searchResults__infoTop > p{
+    margin-top: 10;
+    font-size: 13px;
+    color: gray;
+}
+.searchResults__star{
+    color: red;
+}
+.searchResults__stars{
+    display: flex;
+    align-items: center;
+}
+.searchResults__price > p{
+    text-align: center;
+}
+.searchResults__price{
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+}
