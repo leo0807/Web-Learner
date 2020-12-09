@@ -3,8 +3,9 @@ import SearchIcon from '@material-ui/icons/Search'
 import './Header.css'
 import LanguageIcon from "@material-ui/icons/Language";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Avatar } from "@material-ui/core";
+import DehazeIcon from '@material-ui/icons/Dehaze';
 import { Link } from "react-router-dom";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 function Header() {
     return (
         <div className='header'>
@@ -22,10 +23,11 @@ function Header() {
             </div>
 
             <div className='header__right'>
-                <p>Become a host</p>
-                <LanguageIcon />
+                <p className="header__right--shadow">Become a host</p>
+                <LanguageIcon className="header__right--shadow"/>
                 <ExpandMoreIcon />
-                <Avatar />
+                <DehazeIcon />
+                <AccountCircleIcon fontSize="large" />
             </div>
         </div>
     )
