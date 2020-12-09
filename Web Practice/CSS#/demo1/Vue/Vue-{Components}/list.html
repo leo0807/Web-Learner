@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Components</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Hello</h1>
+        <ul>
+            <product-com v-for="item, index in productList" :product="item" :key="index"></product-com>
+            <school v-for="item, index in schoolList" :school-name="item" @button-clicked="buttonClicked" :index="index" :key="index+11"></school>
+        </ul>
+        <h2>Selected Item: {{selectedItem}}</h2>
+    </div>
+    <script type="text/javascript">
+    //School Compoment
+    Vue.component("school", {
+        props:["schoolName", "index"],
+        template: `<li><h3>No.{{index+1}}-----{{schoolName}}</h3>
+            <button @click="chooseEvent(schoolName)"> Choose </button>
+            </li>
+        `,
+        methods:{
+            chooseEvent:function(schoolName) {
+                this.$emit("button-clicked", schoolName);
+                // this.$parent.buttonClicked(schoolName);
+            }
+        }
+    });
+    // Product Component
+    let product = Vue.component("product-com", {
+        props:['product'],
+        template: `
+            <li>
+                <h5>Product Title: {{product.title}}</h5>
+                <h5>Product Brief: {{product.brief}}</h5>
+                <h5>Product Price: {{product.price}}</h5>
+            </li>
+            `,
+    })
+    // Root Component
+        let app = new Vue({
+            el: "#app",
+            data: {
+                productList: [
+                    {
+                    title: 'Product1',
+                    price: 10,
+                    brief:'This is product1',
+                    },
+                    {
+                    title: 'Product2',
+                    price: 20,
+                    brief:'This is product2',
+                    },
+                    {
+                    title: 'Product3',
+                    price: 30,
+                    brief:'This is product3s',
+                    }
+                ],
+                schoolList: ["THU", "PKU", "SHJT"],
+                selectedItem: ""
+            },
+            methods:{
+                buttonClicked:function(data){
+                    console.log(data);
+                    this.selectedItem = data;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

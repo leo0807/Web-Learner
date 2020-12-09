@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D</title>
+    <style type="text/css">
+    body{
+        perspective: 1000px;
+    }
+
+    .cube{
+        
+        width: 200px;
+        height: 200px;
+        margin: 100px auto;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: all 1s;
+    }
+    .page{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.6;
+    }
+    .front{
+        background-color: rosybrown;
+        background-size: 100% auto;
+        transform: translateZ(100px);
+    }
+    .back{
+        background-color: royalblue;
+        background-size: auto 100%;
+        transform: translateZ(-100px);
+    }
+    .right{
+        background-color: whitesmoke;
+        background-size: auto 100%;
+        transform: rotateY(90deg) translateZ(1100px);
+    }
+    .left{
+        background-color: salmon;
+        background-size: auto 100%;
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+    .top{
+        background-color: gold;
+        background-size: auto 100%;
+        transform: rotateX(90deg) translateZ(-100px);
+    }
+    .bottom{
+        background-color: maroon;
+        background-size: auto 100%;
+        transform: rotateY(-90deg) translateZ(-100px);
+    }
+    .choose{
+        width: 900px;
+        height: 300px;
+        text-align: center;
+        margin: 0px auto;
+    }
+    .btn{
+        display: inline-block;
+        width: 100px;
+        height: 40px;
+        font-size: 20px;
+        color: #999;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        text-align: 40px;
+    }
+    #front:checked ~ .choose [for="front"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #back:checked ~ .choose [for="back"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #left:checked ~ .choose [for="left"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #right:checked ~ .choose [for="right"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #top:checked ~ .choose [for="top"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #bottom:checked ~ .choose [for="bottom"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #big:checked ~ .choose [for="big"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #small:checked ~ .choose [for="small"]{
+        background-color: #ccc;
+        color: #fff;
+        box-shadow: 0 0 30px #999999;
+    }
+    #front:checked~.cube{
+        transform: rotate3d(0,0,0,0deg);
+    }
+    #back:checked~.cube{
+        transform: rotate3d(0,1,0,180deg);
+    }
+    #left:checked~.cube{
+        transform: rotate3d(0,1,0,90deg);
+    }
+    #right:checked~.cube{
+        transform: rotate3d(0,0,0,0deg);
+    }
+    #top:checked~.cube{
+        transform: rotate3d(1,0,0,90deg);
+    }
+    #bottom:checked~.cube{
+        transform: rotate3d(0,0,0,-90deg);
+    }
+    /* #big:checked~.cube{
+        transform: scale(1.5);
+    }
+    #small:checked~.cube{
+        transform: scale(0.5);
+    } */
+    #big:checked~.cube{
+        transform: translateZ(200px);
+    }
+    #small:checked~.cube{
+        transform: translateZ(-200px);
+    } 
+    </style>
+</head>
+<body>
+    <input type="radio" name="direction" id="front" hidden="hidden" >
+    <input type="radio" name="direction" id="back" hidden="hidden" >
+    <input type="radio" name="direction" id="left" hidden="hidden" >
+    <input type="radio" name="direction" id="right" hidden="hidden" >
+    <input type="radio" name="direction" id="top" hidden="hidden" >
+    <input type="radio" name="direction" id="bottom" hidden="hidden" >
+    <input type="radio" name="direction" id="big" hidden="hidden" >
+    <input type="radio" name="direction" id="small" hidden="hidden" >
+    
+    <div class="cube">
+        <div class="page front"></div>
+        <div class="page back"></div>
+        <div class="page left"></div>
+        <div class="page right"></div>
+        <div class="page top"></div>
+        <div class="page bottom"></div>
+    </div>
+
+    <div class="choose">
+        <label for="front" class="btn" >Front</label>
+        <label for="back" class="btn" >Back</label>
+        <label for="left" class="btn" >Left</label>
+        <label for="right" class="btn" >Right</label>
+        <label for="top" class="btn" >Top</label>
+        <label for="bottom" class="btn" >Bottom</label>
+        <label for="big" class="btn" >Big</label>
+        <label for="small" class="btn" >Small</label>
+    </div>
+</body>
+</html>

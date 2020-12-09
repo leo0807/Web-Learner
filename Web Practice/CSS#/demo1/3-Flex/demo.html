@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex</title>
+    <style type="text/css">
+    body{
+        display: flex;
+    }
+    .left{
+        /* 剩余空间分布 */
+        background-color: #87ceeb;
+        flex: 1;
+    }
+    .main{
+        background-color: #DA70D6;
+        flex: 2;
+    }
+    .ad{
+        width: 200px;
+        background-color: #ffa500;
+    }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <h1>侧边栏</h1>
+    </div>
+    <div class="main">
+        <h1>主要内容</h1>
+    </div>
+    <div class="ad">
+        <h1>广告</h1>
+    </div>
+</body>
+</html>

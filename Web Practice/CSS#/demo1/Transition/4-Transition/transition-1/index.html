@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition</title>
+    <style type="text/css">
+        .level{
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            cursor: pointer;
+            transition-duration: 2s;
+            /* transition-property: height; */
+            transition-property: all;
+            transition-delay: 1s;
+            transition-timing-function: ease-in-out;
+            /* ease-in 先慢后快; ease-out 先快后慢；ease-in-out 开始结束慢 中间快 ；
+                step-end 直接变化结果 */
+            /* Liner 匀速 */
+            /* Simplified */
+            /* transition: all .2s ease-in-out; */
+
+        }
+        .level:hover{
+            width: 300px;
+            height: 300px;
+            background-color: red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="level"></div>
+</body>
+</html>
