@@ -1,0 +1,16 @@
+.content{
+    width: 100%;
+    height: 500px;
+    display: flex;
+}
+
+.content .left{
+    width: 200px;
+    height: 500px;
+    background-color: #eee;
+}
+.content .right{
+    flex: 1;
+    height: 500px;
+    border: 1px solid #eee;
+}
