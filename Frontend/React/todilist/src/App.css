@@ -1,0 +1,15 @@
+.red{
+    color: red;
+}
+
+.news img{
+    width: 100px;
+}
+
+.list{
+    padding: 40px;
+}
+
+.list li{
+    line-height: 60px;
+}
