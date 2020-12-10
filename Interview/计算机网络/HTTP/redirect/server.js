@@ -10,6 +10,9 @@ http.createServer(function (request, response) {
     // 在302的情况下，每次请求都要经过服务器指定新的location
     // 而301只需要在服务器端请求一次i新的location 之后再次发送请求时，客户端在浏览器內直接去新的路径
     // 新的地址被浏览器缓存在disk cache 中
+
+    // 301的使用需要慎重
+    // 需要注意的是即使在后续将301改为200， 在浏览器输入旧地址，如'/'。浏览器依旧会导向重定向的地址， 如'/new'
     response.writeHead(302, {  // or 301
       'Location': '/new'
     })

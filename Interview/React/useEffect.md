@@ -118,4 +118,7 @@ function App() {
 ```
 
 
+可以把 useEffect Hook 看做 componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合。
+有时候，我们只想在 React 更新 DOM 之后运行一些额外的代码。比如发送网络请求，手动变更 DOM，记录日志，这些都是常见的无需清除的操作
+
 源文章 http://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html
