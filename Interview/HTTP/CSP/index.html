@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="form-action self; script-src self">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is content</h1>
+    <form action="http://www.baidu.com">
+        <button type="submit">Click</button>
+    </form>
+    <script>
+        // 内置脚本 模拟XSS
+         console.log("Inline-Js");
+    </script>
+    <script src="./server.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/core.js"></script>
+</body>
+</html>
