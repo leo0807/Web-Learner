@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class App extends Component{
+class App extends Component {
     constructor() {
         super()
         this.state = {
@@ -36,32 +36,50 @@ class App extends Component{
     
             tempList.push({
                 title: title,
-                checked:false
+                checked: false
             })
     
             this.setState({
-                list:tempList
+                list: tempList
             })
 
             this.textInput.value = "";
+
+            // 数据缓存 key 只能存为字符串
+            localStorage.setItem('todolist', JSON.stringify(tempList));
         }
 
     }
 
-    checkBoxChange=(key, e)=>{
+    checkBoxChange = (key, e) => {
         let tempList = this.state.list;
         tempList[key].checked = !tempList[key].checked;
         this.setState({
-            list:tempList
+            list: tempList
         })
+        localStorage.setItem('todolist', JSON.stringify(tempList));
+
     }
 
     removeData = (key) => {
         let tempList = this.state.list;
         tempList.splice(key, 1)
         this.setState({
-            list:tempList
+            list: tempList
         })
+        localStorage.setItem('todolist', JSON.stringify(tempList));
+
+    }
+    // 生命周期函数 获取localstorage中缓存数据 在页面挂载执行
+    componentDidMount() {
+
+        let todolist = JSON.parse(localStorage.getItem('todolist'));
+
+        if (todolist) {
+            this.setState({
+                list: todolist
+            })
+        }
     }
 
     render() {
@@ -78,7 +96,7 @@ class App extends Component{
                             (item, key) => {
                                 if (item.checked) {
                                     return (
-                                        <li>
+                                        <li key={key}>
                                             <input type="checkbox" checked={item.checked} onChange={e => this.checkBoxChange(key, e)} />
                                             {item.title}
     
@@ -96,7 +114,7 @@ class App extends Component{
                             (item, key) => {
                                 if (!item.checked) {
                                     return (
-                                        <li>
+                                        <li key={key}>
                                             <input type="checkbox" checked={item.checked} onChange={e => this.checkBoxChange(key, e)} />
                                             {item.title}
     
