@@ -7,9 +7,19 @@
 }
 
 .list{
-    padding: 40px;
+    padding: 10px;
 }
 
 .list li{
-    line-height: 60px;
+    line-height: 40px;
+}
+.title{
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+}
+.title input{
+    height: 40px;
 }
