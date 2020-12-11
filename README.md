@@ -8,12 +8,20 @@
     - JQuery
     - MVVN
         - React
+            - React-Router
+            - React Hook
+            - Redux
+                - Redux-thunk
+                - Redux-saga
         - Vue
+            - vue-router
+            - vuex
     - UI
         - Bootstrap
         - Font-awsome
         - Ant-design
         - Layui
+        - Material-UI (React)
 - Backend
     - Nodejs
         - Koa
@@ -29,7 +37,8 @@
     - Nginx
     - Jest
     - ESlint
-    - Gulp
+    - Gulp 
+    - Kubernetes
 - Interview
     - Basic Algorithm
     - HackerRank & Leetcode
