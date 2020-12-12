@@ -1,17 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+function ParentCom(props) {
+  let headerCom, mainCom, footerCom;
+  props.children.forEach(item => {
+    if (item.props['data-name'] === 'header') {
+      headerCom = item
+    }else if(item.props['data-name'] === 'main') {
+      mainCom = item
+    }else if (item.props['data-name'] === 'footer') {
+      footerCom = item
+    }
+  })
+  return (
+    <div>
+      <h1>组件插槽</h1>
+      <div className="header">{headerCom}</div>
+      <div className="header">{mainCom}</div>
+      <div className="header">{footerCom}</div>
+      {/* {this.props.children} */}
+    </div>
+  );
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  <ParentCom>
+    <h2 data-name="header">头部组件</h2>
+    <h2 data-name="main">主要组件</h2>
+    <h2 data-name="footer">尾部组件</h2>
+  </ParentCom>,
+  document.querySelector('#root')
+)
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
