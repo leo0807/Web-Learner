@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- download属性在跨域的情况下无法下载 只能跳转 同域名才能下 -->
+    <!-- 需要通过JS吧图片二进制数据先获取 -->
+    <!-- BLOB 分片上传 从互联网下载数据 Blob转为URL blob转为Base64 图片压缩 生成PDF Blob 与 ArrayBuffer的区别 -->
+    <!-- Blob binary large object -->
+    
+    <img src="" alt="">
+    <script type="text/javascript">
+        function download(url){
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.send();
+            xhr.onload = function(){
+                const fileBlob = xhr.response;
+                // blob转成URL地址
+                const fileUrl = URL.createObjectURL(fileBlob);
+                // document.querySelector('img').setAttribute('src', fileUrl);
+                const elementA = document.createElement('a');
+                elementA.setAttribute('href', fileUrl);
+                elementA.innerHTML = 'DOWNLOAD';
+                elementA.setAttribute('DOWNLOAD', '');
+                // 自动点击
+                elementA.click();
+                document.body.appendChild(elementA);
+            }
+        }
+        let url = '/Users/scott/Documents/images/diff1.jpg'
+        download(url)
+    </script>
+</body>
+</html>
