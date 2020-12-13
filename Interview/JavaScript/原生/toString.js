@@ -31,3 +31,5 @@
     console.log( obj==30 )    //true       执行了valueOf()
     console.log( obj===30 )    //false
     //最后这个未输出任何字符串，个人猜想是这样的：全等比较时，js解析器直接先判断类型是否一样，明显一个是Object，一个是Number，所以直接不相等，根本不需要再去求值了。
+
+
