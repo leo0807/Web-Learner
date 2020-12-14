@@ -7,4 +7,7 @@ Function.prototype.myCall = function (thisArg, ...arg) {
     // 将不重复的属性给到thisArg
     // 调用函数并将结果返回
     // 删除新增属性
+    const attr = Symbol();
+    thisArg[attr] = this;
+    
 }
