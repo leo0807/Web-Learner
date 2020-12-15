@@ -60,7 +60,12 @@ HTML5 添加了两个工具来控制脚本的执行。
 
 - **defer**表示“等待页面解析完成之后执行”。它大致等价于将你的脚本绑定到 DOMContentedLoaded 事件，或者使用 jQuery.ready。当这个代码被执行，DOM 中的一切元素都可用。不同于 async，所有加了 defer 的脚本将会按照它们出现在 HTML 页面中的顺序执行，它只是推迟到 HTML 页面解析完毕后开始执行。
 
-- async用于异步加载脚本，与defer的区别是：async加载完成后自动执行，defer需要等到页面完成后（window.onload）才执行， 注意：多个标记为 async 的脚本并不保证按照指定它们的先后顺序执行（有可能是file3.js, file2.js, file4.js,取决于谁先返回），以为他们是异步加载的
+- async用于异步加载脚本，与defer的区别是：async加载完成后自动执行，defer需要等到页面完成后（window.onload）才执行， 注意：多个标记为 async 的脚本并不保证按照指定它们的先后顺序执行（有可能是file3.js, file2.js, file4.js,取决于谁先返回），因为他们是异步加载的
+
+- async和defer在网络下载的情况下，都是异步的，区别在于下载完之后何时开始执行脚本；
+- async是乱序执行的，当脚本下载完毕会被立刻执行；而defer一般是顺序执行的，在文档加载和解析完成之后，即在DOMContentLoaded之前执行的
+![image](https://github.com/leo0807/Web-Learner/blob/master/images/script.png)
+**所以操作 DOM 的脚本最好不要使用 async / defer**
 
 ###### type 属性
 从历史上看（自 Netsacpe 2 诞生起），在 script 标签上是否写上 type=text/javascript 没有什么关系。如果你通过 type 设置一个非 JavaScript 的 MIME 类型，浏览器不会执行它。当你想要定义你自己的语言时，这会很酷：
