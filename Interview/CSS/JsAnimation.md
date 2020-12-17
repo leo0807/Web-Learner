@@ -26,25 +26,19 @@ CSS动画
 
 强制使用硬件加速 （通过 GPU 来提高动画性能）
 
-CSS动画比JS流畅的前提：
+## CSS动画比JS流畅的前提：
 
-JS在执行一些昂贵的任务
-
-同时CSS动画不触发layout或paint
-
-在CSS动画或JS动画触发了paint或layout时，需要main thread进行Layer树的重计算，这时CSS动画或JS动画都会阻塞后续操作。
+- JS在执行一些昂贵的任务
+- 同时CSS动画不触发layout或paint
+- 在CSS动画或JS动画触发了paint或layout时，需要main thread进行Layer树的重计算，这时CSS动画或JS动画都会阻塞后续操作。
 
 只有如下属性的修改才符合“仅触发Composite，不触发layout或paint”：
 
-backface-visibility
-
-opacity
-
-perspective
-
-perspective-origin
-
-transfrom
+- backface-visibility
+- opacity
+- perspective
+- perspective-origin
+- transfrom
 
 所以只有用上了3D加速或修改opacity时，css3动画的优势才会体现出来。
 
