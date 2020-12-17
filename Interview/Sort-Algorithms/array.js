@@ -38,9 +38,7 @@ function ArrayList() {
 
     ArrayList.prototype.selectionSort = function () {
         var length = this.array.length;
-
         for (var j = 0; j < length - 1; j++){
-
             var min = j;
             // 从后一位开始， 从0位置开始取数据
             for (var i = min + 1; i < length; i++){
@@ -151,21 +149,149 @@ function ArrayList() {
         // O(N *log^N)
     }
 }
-var list = new ArrayList();
+// var list = new ArrayList();
 
-list.insert(32);
-list.insert(4);
-list.insert(231);
-list.insert(42);
-list.insert(2);
-list.insert(6);
-list.insert(6);
-list.insert(7);
-list.insert(11);
-console.log(list);
+// list.insert(32);
+// list.insert(4);
+// list.insert(231);
+// list.insert(42);
+// list.insert(2);
+// list.insert(6);
+// list.insert(6);
+// list.insert(7);
+// list.insert(11);
+// console.log(list);
 // list.bubbleSort();
 // list.selectionSort();
 // list.insertionSort();
 // list.shellSort();
-list.quickSort();
-console.log(list.toString());
+
+// list.quickSort();
+let tmp = [32,4,231,42,2,6,6,7,11];
+// let res = list.mergeSort(tmp);
+// console.log(res);
+// console.log(list.toString());
+
+
+    // 计数排序
+    // 适合量大范围小 即重复数值多的情况
+    // 时间复杂度和空间复杂度是O(n+k)
+    // （1）找出待排序的数组中最大和最小的元素
+    // （2）统计数组中每个值为i的元素出现的次数，存入数组C的第i项
+    // （3）对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）
+    // （4）反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1
+    // 归并排序
+    const mergeSort = function(arr){
+        if(arr.__proto__ !== []) return;
+        let length = arr.length;
+        if(length < 2) return arr;
+        const middle = Math.floor(length / 2);
+        const left = arr.slice(0, middle);
+        const right = arr.slice(middle);
+
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
+    const merge = function(left, right){
+        let result = [];
+
+        while(left.length && right.length){
+            if(left[0] <= right[0]){
+                result.push(left.shift());
+            }else{
+                result.push(right.shift());
+            }
+        }
+        while(left.length) result.push(left.shif());
+        while(right.length) result.push(right.shif());
+        return result; 
+    }
+
+// 最优时间复杂度：O(n*log(n))
+// 最坏时间复杂度：O(n*log(n))
+// 平均时间复杂度：O(n*log(n))
+// 最坏空间复杂度：总共O(n)，辅助O(n)；当使用linked list，辅助空间为O(1).
+    function countSort(arr){
+        let maxValue = -Infinity,
+            minValue = +Infinity;
+        const length = arr.length;
+        for(let i = 0; i < length; i++){
+            maxValue = maxValue > arr[i]? maxValue: arr[i];
+            minValue = minValue < arr[i]? minValue: arr[i];
+        }
+
+        let bucket = new Array(maxValue - minValue + 1);
+        for(let i = 0; i < length; i++){
+            if(!bucket[arr[i]]) bucket[arr[i]] = 0;
+            bucket[arr[i]]++;
+        }
+        let index = 0;
+        for(let i = 0, bucketLen = bucket.length; i < bucketLen; i++ ){
+            while(bucket[i] > 0){
+                arr[index++] = i;
+                bucket[i]--;
+            }
+        }
+        return arr;
+    }
+
+    let res1 = countSort(tmp);
+    console.log(res1);
+
+// 基数排序
+function radixSort(arr){
+    let maxDigits = 0;
+    for(let i of arr){
+        const len = i.toString().length;
+        maxDigits = maxDigits > len ? maxDigits: len;
+    }
+    for(let i = 0; i < maxDigits; i++){
+
+    }
+}
+
+//  桶排序
+function bucketSort(arr, bucketSize) {
+    if (arr.length === 0) {
+      return arr;
+    }
+
+    var i;
+    var minValue = arr[0];
+    var maxValue = arr[0];
+    for (i = 1; i < arr.length; i++) {
+      if (arr[i] < minValue) {
+          minValue = arr[i];                // 输入数据的最小值
+      } else if (arr[i] > maxValue) {
+          maxValue = arr[i];                // 输入数据的最大值
+      }
+    }
+
+    //桶的初始化
+    var DEFAULT_BUCKET_SIZE = 5;            // 设置桶的默认数量为5
+    bucketSize = bucketSize || DEFAULT_BUCKET_SIZE;
+    var bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;  
+    var buckets = new Array(bucketCount);
+    for (i = 0; i < buckets.length; i++) {
+        buckets[i] = [];
+    }
+
+    //利用映射函数将数据分配到各个桶中
+    for (i = 0; i < arr.length; i++) {
+        buckets[Math.floor((arr[i] - minValue) / bucketSize)].push(arr[i]);
+    }
+
+    arr.length = 0;
+    for (i = 0; i < buckets.length; i++) {
+        mergeSort(buckets[i]);                      // 对每个桶进行排序
+        for (var j = 0; j < buckets[i].length; j++) {
+            arr.push(buckets[i][j]);                      
+        }
+    }
+
+    return arr;
+}
+
+// console.log(typeof tmp.__proto__ );
+let res = bucketSort(tmp);
+console.log(res);

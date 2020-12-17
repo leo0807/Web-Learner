@@ -11,19 +11,133 @@ http缓存都是从第二次请求开始的。第一次请求资源时，服务�
 ![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存1.png)
 
 ## 强制缓存
+对于强制缓存来说，响应header中会有两个字段来标明失效规则**Expires/Cache-Control**。**Expires**的值为服务端返回的到期时间，即下一次请求时，请求时间小于服务端返回的到期时间，直接使用缓存数据。不过Expires 是HTTP 1.0的东西，现在默认浏览器均默认使用HTTP 1.1，所以它的作用基本忽略。另一个问题是，到期时间是由**服务端生**成的，但是客户端时间可能跟服务端时间有**误差**，这就会导致缓存命中的误差。
+
 强制缓存在**缓存数据未失效**的情况下（即**Cache-Control的max-age没有过期或者Expires的缓存时间没有过期**），那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，http状态码为200。这种方式页面的加载速度是**最快的，性能也是很好的**，但是在这期间，如果服务器端的**资源修改了**，页面上是拿不到的，因为它不会再向服务器发请求了。这种情况就是我们在开发种经常遇到的，比如你修改了页面上的某个样式，在页面上刷新了但没有生效，因为走的是强缓存，所以Ctrl + F5一顿操作之后就好了。 跟强制缓存相关的header头属性有**（Pragma/Cache-Control/Expires）**
 
+**Cachel-Control优先级高于Expires**
+
+### Cache-Control
+Cache-Control 是最重要的规则。常见的取值有private、public、no-cache、max-age，no-store，默认为private。
+- private:             客户端可以缓存
+- public:              客户端和代理服务器都可缓存（前端的同学，可以认为public和private是一样的）
+- max-age=xxx:         缓存的内容将在 xxx 秒后失效
+- no-cache:            需要使用**对比缓存**来验证缓存数据（后面介绍）
+- no-store:            所有内容都不会缓存，强制缓存，对比缓存都不会触发
+
 **Pragma和Cache-control共存时，Pragma的优先级是比Cache-Control高的**
+![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存2.png)
 
 注意：
 在chrome浏览器中返回的200状态会有两种情况：
-- from memory cache
-(从内存中获取/一般缓存更新频率较高的js、图片、字体等资源)
-- from disk cache
-(从磁盘中获取/一般缓存更新频率较低的js、css等资源)
+- from **memory cache**
+(从内存中获取/一般缓存**更新频率较高**的js、图片、字体等资源)   
+- from **disk cache**
+(从磁盘中获取/一般缓存**更新频率较低**的js、css等资源)
 这两种情况是chrome自身的一种缓存策略，这也是为什么chrome浏览器响应的快的原因。其他浏览返回的是已缓存状态，没有标识是从哪获取的缓存。
+
+## 协商缓存(对比缓存)
+浏览器第一次请求数据时，服务器会将缓存标识与数据一起返回给客户端，客户端将二者备份至缓存数据库中。
+再次请求数据时，客户端将备份的缓存标识发送给服务器，服务器根据缓存标识进行判断，判断成功后，返回304状态码，通知客户端比较成功，可以使用缓存数据。
+
+###  Last-Modified/If-Modified-Since
+- Last-Modified  
+服务器在响应请求时，告诉浏览器资源的最后修改时间。
+- If-Modified-Since：
+再次请求服务器时，通过此字段通知服务器上次请求时，服务器返回的资源最后修改时间。
+服务器收到请求后发现有头If-Modified-Since 则与被请求资源的最后修改时间进行比对。
+若资源的最后修改时间大于If-Modified-Since，说明资源又被改动过，则响应整片资源内容，返回状态码200；
+若资源的最后修改时间小于或等于If-Modified-Since，说明资源无新修改，则响应HTTP 304，告知浏览器继续使用所保存的cache。
+
+### Etag/If-None-Match
+- Etag：
+服务器响应请求时，告诉浏览器当前资源在服务器的唯一标识（生成规则由服务器决定），资源有变化，它会重新生成。
+**精确性**Etag更高，但是**性能**略低，优先级先考虑Etag
+
+- If-None-Match：
+再次请求服务器时，通过此字段通知服务器客户段缓存数据的唯一标识。
+服务器收到请求后发现有头If-None-Match 则与被请求资源的唯一标识进行比对，
+不同，说明资源又被改动过，则响应整片资源内容，返回状态码200；
+相同，说明资源无新修改，则响应HTTP 304，告知浏览器继续使用所保存的cache。
+
+当第一次请求时服务器返回的响应头中没有Cache-Control和Expires或者Cache-Control和Expires过期 或者它的属性设置为**no-cache**时(即不走强缓存)，那么浏览器第二次请求时就会与服务器进行协商，与服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态码，告诉浏览器可以使用缓存中的数据，这样就减少了服务器的数据传输压力。如果数据有更新就会返回200状态码，服务器就会返回更新后的资源并且将缓存信息一起返回。跟协商缓存相关的header头属性有 **（ETag/If-Not-Match 、Last-Modified/If-Modified-Since）** 请求头和响应头需要成对出现
+![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存3.png)
+
+协商缓存的执行流程是这样的：当浏览器第一次向服务器发送请求时，会在响应头中返回协商缓存的头属性：ETag和Last-Modified,其中**ETag**返回的是一个**hash**值，**Last-Modified**返回的是**GMT格式**的最后修改时间。然后浏览器在第二次发送请求的时候，会在请求头中带上与**ETag**对应的**If-Not-Match**，其值就是响应头中返回的ETag的值，Last-Modified对应的If-Modified-Since。服务器在接收到这两个参数后会做比较，如果返回的是304状态码，则说明请求的资源没有修改，浏览器可以直接在缓存中取数据，否则，服务器会直接返回数据。
+
+### 注意：
+ETag/If-Not-Match是在**HTTP/1.1**出现的，主要是解决以下问题：
+- Last-Modified标注的最后修改只能精确到**秒级**，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的修改时间
+- 如果某些文件被修改了，但是内容并没有任何变化，而Last-Modified却改变了，导致文件没法使用缓存
+- 有可能存在服务器没有准确获取文件修改时间，或者与代理服务器时间不一致等情形
+
+## 私有缓存（浏览器级缓存）
+私有缓存只能用于单独的用户：Cache-Control: Private
+
+## 共享缓存（代理级缓存）
+共享缓存可以被多个用户使用: Cache-Control: Public
+
+# 为什么要使用HTTP缓存 ？
+根据上面的学习可发现使用缓存的好处主要有以下几点：
+1. 减少了冗余的数据传输，节省了网费。
+2. 缓解了服务器的压力， 大大提高了网站的性能
+3. 加快了客户端加载网页的速度
+
+# 如何使用HTTP缓存 ？
+一般需要缓存的资源有html页面和其他静态资源：
+# html页面缓存的设置主要是在<head>标签中嵌入<meta>标签，这种方式只对页面有效，对页面上的资源无效
+## html页面禁用缓存的设置如下：
+```
+<meta http-equiv="pragma" content="no-cache">
+// 仅有IE浏览器才识别的标签，不一定会在请求字段加上Pragma，但的确会让当前页面每次都发新请求
+<meta http-equiv="cache-control" content="no-cache">
+// 其他主流浏览器识别的标签
+<meta http-equiv="expires" content="0">
+// 仅有IE浏览器才识别的标签，该方式仅仅作为知会IE**缓存时间的标记**，你并不能在请求或响应报文中找到Expires字段
+```
+## html设置缓存如下：
+```
+<meta http-equiv="Cache-Control" content="max-age=7200" />
+// 其他主流浏览器识别的标签
+<meta http-equiv="Expires" content="Mon, 20 Aug 2018 23:00:00 GMT" />
+// 仅有IE浏览器才识别的标签
+```
+# 静态资源的缓存一般是在web服务器上配置的，常用的web服务器有：nginx、apache。具体的配置这里不做详细介绍，大家自行查阅。
+
+# 不想使用缓存的几种方式：
+- Ctrl + F5强制刷新，都会直接向服务器提取数据。
+- 按F5刷新或浏览器的刷新按钮，默认加上Cache-Control：max-age=0，即会走协商缓存。
+- 在IE浏览器下不想使用缓存的做法：打开IE，点击工具栏上的工具->Internet选项->常规->浏览历史记录 设置. 选择“从不”，然后保存。最后点击“删除”把Internet临时文件都删掉 （IE缓存的文件就是Internet临时文件）。
+- 还有就是上面1-2中禁用缓存的做法
+- 对于其他浏览器也都有清除缓存的办法
+
+# HTTP缓存的几个注意点
+- 强缓存情况下，只要缓存还没过期，就会直接从缓存中取数据，就算服务器端有数据变化，也不会从服务器端获取了，这样就无法获取到修改后的数据。决解的办法有：在修改后的资源加上随机数,确保不会从缓存中取。
+
+例如：
+http://www.kimshare.club/kim/common.css?v=22324432
+http://www.kimshare.club/kim/common.2312331.css
+
+- 尽量减少304的请求，因为我们知道，协商缓存每次都会与后台服务器进行交互，所以**性能上不是很好**。从性能上来看尽量多使用强缓存。
+
+- 在Firefox浏览器下，使用Cache-Control: no-cache 是不生效的，其识别的是no-store。这样能达到其他浏览器使用Cache-Control: no-cache的效果。所以为了兼容Firefox浏览器，经常会写成**Cache-Control: no-cache，no-store**。
+
+- 与缓存相关的几个header属性有：Vary、Date/Age。
+Vary：
+vary本身是“变化”的意思，而在http报文中更趋于是“vary from”（与。。。不同）的含义，它表示服务端会以什么基准字段来区分、筛选缓存版本。
+在服务端有着这么一个地址，如果是IE用户则返回针对IE开发的内容，否则返回另一个主流浏览器版本的内容。
+格式：Vary: User-Agent
+知会代理服务器需要以 User-Agent 这个请求首部字段来区别缓存版本，防止传递给客户端的缓存不正确。
+
+Date/Age：
+响应报文中的 Date 和 Age 字段：区分其收到的资源是否命中了代理服务器的缓存。
+Date 理所当然是原服务器发送该资源响应报文的时间（GMT格式），如果你发现 Date 的时间与“当前时间”差别较大，或者连续F5刷新发现 Date 的值都没变化，则说明你当前请求是命中了代理服务器的缓存。
+Age 也是响应报文中的首部字段，它表示该文件在代理服务器中存在的时间（秒），如文件被修改或替换，Age会重新由0开始累计。
+
+![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存3.png)
 
 作者：前端搬砖师Kim
 链接：https://www.jianshu.com/p/227cee9c8d15
 来源：简书
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
