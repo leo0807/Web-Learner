@@ -41,7 +41,9 @@ for-of这个方法避开了for-in循环的所有缺陷
 
 # forEach
 实际性能弱于普通for
-无法```break```或```return```返回外层函数
+无法```break```或```continue```返回外层函数
+- 可以使用```return```跳过单次循环
+- 如果想要跳出整个循环需要使用```throw```抛出
 
 # map
 同样不能使用```break```或```return```返回外层函数，但是可以用return 返回值
