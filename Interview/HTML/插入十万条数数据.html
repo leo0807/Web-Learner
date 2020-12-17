@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+
+    </ul>
+    <script>
+        // 插入十万条数据
+        const total = 100000;
+        // 每次插入20条数据
+        const once = 20;
+        // 插入数据需要的次数
+        const loopCount = Math.ceil(total / once);
+        // 渲染的次数
+        let countRender = 0;
+        // 获取插入的父节点
+        const ul = document.querySelector("ul");
+        // 添加获得数据的方式
+        function add(){
+            // 创建虚拟节点
+            const fragment = document.createElement("li");
+            for(let i = 0; i < once; i++){
+                li.innerHTML = Math.floor(Math.random()*10000);
+                fragment.appendChild(li);
+            }
+            ul.appendChild(fragment);
+            countRender++;
+            loop();
+        }
+        function loop(){
+            if(countRender < loopCount){
+                window.requestAnimationFrame(add);
+            }
+        }
+        loop();
+    </script>
+</body>
+</html>
