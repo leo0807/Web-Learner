@@ -37,3 +37,5 @@ JavaScript对象通过__proto__ 指向父类对象，直到指向Object对象为
 
 对象的 hasOwnProperty() 来检查对象自身中是否含有该属性
 使用 in 检查对象中是否含有某个属性时，如果对象中没有但是原型链中有，也会返回 true
+
+hasOwnProperty

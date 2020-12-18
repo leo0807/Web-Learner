@@ -1,6 +1,34 @@
+- javascript直接实现；
+- SVG（可伸缩矢量图形）；
+- CSS3 transition；
+- CSS3 animation；
+- Canvas动画；
+- requestAnimationFrame；
+
+JS 实现 setTimeout，setIntervals
+```
+    <div id="rect"></div>
+    <script>
+        let elem = document.getElementById('rect');
+        let left = 0;
+        let timer = setInterval(function(){
+            if(left<window.innerWidth-200){
+                elem.style.marginLeft = left+'px';
+                left ++;
+            }else {
+                clearInterval(timer);
+            }
+        },16);
+    </script>
+```
+## 缺点
+**javascript 实现动画通常会导致页面频繁性重排重绘，消耗性能，一般应该在桌面端浏览器。在移动端上使用会有明显的卡顿**
+## 为什么是16ms
+上面例子中，我们设置的setInterval时间间隔是16ms。一般认为人眼能辨识的流畅动画为**每秒60帧**，这里16ms比(1000ms/60)帧略小一些，但是一般可仍为该动画是流畅的。 
+在很多移动端动画性能优化时，一般使用16ms来进行节流处理连续触发的浏览器事件。例如对touchmove、scroll事件进行节流等。通过这种方式减少持续事件的触发频率，可以大大提升动画的流畅性。
+
 # JS动画
 ## 缺点：
-
 - JavaScript在浏览器的主线程中运行，而主线程中还有其它需要运行的JavaScript脚本、样式计算、布局、绘制任务等,对其干扰导致线程可能出现阻塞，从而造成丢帧的情况。
 - JS动画代码的**复杂度高于**CSS动画
 
