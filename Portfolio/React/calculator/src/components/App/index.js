@@ -5,16 +5,45 @@ import commafy from "../utils/commafy";
 import "./App.css";
 
 const App = () => {
-  const [time, setTime] = useState(new Date());
-  const [value, setValue] = useState("0");
-  const [memory, setMemory] = useState(null);
-  const [operator, setOperator] = useState(null);
-
+    const [time, setTime] = useState(new Date());
+    const [value, setValue] = useState("0");
+    const [memory, setMemory] = useState(null);
+    const [operator, setOperator] = useState(null);
     const minitues = new Date().getMinutes();
+    // let nums = /(\d|\.){1}/;
+    // const [preOperator, setPreOperator] = useState(false);
+
   useEffect(() => {
     setTime(new Date());
   }, [minitues]);
-//   const signs = ["+", "-", ""];
+    const operators = ["+", "-", "×", "÷"];
+    
+    function update(res) {
+        setMemory(res);
+        setValue(res + "");
+    }
+    
+    function calculation(content) {
+        if (operator !== null) {
+            let res;
+            if (operator === "+") {
+              res = memory + parseFloat(value);
+            } else if (operator === "−") {
+                res = memory - parseFloat(value);
+            } else if (operator === "×") {
+                res = memory * parseFloat(value);
+            } else if (operator === "÷") {
+                res = memory / parseFloat(value);
+            }
+            update(res);
+        }
+        else {
+            setMemory(parseFloat(value));
+        }
+        // Not so perfectc
+        setValue("0");
+        setOperator(content);
+    }
   const handleButtonPress = content => () => {
     const num = parseFloat(value);
 
@@ -44,76 +73,12 @@ const App = () => {
       return;
     }
 
-    if (content === "+") {
-      if (operator !== null) {
-        if (operator === "+") {
-          setMemory(memory + parseFloat(value));
-        } else if (operator === "−") {
-          setMemory(memory - parseFloat(value));
-        } else if (operator === "×") {
-          setMemory(memory * parseFloat(value));
-        } else if (operator === "÷") {
-          setMemory(memory / parseFloat(value));
-        }
-      } else {
-        setMemory(parseFloat(value));
+      if (operators.includes(content)) {
+        //   setOperator(true);
+          calculation(content);
+          return;
       }
-      setOperator("+");
-      return;
-    }
-    if (content === "−") {
-      if (operator !== null) {
-        if (operator === "+") {
-          setMemory(memory + parseFloat(value));
-        } else if (operator === "−") {
-          setMemory(memory - parseFloat(value));
-        } else if (operator === "×") {
-          setMemory(memory * parseFloat(value));
-        } else if (operator === "÷") {
-          setMemory(memory / parseFloat(value));
-        }
-      } else {
-        setMemory(parseFloat(value));
-      }
-      setOperator("−");
-      return;
-    }
-    if (content === "×") {
-      if (operator !== null) {
-        if (operator === "+") {
-          setMemory(memory + parseFloat(value));
-        } else if (operator === "−") {
-          setMemory(memory - parseFloat(value));
-        } else if (operator === "×") {
-          setMemory(memory * parseFloat(value));
-        } else if (operator === "÷") {
-          setMemory(memory / parseFloat(value));
-        }
-      } else {
-        setMemory(parseFloat(value));
-      }
-      setValue(value)
-      setOperator("×");
-      return;
-    }
-    if (content === "÷") {
-      if (operator !== null) {
-        if (operator === "+") {
-          setMemory(memory + parseFloat(value));
-        } else if (operator === "−") {
-          setMemory(memory - parseFloat(value));
-        } else if (operator === "×") {
-          setMemory(memory * parseFloat(value));
-        } else if (operator === "÷") {
-          setMemory(memory / parseFloat(value));
-        }
-      } else {
-        setMemory(parseFloat(value));
-      }
-      setOperator("÷");
-      return;
-    }
-
+      
     if (content === "=") {
       if (!operator) return;
 
@@ -129,14 +94,19 @@ const App = () => {
       setMemory(null);
       setOperator(null);
       return;
-    }
-      if (parseFloat(content).toString() == "NaN" && operator !== null) {
-          if (value[value.length - 1] === ".") {
-              setValue(value + content);
-          } else {
-              setValue(parseFloat(num + content).toString());
-          }
-      }
+    }   
+    //   console.log(nums.test(content) , preOperator);
+    //   if (nums.test(content) && preOperator === true) {
+    //       setValue(content);
+    //       return;
+    //   }
+    //   console.log(2);
+    //   setPreOperator(false);
+        if (value[value.length - 1] === ".") {
+            setValue(value + content);
+        } else {
+            setValue(parseFloat(num + content).toString());
+        } 
   };
 
   return (

@@ -8,12 +8,13 @@
     height: 110px;
     justify-content: center;
     width: 110px;
-    transition: filter 0.3s ease-in;
+    transition: all .3s ease-in;
   }
   
   .Button:active,
   .Button:focus {
     filter: brightness(120%);
+    border: 1px solid gray;
   }
   
   .Button.zero {
@@ -33,4 +34,9 @@
   .Button.operator {
     background: #f1a33c;
   }
-  
+  .Button.operator:focus,
+  .Button.operator:active
+   {
+    background: #f1a33c;
+    filter: brightness(120%);
+  }
