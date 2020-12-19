@@ -238,17 +238,7 @@ let tmp = [32,4,231,42,2,6,6,7,11];
     let res1 = countSort(tmp);
     console.log(res1);
 
-// 基数排序
-function radixSort(arr){
-    let maxDigits = 0;
-    for(let i of arr){
-        const len = i.toString().length;
-        maxDigits = maxDigits > len ? maxDigits: len;
-    }
-    for(let i = 0; i < maxDigits; i++){
 
-    }
-}
 
 //  桶排序
 function bucketSort(arr, bucketSize) {

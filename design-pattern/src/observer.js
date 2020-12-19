@@ -1,5 +1,5 @@
 const { EventEmitter } = require('events');
-
+// 主题，保存状态，状态变化之后触发所有观察者
 class Subject{
     constructor(){
         this.state = 0;

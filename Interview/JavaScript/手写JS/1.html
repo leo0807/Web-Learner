@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./promi.js"></script>
+</head>
+<body>
+    <div></div>
+
+    <script>
+        new MyPromise((resolve, reject) => {
+            console.log(1);
+                resolve("第一次");
+            }).then(res => {
+                // console.log(www);
+                throw new Error('failure')
+                return res;
+            }, rej => {
+                console.log(avs);
+                return '第二次'; 
+            })
+            .then(val => {
+                console.log(val);
+            },rej=>{
+                console.log(rej);
+            })
+            console.log(2);
+    </script>
+</body>
+</html>
