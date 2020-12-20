@@ -65,7 +65,7 @@ function render(vDom, container) {
 function workLoop(deadline) {
     // 下一个任务是存在，且任务运行的执行时间没有结束
     while (nextUnitOfWork && deadline.timeReamaning() > 1) {
-        nextUnitOfWork = performUnitOfWork(nextUnitOfWork)//下一个任务
+        // nextUnitOfWork = performUnitOfWork(nextUnitOfWork)//下一个任务
     }
 
     // 任务结束之后，统一进行渲染
