@@ -27,3 +27,54 @@ Function.prototype.myCall = function (thisArg, ...arg) {
     thisArg[attr] = this;
     
 }
+
+Function.prototype.myBind = function (objThis, ...args) {
+    // 保留当前函数 obj.say
+    const thisFn = this;
+    // 声明函数用来返回
+    // secondParams是返回函数后再次添加的函数
+    let funcForBind = function (...secndParams) {
+        // 判断new 是否用于构造函数
+        const isNew = this instanceof funcForBind;
+        // 如果是new的话 返回新对象，否则返回绑定对象
+        const thisArg = isNew ? this : objThis;
+        return thisFn.call(thisArg,...args,...secndParams);
+    }
+    // 复制原型对象
+    funcForBind.prototype = Object.create(thisFn.prototype);
+    return funcForBind;
+}
+
+let sayClone2 = obj.say.myBind(obj2, 1, 2, 3);
+sayClone2();
+
+Function.prototype.myCall = function (thisArg, ...args) {
+    if (thisArg === null || thisArg === undefined) {
+        thisArg = window;
+    }
+    // 创建属性，且不重复
+    const specialMethod = Symbol('anything');
+    // 此时this指向当前函数this指向say
+    // 将不重复的属性给到thisArg
+    thisArg[specialMethod] = this;
+    let result = thisArg[specialMethod](...args);
+    // 删除不重复属性
+    delete thisArg[specialMethod]
+    return result;
+}
+
+Function.prototype.myApply = function (context = window, args) {
+    if (this === Function.prototype) {
+      return undefined; // 用于防止 Function.prototype.myCall() 直接调用
+    }
+    const fn = Symbol();
+    context[fn] = this;
+    let result;
+    if (Array.isArray(args)) {
+      result = context[fn](...args);
+    } else {
+      result = context[fn]();
+    }
+    delete context[fn];
+    return result;
+  }
