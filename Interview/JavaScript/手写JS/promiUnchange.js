@@ -57,17 +57,43 @@ class MyPromise{
             // onRejected = () => { return this.value};
         }
 
-        let promise = new MyPromise((resolve, reject) => {
+        return new MyPromise((resolve, reject) => {
             // then的调用是依据上一个状态
             // 不能无状态就调用then函数
             if (this.status === MyPromise.FULLFILLED) {
                 setTimeout(() => {
-                    this.parse(promise, onFulfilled(this.value), resolve, reject);
+                    this.parse(onFulfilled(this.value), resolve, reject)
+                    try {
+                        const result = onFulfilled(this.value);
+                        // 返回Promise对象
+                        // 将这个Promise的值传给下一个then
+                        if (result instanceof MyPromise) {
+                                // 不使用return的原因是因为这个直接返回的Promise对象
+                                // 要对当前的then进行处理 并传给下一个
+                            result.then(resolve, reject);
+                        } else {
+                            // 返回普通的值
+                            resolve(result);
+                        }
+                        
+                    } catch (error) {
+                        reject(error);
+                    }
                 })
             }
             if (this.status === MyPromise.REJECTED) {
                 setTimeout(() => {
-                    this.parse(promise, onRejected(this.value), resolve, reject);
+                    try {
+                        const result = onRejected(this.value);
+                        if (result instanceof MyPromise) {
+                            result.then(resolve, reject);
+                        } else {
+                            // 用成功的值传递
+                            resolve(result);
+                        }
+                    } catch (error) {
+                        reject(error);
+                    }
                 })
             }
             // 上一状态是pending时候，将待处理函数压入callbacks
@@ -75,25 +101,40 @@ class MyPromise{
                 this.callbacks.push({
                     // 对象属性名
                     onFulfilled: value => {
-                        // 不使用this 的原因 -- 此处调用的是callbacks的value
-                        this.parse(promise, onFulfilled(value), resolve, reject);
+                        try {
+                            // 传入属性名对应的函数
+                            const result = onRejected(this.value);
+                            if (result instanceof MyPromise) {
+                                result.then(resolve, reject);
+                            } else {
+                                // 用成功的值传递
+                                resolve(result);
+                            }
+                        } catch (error) {
+                            reject(error);
+                        }
                     },
                     // 对象属性名
                     onRejected: value => {
-                        this.parse(promise, onRejected(value), resolve, reject);
+                        try {
+                            // 传入属性名对应的函数
+                            const result = onRejected(this.value);
+                            if (result instanceof MyPromise) {
+                                result.then(resolve, reject);
+                            } else {
+                                // 用成功的值传递
+                                resolve(result);
+                            }
+                        } catch (error) {
+                            reject(error);
+                        }
                     },
                 });
             }
-            return promise;
         })
-        
+
     }
-    parse = (promise, result, resolve, reject) => {
-        // 死循环 双重返回
-        // 不在当前promise中，再返回promise
-        if (promise === result) {
-            throw TypeError("Changing cycle detected")
-        }
+    parse = (result, resolve, reject) => {
         try {
             if (result instanceof MyPromise) {
                 result.then(resolve, reject);
@@ -104,61 +145,6 @@ class MyPromise{
         } catch (error) {
             reject(error);
         }
-    }
-    // 实现resolve 和 reject
-    static resolve(value) {
-        return new MyPromise((resolve, reject) => {
-            if (value instanceof MyPromise) {
-                value.then(resolve, reject);
-            } else {
-                resolve(value);
-            }
-        })
-    }
-    static reject(value) {
-        return new MyPromise((resolve, reject) => {
-            if (value instanceof MyPromise) {
-                value.then(resolve, reject);
-            } else {
-                reject(value);
-            }
-        })
-    }
-
-    // ALL 需要全部成功
-    static all(promises) {
-        const values = [];
-        return new MyPromise((resolve, reject) => {
-            promises.forEach(promise => {
-                promise.then(
-                    value => {
-                        values.push(value);
-                        if (values.length == promises.length) {
-                            // 所有都成功
-                            resolve(values);
-                        }
-                    },
-                    reason => {
-                        reject(reason);
-                    }
-                )
-            })
-        })
-    }
-    // race 谁快用谁
-    static race(promises) {
-        return new MyPromise((resolve, reject) => {
-            promises.map(promise => {
-                promise.then(
-                    value => {
-                        resolve(value);
-                    },
-                    reason => {
-                        reject(reason);
-                    }
-                )
-            })
-        })
     }
 }
 

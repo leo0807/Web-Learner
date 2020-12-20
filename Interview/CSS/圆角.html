@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            box-sizing: border-box;
+        }
+        .top {
+            height: 0;
+            border-top: 3px solid transparent;
+            border-bottom: 3px solid #111;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+        }
+        .bottom {
+            height: 0;
+            border-top: 3px solid #111;
+            border-bottom: 3px solid transparent;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+        }
+        .content {
+            color: #fff;
+            background-color: #111;
+            padding: 0;
+            height: 194px;
+        }
+        .wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+        <div class="wrapper">
+            <div class="top"></div>
+            <div class="content">
+                <!-- <p>利用border画出梯形，模拟圆角</p> -->
+            </div>
+            <div class="bottom"></div>
+        </div>
+</body>
+</html>
