@@ -56,4 +56,50 @@ $(document).ready(function () {
             },
         }
     })
+
+
+
+    // Send Email
+    const form = $("#form");
+    const email = $("#emailBtn");
+    const button = $(".contact .right form .button")
+    const reponse = $("#response-message")
+    function success() {
+        form[0].reset();
+        // console.log("success");
+        button.css = ({ "visibility": "visible" });
+        // reponse.innerHTML = "Thanks!";
+    }
+  
+    function error() {
+        // console.log("failure");
+        response.text("Oops! There was a problem.");
+        button.css = ({ "visibility": "visible" });
+    }
+    form.submit(function(event) {
+        event.preventDefault();
+        var data = new FormData(form[0]);
+        console.log(form[0].method, form[0].action,data,form);
+        ajax(form[0].method,
+            form[0].action,
+            data,
+            success, error);
+      });
+    
+    // helper function for sending an AJAX request
+  
+    function ajax(method, url, data, success, error) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        if (xhr.status === 200) {
+          success(xhr.response, xhr.responseType);
+        } else {
+          error(xhr.status, xhr.response, xhr.responseType);
+        }
+      };
+      xhr.send(data);
+    }
 })

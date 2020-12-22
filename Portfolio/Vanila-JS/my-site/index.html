@@ -50,7 +50,7 @@
             <h2 class="title">About Me</h2>
             <div class="about-content">
                 <div class="column left">
-                    <img src="images/profile-1.jpeg" alt="" srcset="">
+                    <img src="images/background.jpeg" alt="" srcset="">
                 </div>
                 <div class="column right">
                     <div class="text">I'm Junxu and I'm a <span class="typing-2"></span></div>
@@ -144,12 +144,12 @@
     <!-- teams section -->
     <section class="teams" id="teams">
         <div class="max-width">
-            <h2 class="title">My teams</h2>
+            <h2 class="title">My portfolios</h2>
             <div class="carousel owl-carousel">
                 <div class="card">
                     <div class="box">
                         <img src="images/profile-1.jpeg" alt="" srcset="">
-                        <div class="text">Someone Name</div>
+                        <div class="text">Airbnb Clone</div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At non mollitia laudantium distinctio quidem dolore in, sit ratione! Culpa pariatur totam aperiam saepe porro quibusdam dignissimos distinctio nemo ducimus unde!</p>
                     </div>
                 </div>
@@ -217,23 +217,26 @@
                 </div>
                 <div class="column right">
                     <h2 class="title">Message Me</h2>
-                    <form action="#">
+                    <form id="form" action="https://formspree.io/f/mpzooqpa" method="POST">
                         <div class="fields">
                             <div class="field name">
-                                <input type="text" placeholder="Name" required>
+                                <input type="text" name="name" placeholder="Name" required>
                             </div>
                             <div class="field email">
-                                <input type="email" placeholder="Email" required>
+                                <input type="email" name="_replyto" placeholder="Email" required>
                             </div>
                         </div>
                             <div class="field">
-                                <input type="text" placeholder="Subject" required>
+                                <input type="text" name="subject" placeholder="Subject" required>
                             </div>
                             <div class="field textarea">
-                                <textarea cols="30" rows="10" placeholder="Write Something" required></textarea>
+                                <textarea cols="30" rows="10" name="content" placeholder="Write Something" required></textarea>
                             </div>
                             <div class="button">
-                                <button type="submit">Send Message</button>
+                                <button id="emailBtn" type="submit">Send Message</button>
+                                <div id="response-message" class="response-message">
+                                    Send Successfully!
+                                </div>
                             </div>
                     </form>
                 </div>
