@@ -13,13 +13,13 @@ $(document).ready(function () {
     });
     // Typing animation script
     const typed = new Typed(".typing", {
-        strings: ["Developer", "Photographer"],
+        strings: ["Web Developer", "Photographer"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true
     })
     const typed2 = new Typed(".typing-2", {
-        strings: ["Developer", "Photographer"],
+        strings: ["Web Developer", "Photographer"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true

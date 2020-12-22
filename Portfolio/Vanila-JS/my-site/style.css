@@ -5,6 +5,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   text-decoration: none;
+  letter-spacing: 0;
 }
 
 html {
@@ -96,6 +97,10 @@ section .title::after {
 .navbar.sticky {
   background-color: crimson;
   padding: 15px 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition-duration: .75s;
+          transition-duration: .75s;
 }
 
 .navbar.sticky .logo a span {
@@ -104,6 +109,38 @@ section .title::after {
 
 .navbar.sticky .menu li a:hover {
   color: #fff;
+}
+
+.navbar.sticky .menu li a:hover::before, .navbar.sticky .menu li a:hover::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  width: 0px;
+  height: 2px;
+  margin: 5px 0 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition-duration: 0.75s;
+          transition-duration: 0.75s;
+  opacity: 0;
+  background-color: white;
+}
+
+.navbar.sticky .menu li a:hover::before {
+  left: 50%;
+}
+
+.navbar.sticky .menu li a:hover::after {
+  right: 50%;
+}
+
+.navbar.sticky .menu li a:hover:hover {
+  color: white;
+}
+
+.navbar.sticky .menu li a:hover:hover::before, .navbar.sticky .menu li a:hover:hover::after {
+  width: 60%;
+  opacity: 1;
 }
 
 .navbar .max-width {
@@ -141,12 +178,43 @@ section .title::after {
   font-size: 18px;
   font-weight: 500;
   margin-left: 25px;
-  -webkit-transition: all .3s ease-in;
-  transition: all .3s ease-in;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition-duration: .75s;
+          transition-duration: .75s;
+  position: relative;
+}
+
+.navbar .menu li a::before, .navbar .menu li a::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  width: 0px;
+  height: 2px;
+  margin: 5px 0 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition-duration: 0.75s;
+          transition-duration: 0.75s;
+  opacity: 0;
+  background-color: crimson;
+}
+
+.navbar .menu li a::before {
+  left: 50%;
+}
+
+.navbar .menu li a::after {
+  right: 50%;
 }
 
 .navbar .menu li a:hover {
   color: crimson;
+}
+
+.navbar .menu li a:hover::before, .navbar .menu li a:hover::after {
+  width: 60%;
+  opacity: 1;
 }
 
 .menu-btn {
@@ -191,7 +259,7 @@ section .title::after {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background: url("images/banner.jpg") no-repeat center;
+  background-color: #111;
   height: 100vh;
   color: #fff;
   min-height: 500px;
@@ -202,7 +270,7 @@ section .title::after {
   margin: auto 0 auto 40px;
 }
 
-.home .home-content a {
+.home .home-content .left a {
   display: inline-block;
   background-color: crimson;
   color: #fff;
@@ -215,29 +283,38 @@ section .title::after {
   transition: all .3s ease-in;
 }
 
-.home .home-content a:hover {
+.home .home-content .left a:hover {
   background-color: #fff;
   color: crimson;
 }
 
-.home .home-content .text-1 {
-  font-size: 27px;
+.home .home-content .left .text-1 {
+  font-size: 0px;
 }
 
-.home .home-content .text-2 {
-  font-size: 75px;
+.home .home-content .left .text-1 span {
+  font-size: 2rem;
+  white-space: pre;
+}
+
+.home .home-content .left .text-2 {
+  font-size: 5rem;
   font-weight: 600;
   margin-left: -3px;
 }
 
-.home .home-content .text-3 {
+.home .home-content .left .text-3 {
   font-size: 40px;
   margin: 5px 0;
 }
 
-.home .home-content .text-3 span {
+.home .home-content .left .text-3 span {
   color: crimson;
   font-weight: 500;
+}
+
+.home .home-content .right {
+  width: 55%;
 }
 
 /* about section styling */
@@ -255,6 +332,8 @@ section .title::after {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 6px;
+  -webkit-box-shadow: 10px -5px 5px rgba(0, 0, 0, 0.7);
+          box-shadow: 10px -5px 5px rgba(0, 0, 0, 0.7);
 }
 
 .about .about-content .right {
@@ -275,9 +354,16 @@ section .title::after {
   text-align: justify;
 }
 
-.about .about-content .right a {
-  display: inline-block;
+.about .about-content .right .drop-down {
+  width: 13rem;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.about .about-content .right .drop-down .download {
+  display: block;
   background: crimson;
+  width: 13rem;
   color: #fff;
   font-size: 20px;
   font-weight: 500;
@@ -285,13 +371,58 @@ section .title::after {
   margin-top: 20px;
   border-radius: 6px;
   border: 2px solid crimson;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  text-align: center;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-.about .about-content .right a:hover {
+.about .about-content .right .drop-down .download + .resume {
+  visibility: hidden;
+}
+
+.about .about-content .right .drop-down .download:hover {
   color: crimson;
   background: none;
+}
+
+.about .about-content .right .drop-down .resume {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border: 2px solid crimson;
+  border-top: none;
+  text-align: center;
+  width: 13rem;
+}
+
+.about .about-content .right .drop-down .resume a {
+  color: crimson;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 10px 5px;
+  border: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.about .about-content .right .drop-down .resume a:hover {
+  color: white;
+  background-color: #da143b;
+}
+
+.about .about-content .right .drop-down:hover .resume {
+  visibility: visible;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.about .about-content .right .drop-down:hover .download {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .services, .teams {
@@ -347,8 +478,8 @@ section .title::after {
 }
 
 .services .serv-content .card .box, .teams .serv-content .card .box {
-  -webkit-transition: all .3s ease;
-  transition: all .3s ease;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .skills .title::after {
@@ -433,12 +564,12 @@ section .title::after {
 
 .skills-content .right .css::before {
   content: "";
-  width: 90%;
+  width: 70%;
 }
 
 .skills-content .right .js::before {
   content: "";
-  width: 90%;
+  width: 80%;
 }
 
 .skills-content .right .python::before {
@@ -448,7 +579,7 @@ section .title::after {
 
 .skills-content .right .mysql::before {
   content: "";
-  width: 90%;
+  width: 60%;
 }
 
 .teams .title::before {
@@ -457,7 +588,7 @@ section .title::after {
 }
 
 .teams .title::after {
-  content: " who with me";
+  content: " What I done";
   background-color: #111;
 }
 
@@ -683,11 +814,39 @@ footer {
   padding: 20px 23px;
   color: #fff;
   text-align: center;
+  font-size: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+footer .footer--icons {
+  color: #fff;
+  margin: 0 5px;
+  font-size: 2rem;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  margin-right: 10px;
+}
+
+footer .footer--icons:hover {
+  color: crimson;
+  -webkit-transform: scale(1.25);
+          transform: scale(1.25);
 }
 
 footer span a {
+  line-height: 2rem;
   color: crimson;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 footer span a:hover {

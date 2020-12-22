@@ -1,10 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Ubuntu:ital,wght@0,500;0,700;1,400&display=swap');
-
+$animate: all 0.3s ease-in-out;
+@mixin head--title($background-color:white, $color:crimson) {
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      width: 0px;
+      height: 2px;
+      margin: 5px 0 0;
+      transition: $animate;
+      transition-duration: 0.75s;
+      opacity: 0;
+      background-color: $background-color;
+    }
+    &::before {
+        left: 50%;
+    }
+    &::after {
+        right: 50%;
+    }
+    &:hover {
+        color:$color;
+        &::before,
+        &::after {
+            width: 60%;
+            opacity: 1;
+        }
+    }
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    letter-spacing: 0;
 }
 html{
     scroll-behavior: smooth;
@@ -78,11 +108,14 @@ section .title::after{
     &.sticky{
         background-color: crimson;
         padding: 15px 0;
+        transition: $animate;
+        transition-duration: .75s;
         .logo a span{
             color: #fff;
         }
         .menu li a:hover{
             color: #fff;
+            @include head--title($color:white);
         }
     }
     .max-width{
@@ -110,10 +143,10 @@ section .title::after{
             font-size: 18px;
             font-weight: 500;
             margin-left: 25px ;
-            transition: all .3s ease-in;
-            &:hover{
-                color: crimson;
-            }
+            transition: $animate;
+            transition-duration: .75s;
+            position: relative;
+            @include head--title($background-color:crimson);
         }
     }
 }
@@ -155,8 +188,8 @@ section .title::after{
 // Home Section
 .home{
     display: flex;
-    background: url("images/banner.jpg") no-repeat center;
-    // background: url("images/background.jpeg") no-repeat center;
+    // background: url("images/banner.jpg") no-repeat center;
+    background-color: #111;
     height: 100vh;
     color: #fff;
     min-height: 500px;
@@ -165,36 +198,45 @@ section .title::after{
         margin: auto 0 auto 40px;
     }
     .home-content{
-        a{
-            display: inline-block;
-            background-color: crimson;
-            color: #fff;
-            font-size: 25px;
-            padding: 12px 36px;
-            margin-top: 20px;
-            border-radius: 6px;
-            border: 2px solid crimson;
-            transition: all .3s ease-in;
-            &:hover{
-                background-color: #fff;
-                color: crimson;
+        .left{
+            a{
+                display: inline-block;
+                background-color: crimson;
+                color: #fff;
+                font-size: 25px;
+                padding: 12px 36px;
+                margin-top: 20px;
+                border-radius: 6px;
+                border: 2px solid crimson;
+                transition: all .3s ease-in;
+                &:hover{
+                    background-color: #fff;
+                    color: crimson;
+                }
+            }
+            .text-1{
+                font-size: 0px;
+                span{
+                    font-size: 2rem;
+                    white-space: pre;
+                }
+            }
+            .text-2{
+                font-size: 5rem;
+                font-weight: 600;
+                margin-left: -3px;
+            }
+            .text-3{
+                font-size: 40px;
+                margin: 5px 0;
+                span{
+                    color: crimson;
+                    font-weight: 500;
+                }
             }
         }
-        .text-1{
-            font-size: 27px;
-        }
-        .text-2{
-            font-size: 75px;
-            font-weight: 600;
-            margin-left: -3px;
-        }
-        .text-3{
-            font-size: 40px;
-            margin: 5px 0;
-            span{
-                color: crimson;
-                font-weight: 500;
-            }
+        .right{
+            width:55%
         }
     }
  
@@ -213,6 +255,7 @@ section .title::after{
                 width: 400px;
                 object-fit: cover;
                 border-radius: 6px;
+                box-shadow:10px -5px 5px rgba(0, 0, 0, .7) ;
             }
         }
         .right{
@@ -228,23 +271,67 @@ section .title::after{
             p{
                 text-align: justify;
             }
-            a{
-                display: inline-block;
-                background: crimson;
-                color: #fff;
-                font-size: 20px;
-                font-weight: 500;
-                padding: 10px 30px;
-                margin-top: 20px;
-                border-radius: 6px;
-                border: 2px solid crimson;
-                transition: all 0.3s ease;
+            .drop-down{
+                width: 13rem;
+                transition: $animate;
+                .download{
+                    display: block;
+                    background: crimson;
+                    width: 13rem;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 500;
+                    padding: 10px 30px;
+                    margin-top: 20px;
+                    border-radius: 6px;
+                    border: 2px solid crimson;
+                    text-align: center;
+                    // box-shadow: -3px -3px 5px rgba($color: crimson, $alpha: .9);
+                    transition: $animate;
+                    &+.resume{
+                        visibility: hidden;
+                    }
+                    &:hover{
+                        color: crimson;
+                        background: none;
+                    }
+                }
+                .resume{
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    justify-content: space-around;
+                    border: 2px solid crimson;
+                    border-top: none;
+                    text-align: center;
+                    width: 13rem;
+                    a{
+                        color: crimson;
+                        text-align: center;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        padding: 10px 5px;
+                        border: none;
+                        transition: $animate;
+                        &:hover{
+                            color: white;
+                            background-color: darken($color: crimson, $amount: .5);
+
+                        }
+                    }
+                }
                 &:hover{
-                    color: crimson;
-                    background: none;
+                    .resume{
+                        visibility: visible;
+                        border-bottom-left-radius: 6px;
+                        border-bottom-right-radius: 6px;
+                    }
+                    .download{
+                        border-bottom-left-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
                 }
             }
-        }
+        }   
     }
 }
 
@@ -293,7 +380,7 @@ section .title::after{
                 margin: 10px 0 7px 0;
             }
             .box{
-                transition: all .3s ease;
+                transition: $animate;
             }
         }
     }
@@ -376,11 +463,11 @@ section .title::after{
     }
     .css::before{
         content: "";
-        width: 90%;
+        width: 70%;
     }
     .js::before{
         content: "";
-        width: 90%;
+        width: 80%;
     }
     .python::before{
         content: "";
@@ -388,7 +475,7 @@ section .title::after{
     }
     .mysql::before{
         content: "";
-        width: 90%;
+        width: 60%;
     }
 }
 // Teams Style
@@ -399,7 +486,7 @@ section .title::after{
             background-color: #fff;
         }
         &::after{
-            content:" who with me";
+            content:" What I done";
             background-color: #111;
         }
     }
@@ -587,9 +674,26 @@ footer{
     padding: 20px 23px;
     color: #fff;
     text-align: center;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $animate;
+    .footer--icons{
+        color: #fff;
+        margin: 0 5px;
+        font-size: 2rem;
+        transition: $animate;
+        &:hover{
+            color: crimson;
+            transform: scale(1.25);
+        }
+        margin-right: 10px;
+    }
     span a{
+        line-height: 2rem;
         color: crimson;
-        text-decoration: underline;
+        text-decoration: none;
         &:hover{
             text-decoration: underline;
         }
