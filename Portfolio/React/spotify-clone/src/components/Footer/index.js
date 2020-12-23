@@ -14,17 +14,31 @@ function index() {
     return (
         <div className="footer">
             <div className="footer__left">
-                Album and song details
+                <img className="footer__albumLogo" src="" alt="" />
+                <div className="footer__songInfo">
+                    <h4>Yeah</h4>
+                    <p>Usher</p>
+                </div>
             </div>
             <div className="footer__center">
                 <ShuffleIcon className="footer__green" />
-                <SkipPrevious className="footer__icon" />
-                <PlayCircleOutlineIcon fontSize="large" className="footer__icons" />
+                <SkipPreviousIcon className="footer__icon" />
+                <PlayCircleOutlineIcon fontSize="large" className="footer__icon" />
                 <SkipNextIcon className="footer__icon" />
                 <RepeatIcon className="footer__green" />
             </div>
             <div className="footer__right">
-                Volume controls
+                <Grid container spacing={2}>
+                    <Grid item>
+                        <PlaylistPlayIcon />
+                    </Grid>
+                    <Grid item>
+                        <VolumeDownIcon />
+                    </Grid>
+                    <Grid item xs>
+                        <Slider aria-labelledby="continuous-slider" />
+                    </Grid>
+                </Grid>
             </div>
         </div>
     )
