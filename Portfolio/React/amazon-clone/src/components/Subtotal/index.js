@@ -1,7 +1,12 @@
 import React from 'react'
 import './Subtotal.css'
 import CurrencyFormat from 'react-currency-format'
-function index() {
+import { useStateValue } from '../../stateProvider'
+function Subtotal() {
+    const [{ basket }, dispatch] = useStateValue();
+    const getBasketTotal = (basket) => {
+        return basket.reduce((price, item) => price + item.price, 0);
+    }
     return (
         <div className="subtotal">
             <CurrencyFormat
@@ -9,7 +14,7 @@ function index() {
                     <>
                         <p>
                             Subtotal ({basket.length} items):
-                            <strong>{`${value}`}</strong>
+                            {/* <strong>{`${basket.price}`}</strong> */}
                         </p>
                         <small className="subtotal__gift">
                             <input type="checkbox" /> The order contains a gift
@@ -26,4 +31,4 @@ function index() {
     )
 }
 
-export default index
+export default Subtotal

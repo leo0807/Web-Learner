@@ -5,8 +5,11 @@ import SearchIcon from '@material-ui/icons/Search'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { useStateValue } from '../../stateProvider';
 import { Link } from 'react-router-dom';
-function index() {
+
+function Header() {
+    const [{ basket }, dispatch] = useStateValue();
     return (
         <div className="header">
             <Link to="/">
@@ -60,7 +63,7 @@ function index() {
                 <Link to="/checkout">
                     <div className="header__optionBasket">
                         <AddShoppingCartIcon />
-                        <div className="header__optionLineTwo header__basketCount">0</div>
+                        <div className="header__optionLineTwo header__basketCount">{basket?.length}</div>
                     </div>
                 </Link>
             </div>
@@ -68,4 +71,4 @@ function index() {
     )
 }
 
-export default index
+export default Header
