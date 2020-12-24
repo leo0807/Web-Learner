@@ -1,6 +1,8 @@
 .subHeader{
     width: 100%;
     height: 50px;
+    font-size: 1rem;
+    line-height: 1rem;
     background-color: #373d44;
     font-weight: 600;
     color: #fff;
@@ -8,42 +10,50 @@
 }
 .subHeader__content{
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     flex-wrap: nowrap;
 }
 .subHeader__content--left{
+    flex: .6;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-/* .subHeader__content--left .subHeader__content--all{
-    /* align-items: center;
-    color: #fff; */
-    /* display: inline-flex;
-    padding: 4px 0;
-    margin-left: 10px; */
-/*} */
 .subHeader__content{
     cursor: pointer;
     padding: 0;
+}
+.subHeader__content--left span{
+    margin-left: 10px;
 }
 .subHeader__content--left .subHeader__content--all:hover{
     border: 1px solid white;
 }
 .subHeader__content--left a{
+    white-space: nowrap;
     color: #fff;
     text-decoration: none;
     margin: 5px 10px;
     padding: 2px 5px;
 }
+.subHeader__content--left span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.subHeader__content--left span:hover{
+    border: 1px solid white;
+}
 .subHeader__content--left a:hover{
     border: 1px solid white;
 }
 .subHeader__content--right{
-    flex: .3;
-    /* flex-direction: end; */
-    padding-right: 0;
+    flex: .2;
+    margin:0px auto 0px auto;
+    text-align: right;
     right: 0;
+    white-space: nowrap;
 }
 .subHeader__content--right:hover{
     border: 1px solid white;

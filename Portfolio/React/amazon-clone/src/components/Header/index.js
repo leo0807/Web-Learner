@@ -5,11 +5,22 @@ import SearchIcon from '@material-ui/icons/Search'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { Link } from 'react-router-dom';
 function index() {
     return (
         <div className="header">
-            <img className="header__logo" src={logo}
-                alt="amazon-logo" />
+            <Link to="/">
+                <img className="header__logo" src={logo}
+                    alt="amazon-logo" />
+            </Link>
+            <div className="header__option">
+                <span className="header__optionLineOne">
+                    <i class="fas fa-map-marker-alt"></i> Deliver to
+                    </span>
+                <span className="header__optionLineTwo">
+                    Hong Kong
+                    </span>
+            </div>
             <div className="header__search">
                 <div className="header__category">
                     All <ArrowDropDownIcon className="header__category--all" />
@@ -19,6 +30,9 @@ function index() {
             </div>
 
             <div className="header__nav">
+                <div className="header__option">
+                    <ExpandMoreIcon className="header__category--more" />
+                </div>
                 <div className="header__option">
                     <span className="header__optionLineOne">
                         Hello, sign In
@@ -43,11 +57,12 @@ function index() {
                         Prime
                     </span>
                 </div>
-
-                <div className="header__optionBasket">
-                    <AddShoppingCartIcon />
-                    <div className="header__optionLineTwo header__basketCount">0</div>
-                </div>
+                <Link to="/checkout">
+                    <div className="header__optionBasket">
+                        <AddShoppingCartIcon />
+                        <div className="header__optionLineTwo header__basketCount">0</div>
+                    </div>
+                </Link>
             </div>
         </div>
     )

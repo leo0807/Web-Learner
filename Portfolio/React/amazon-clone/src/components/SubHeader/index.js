@@ -7,17 +7,16 @@ function index() {
             <div className="subHeader__content">
                 <div className="subHeader__content--left">
                     {/* <div cldivssNdivme="subHeader__content--all"> */}
-                    <MenuIcon className="subHeader__content--menu" /> <a href="/">All</a>
-
+                    <span href="/"><MenuIcon className="subHeader__content--menu" /> All</span>
                     <a href="/">Today's Deals</a>
                     <a href="/">Customer Service</a>
                     <a href="/">Gift Cards</a>
                     <a href="/">Sell</a>
                     <a href="/">Registry</a>
                 </div>
-                <span className="subHeader__content--right">
+                <div className="subHeader__content--right">
                     Amazon's response to COVID-19
-                </span>
+                </div>
             </div>
         </div>
     )
