@@ -9,9 +9,13 @@
 }
 .header__logo{
     width: 100px;
-    object-fit: contain;
+    min-width: 70px;
+    object-fit: cover;
+    overflow: hidden;
+    height: 35px;
     margin: 0 20px;
-    margin-top: 18px;
+    /* margin-top: 18px; */
+    cursor: pointer;
 }
 .header__search{
     display: flex;
@@ -46,6 +50,7 @@
     padding: 10px;
     border: none;
     width: 100%;
+    min-width: 300px;
 }
 .header__searchInput:focus{
     outline: none;
@@ -86,10 +91,13 @@
     font-size: 13px;
     font-weight: 800;
 }
-.header__optionLineTwo .account{
+.header__optionLineTwo.header__account{
     display: flex;
-    justify-content: center;
+
     align-items: center;
+}
+.header__optionLineTwo.header__account .header__category--more{
+    cursor: pointer;
 }
 .header__optionBasket{
     display: flex;
@@ -99,4 +107,9 @@
 .header__basketCount{
     margin-left: 10px;
     margin-right: 10px;
+}
+@media screen and (max-width:1025px){
+    .header__account--list{
+        display: none;    
+    }
 }

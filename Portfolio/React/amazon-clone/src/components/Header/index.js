@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.css'
-import logo from '../../img/amazon-logo.png'
+import logo from '../../img/logo.png'
 import SearchIcon from '@material-ui/icons/Search'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -23,8 +23,8 @@ function index() {
                     <span className="header__optionLineOne">
                         Hello, sign In
                     </span>
-                    <span className="header__optionLineTwo account">
-                        Account & Lists <ExpandMoreIcon className="header__category--more" />
+                    <span className="header__optionLineTwo header__account">
+                        Account <span className="header__account--list">& Lists </span><ExpandMoreIcon className="header__category--more" />
                     </span>
                 </div>
                 <div className="header__option">
