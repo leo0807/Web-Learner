@@ -1,7 +1,7 @@
 import React from 'react'
 import './SubHeader.css'
 import MenuIcon from '@material-ui/icons/Menu';
-function index() {
+function SubHeader() {
     return (
         <div className="subHeader">
             <div className="subHeader__content">
@@ -22,4 +22,4 @@ function index() {
     )
 }
 
-export default index
+export default SubHeader

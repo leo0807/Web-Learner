@@ -1,7 +1,7 @@
 import React from 'react'
 import './Checkout.css'
 import Subtotal from '../Subtotal'
-function index() {
+function Checkout() {
     return (
         <div className="checkout">
             <div className="checkout__left">
@@ -17,4 +17,4 @@ function index() {
     )
 }
 
-export default index
+export default Checkout

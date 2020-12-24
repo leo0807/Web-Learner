@@ -18,7 +18,7 @@ function Header() {
             </Link>
             <div className="header__option">
                 <span className="header__optionLineOne">
-                    <i class="fas fa-map-marker-alt"></i> Deliver to
+                    <i className="fas fa-map-marker-alt"></i> Deliver to
                     </span>
                 <span className="header__optionLineTwo">
                     Hong Kong
