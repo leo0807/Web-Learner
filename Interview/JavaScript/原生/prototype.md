@@ -4,10 +4,14 @@
 - 构造实例的对象通过portotype属性指向原型对象
 - 原型对象则通过constructor指向构造对象
 
-
-
+{} = new Object()
+Object.create(null) 没有指定原型
+Object.create()会把内部属性传入内部对象的原型中
 
 如 let a = new Number()
+const obj2 = Object.create(obj1)
+=> obj2.__proto__ === obj1 => true
+obj2 === obj1 => false
 
 a.__proto__ => Number 原型
 Number.prototyoe => Number原型

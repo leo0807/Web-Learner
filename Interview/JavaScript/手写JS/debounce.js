@@ -13,3 +13,16 @@ function debounce(fn, delay) {
         }, delay)
     }
 }
+
+// 节流 =》 保持一定的频率，每隔一定时间才会触发
+function throttle(fn, delay) {
+    let timer = null;
+    return function () {
+        if (timer) return;
+        timer = setTimeout(() => {
+            fn.apply(this, arguments);
+            timer = null;
+        }, delay)
+    }
+
+}
