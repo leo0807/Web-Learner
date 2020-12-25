@@ -7,3 +7,5 @@ The link to the simple clone [project!](https://airbnb-clone-7337a.web.app)
 # Loruki-platform
 Static image grid + flex
 [project!](https://loruki-platform.web.app/)
+# Spotify-UI-Clone
+[project!](https://spotify-clone-38741.web.app)
