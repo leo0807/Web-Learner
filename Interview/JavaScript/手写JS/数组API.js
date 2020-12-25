@@ -2,4 +2,5 @@
 
 // indexOf includes concat
 
-// slice //splice 是非纯函数 
+// slice //splice 是非纯函数
+// 切片  剪接 
