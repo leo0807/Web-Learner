@@ -1,4 +1,4 @@
-function deleteDuplicates(head) {
+function deleteDup(head) {
     // write code here
     if (!head) return head;
     let cur = head;
