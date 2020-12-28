@@ -54,7 +54,20 @@ class EventEmitter {
         }
         return _this;
     }
+    // 发布
     emit() {
-
+        let _this = this;
+        // 第一个参数是对应的event值，直接用数组shift方法取出
+        let event = [].shift.call(arguments),
+            fns = [_this.list[event]];
+        // 如果缓存里没有fn，直接返回false
+        if (!fns || fns.length === 0) {
+            return false;
+        }
+        // 遍历所有event值对应的缓存列表，依次执行fn
+        fns.forEach(fn => {
+            fn.apply(_this.arguments);
+        })
+        return _this;
     }
 }
