@@ -15,15 +15,17 @@ function spiralOrder(matrix) {
             top++;
             direction = "down";
         }
-        else if (direction = "down") {
+        else if (direction === "down") {
             for (let i = top; i <= bottom; i++) {
                 res.push(matrix[i][right]);
             }
             right--;
             direction = "left";
         }
-        else if (direction = "left") {
+        else if (direction === "left") {
+            console.log(1);
             for (let i = right; i >= left; i--) {
+                console.log(matrix[bottom][i]);
                 res.push(matrix[bottom][i]);
             }
             bottom--;
@@ -40,4 +42,5 @@ function spiralOrder(matrix) {
     return res;
 }
 const m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+// const m = [[1, 2, 3, 3], [4, 5, 6, 3]]
 console.log(spiralOrder(m));
