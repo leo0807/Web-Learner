@@ -1,4 +1,6 @@
-class MyPromise{
+// Promise 构造函数是同步执行，then 方法是异步执行
+
+class MyPromise {
     static PENDING = "pending";
     static FULLFILLED = "fullilled";
     static REJECTED = "rejected";
@@ -50,10 +52,10 @@ class MyPromise{
         // 封装允许传空值
         if (typeof onFulfilled !== 'function') {
             // 允许穿透
-            onFulfilled = () => { return this.value};
+            onFulfilled = () => { return this.value };
         }
         if (typeof onRejected !== 'function') {
-            onRejected = () => { throw Error(this.value)};
+            onRejected = () => { throw Error(this.value) };
             // onRejected = () => { return this.value};
         }
 
@@ -86,7 +88,7 @@ class MyPromise{
             }
             return promise;
         })
-        
+
     }
     parse = (promise, result, resolve, reject) => {
         // 死循环 双重返回

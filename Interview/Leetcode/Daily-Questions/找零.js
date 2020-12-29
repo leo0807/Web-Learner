@@ -58,6 +58,6 @@ function lemonadeChange(bills) {
 }
 
 // let bills = [5, 5, 5, 10, 20];
-let bills = [5,5,10,10,20];
+let bills = [5, 5, 10, 10, 20];
 const res = lemonadeChange(bills);
 console.log(res);
