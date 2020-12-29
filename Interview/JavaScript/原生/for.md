@@ -45,5 +45,11 @@ for-of这个方法避开了for-in循环的所有缺陷
 - 可以使用```return```跳过单次循环
 - 如果想要跳出整个循环需要使用```throw```抛出
 
+for 循环没有任何额外的函数调用栈和上下文；
+forEach函数签名实际上是
+array.forEach(function(currentValue, index, arr), thisValue)
+它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考虑进来，这里可能拖慢性能；
+
+
 # map
 同样不能使用```break```或```return```返回外层函数，但是可以用return 返回值
