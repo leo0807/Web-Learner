@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
 在柠檬水摊上，每一杯柠檬水的售价为5美元。
 顾客排队购买你的产品，（按账单bills支付的顺序）一次购买一杯。
@@ -40,7 +41,7 @@ function lemonadeChange(bills) {
         ten = 0,
         twenty = 0;
 
-    for (let i in bills) {
+    for (let i of bills) {
         if (i === 5) {
             five++;
         } else if (i === 10) {

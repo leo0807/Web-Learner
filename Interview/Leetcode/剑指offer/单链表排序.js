@@ -6,9 +6,13 @@
  * }
  */
 /**
- * @param {ListNode} head
- * @return {ListNode}
+ @param {ListNode} head
+  @return {ListNode}
  */
+function ListNode(val, next) {
+    this.val = (val === undefined ? 0 : val)
+    this.next = (next === undefined ? null : next)
+}
 var sortList = function (head) {
     // write code here
     if (head == null || head.next == null) return head;
