@@ -9,7 +9,7 @@ function mergeSort(arr) {
 function merge(left, right) {
     let res = [];
     while (left.length && right.length) {
-        if (left[0] <= rught[0]) {
+        if (left[0] <= right[0]) {
             res.push(left.shift());
         } else {
             res.push(right.shift());
