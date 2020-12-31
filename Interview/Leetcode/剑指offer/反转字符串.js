@@ -6,8 +6,7 @@ function solve(str) {
     str = str.split('');
     // console.log(str)
     for (let i = 0; i < len; i++) {
-        head = str[i];
-        tail = str[length - i - 1];
+
         [str[i], str[length - i - 1]] = [str[length - i - 1], str[i]]
     }
     return str.join('');
