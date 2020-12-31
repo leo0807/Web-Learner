@@ -4,33 +4,31 @@ function LIS(arr) {
         left,
         right,
         dp = new Array(len).fill(1),
-        res = [];
+        maxVal = 0;
     for (let i = 0; i < len - 1; i++) {
         left = 0;
         right = i + 1;
         while (left < right) {
-            let tmp = [];
-            if (arr[left] < arr[right]) {
-                if (dp[left] + 1 > dp[right]) {
-                    dp[right] = dp[left] + 1;
+                let tmp = 0;
+                if (arr[left] < arr[right]) {
+                    dp[right] = Math.max(dp[right], dp[left] + 1);
                 }
-                tmp.push(arr[left]);
-            }
-            console.log(tmp);
-            ++left;
-            if (tmp.length != 0 && tmp.length >= res.length) {
-                if (res.length === 0) {
-                    res = tmp;
-                } else if (tmp[0] <= res[0]) {
-                    res.push(tmp);
-                }
-                res = tmp;
-            }
+                ++left;
+                dp[right] = arr[left] + 1  <= arr[right]? dp[left] + 1: dp[right];
+                maxVal = Math.max(maxVal, dp[right])
+        }
+    }
+    console.log(maxVal);
+    let res = [];
+    for (let i = len - 1; i >= 0; i--) {
+        if(dp[i] === maxVal){
+            res.unshift(arr[i]);
+            maxVal--;
         }
     }
     console.log(dp);
     return res;
 }
-// const arr = [2, 1, 5, 3, 6, 4, 8, 9, 7];
-const arr = [1, 2, 8, 6, 4];
+const arr = [2, 1, 5, 3, 6, 4, 8, 9, 7];
+// const arr = [1, 2, 8, 6, 4];
 console.log(LIS(arr));
