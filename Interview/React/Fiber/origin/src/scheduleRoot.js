@@ -8,13 +8,13 @@
  * render阶段有两个任务，1根据DOM生成fiber树，2收集effectlist
  * commit阶段，进行DOM更新创建阶段，此阶段不能暂停，需要一气呵成
  */
-
-const { TAG_ROOT, ELEMENT_TEXT, TAG_TEXT, TAG_HOST, PLACEMENT, UPDATE, DELETION } = require("./constants");
 import { setProps } from './utils';
+const { TAG_ROOT, ELEMENT_TEXT, TAG_TEXT, TAG_HOST, PLACEMENT, UPDATE, DELETION } = require("./constants");
+
 //  根子节点虚拟DOMelement，将其插入stateNode中真实DOM
 let nextUnitOfWork = null; //下一个工作单元
 let workInProgressRoot = null; //RootFiber应用的根
-function scheduleRoot(rootFiber) {//{tag:TAG_ROOT, stateNode: container, props:{children:[element]}}
+export function scheduleRoot(rootFiber) {//{tag:TAG_ROOT, stateNode: container, props:{children:[element]}}
     nextUnitOfWork = rootFiber;
     workInProgressRoot = rootFiber;
 }
@@ -48,9 +48,8 @@ function completeUnitWork(currentFiber) {
         if (currentFiber.lastEffect) {
             if (returnFiber.lastEffect) {
                 returnFiber.lastEffect.nextEffect = currentFiber.firstEffect;
-            } else {
-                returnFiber.lastEffect = currentFiber.lastEffect;
             }
+            returnFiber.lastEffect = currentFiber.lastEffect;
         }
         // 把自己挂载父亲上
         const effectTag = currentFiber.effectTag;
@@ -113,6 +112,7 @@ function UpdateHostRoot(currentFiber) {
     let newChildren = currentFiber.props.children; //[element]
     reconcileChildren(currentFiber, newChildren);
 }
+//newCHildren 是一个虚拟DOM元素数组，为每个虚拟DOM创建子Fiberz
 function reconcileChildren(currentFiber, newChildren) {
     let newChildIndex = 0; //新的子节点的索引
     let preSibling; //上一个新的子fiber
@@ -120,7 +120,7 @@ function reconcileChildren(currentFiber, newChildren) {
     while (newChildIndex < newChildren.length) {
         let tag;
         let newChild = newChildren[newChildIndex]; //取出虚拟DOM节点
-        if (newChild.type == ELEMENT_TEXT) {
+        if (newChild.type === ELEMENT_TEXT) {
             tag = TAG_TEXT;
         } else if (typeof newChild.type === 'string') {
             tag = TAG_HOST;
@@ -155,9 +155,9 @@ function workLoop() {
     while (nextUnitOfWork && !shouldYield) {
         //返回下一个UnitOfWork
         nextUnitOfWork = performUnitOfWork(nextUnitOfWork); //执行完一个任务后
-        shouldYield = deadline.timeRemaining() < 1; //没有时间的话就要让出控制权
+        // shouldYield = deadline.timeRemaining() < 1; //没有时间的话就要让出控制权
     }
-    if (!nextUnitOfWork) { //如果时间片到期后还有任务没有完成，就需要再次请求浏览器再次调用
+    if (!nextUnitOfWork && workInProgressRoot) { //如果时间片到期后还有任务没有完成，就需要再次请求浏览器再次调用
         console.log("render阶段结束");
         commitRoot();
     }
@@ -178,7 +178,7 @@ function commitWork(currentFiber) {
     if (currentFiber.effectTag === PLACEMENT) {
         returnDOM.appendChild(currentFiber.stateNode);
     }
-    returnFiber.effectTag = null;
+    currentFiber.effectTag = null;
 }
 // 有优先级的概念，expirationTime
 requestIdleCallback(workLoop, { timeout: 500 });

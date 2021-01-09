@@ -3,6 +3,7 @@
  */
 
 import { TAG_ROOT } from './constants';
+import { scheduleRoot } from './scheduleRoot';
 function render(element, container) {
     // container = root DOM节点
     let rootFiber = {
