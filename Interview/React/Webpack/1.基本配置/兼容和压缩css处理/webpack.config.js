@@ -49,6 +49,8 @@ module.exports = {
                     // 修改loader的配置
                     {
                         loader: 'postcss-loader',
+                        // 优先执行此个loader
+                        enforce: "pre",
                         options: {
                             postcssOptions: {
                                 ident: 'postcss',

@@ -21,6 +21,7 @@ const commonCssLoader = [
 ];
 
 module.exports = {
+  // 多页面就要使用多入口
   // 改为多入口，每有一个输入，最终输出就有一个输出
   entry: {
     main: './src/js/index.js',

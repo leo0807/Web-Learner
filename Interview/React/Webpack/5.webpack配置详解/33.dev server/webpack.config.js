@@ -47,7 +47,7 @@ module.exports = {
     clientLogLevel: 'none',
     // 除了一些基本启动信息以外，其他内容都不要显示
     quiet: true,
-    // 如果出错了，不要全屏提示~
+    // 如果报错了，不要全屏提示~
     overlay: false,
     // 服务器代理 --> 解决开发环境跨域问题
     proxy: {

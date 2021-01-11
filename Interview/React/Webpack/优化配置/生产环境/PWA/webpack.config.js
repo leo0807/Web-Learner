@@ -2,8 +2,12 @@ const { resolve } = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
+/** PWA 渐进式网络开发将应用程序（离线可以访问）
+ * workbox--workbox-webpack-plugin
+ */
 
-
+// 定义nodejs环境变量：决定使用browserslist的哪个环境
 process.env.NODE_ENV = 'production';
 
 // 复用loader
@@ -21,12 +25,7 @@ const commonCssLoader = [
 ];
 
 module.exports = {
-  // 多页面就要使用多入口
-  // 改为多入口，每有一个输入，最终输出就有一个输出
-  entry: {
-    main: './src/js/index.js',
-    test: './src/js/test.js'
-  },
+  entry: './src/js/index.js',
   output: {
     filename: 'js/built.[contenthash:10].js',
     path: resolve(__dirname, 'build')
@@ -64,25 +63,32 @@ module.exports = {
           {
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    useBuiltIns: 'usage',
-                    corejs: { version: 3 },
-                    targets: {
-                      chrome: '60',
-                      firefox: '50'
-                    }
-                  }
-                ]
-              ],
-              // 开启babel缓存
-              // 第二次构建时，会读取之前的缓存
-              cacheDirectory: true
-            }
+            use: [
+              // 开启多进程打包 可能加速程序，也可能使程序变慢
+              // 进程启动需要大概100ms， 进程通信也有开销
+              // 只有工作消耗时间小号比较长，才需要多进程打包
+              'thread-loader', {
+                loader: 'babel-loader',
+                options: {
+                  presets: [
+                    [
+                      '@babel/preset-env',
+                      {
+                        useBuiltIns: 'usage',
+                        corejs: { version: 3 },
+                        targets: {
+                          chrome: '60',
+                          firefox: '50'
+                        }
+                      }
+                    ]
+                  ],
+                  // 开启babel缓存
+                  // 第二次构建时，会读取之前的缓存
+                  cacheDirectory: true
+                }
+              }
+            ]
           },
           {
             test: /\.(jpg|png|gif)/,
@@ -114,6 +120,27 @@ module.exports = {
       filename: 'css/built.[contenthash:10].css'
     }),
     new OptimizeCssAssetsWebpackPlugin(),
+    /**
+     * 
+     *     "env": {
+      "browser": true
+      }
+      使得eslint能够识别浏览器全局变量
+     */
+
+
+    // service worker必须运行在服务器上
+    // nodeJS npm i serve -g | serve -s build
+    new WorkboxWebpackPlugin.GenerateSW({
+      /**
+       * 1 帮助service worker快速启动
+       * 2 删除旧的service worker
+       * 
+       * 生成一个service workder配置文件
+       */
+      clientsClaim: true,
+      skipWaiting: true
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       minify: {
@@ -122,6 +149,11 @@ module.exports = {
       }
     })
   ],
+  // optimization: {
+  //   splitChukns: {
+  //     chunks: 'all'
+  //   }
+  // },
   mode: 'production',
   devtool: 'source-map'
 };

@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// 问题：当梗一个模块时候，其他模块也被更行，
+// 问题：当更新一个模块时候，其他模块也被更行，
 // 举例：更更新一个css样式的时候，其他JS文件也被重新执行了
 // 解决办法HMR hot module replacement 热模块替换
 // 作用： 一个模块发生变化，只会重新打包这一个模块

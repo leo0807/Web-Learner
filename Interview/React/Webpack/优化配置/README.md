@@ -10,5 +10,7 @@
 * 优化打包构建速度 
     oneOf 只调用一种loader
     举例，在开始阶段将less解析为css之后没有必要再次调用less-loader
+
+    babel 缓存
 * 优化代码运行速度的性能
 

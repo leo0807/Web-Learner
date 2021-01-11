@@ -14,7 +14,7 @@ module.exports = {
     // library: '[name]', // 整个库向外暴露的变量名
     // libraryTarget: 'window' // 变量名添加到哪个上 browser
     // libraryTarget: 'global' // 变量名添加到哪个上 node
-    // libraryTarget: 'commonjs'
+    // libraryTarget: 'commonjs' ｜｜amd
   },
   plugins: [new HtmlWebpackPlugin()],
   mode: 'development'

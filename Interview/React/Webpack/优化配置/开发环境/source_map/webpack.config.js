@@ -94,4 +94,15 @@ module.exports = {
 
  * cheap-source-map 外部
  *错误代码提示准确信息 和源代码错误位置
+
+ 开发环境： 速度快，调试更友好
+速度块（eval > inline> cheap> ...）
+    eval-cheap-source-map
+    eval-source-map
+调试更友好
+source-map
+cheap-module-source-map
+cheap-source-map
+--》eval-source-map
+ 生产环境： 源代码要不要隐藏，调试要不要更友好
  */

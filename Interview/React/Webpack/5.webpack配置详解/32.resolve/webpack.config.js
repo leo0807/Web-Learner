@@ -20,10 +20,15 @@ module.exports = {
   // 解析模块的规则
   resolve: {
     // 配置解析模块路径别名: 优点简写路径 缺点路径没有提示
+    /**
+     * 用来解析文件嵌套过深的问题，比如JS文件可能嵌套多层
+     */
     alias: {
+      //$css可以替代src/css
       $css: resolve(__dirname, 'src/css')
     },
     // 配置省略文件路径的后缀名
+    // 引入文件时候可以省略
     extensions: ['.js', '.json', '.jsx', '.css'],
     // 告诉 webpack 解析模块是去找哪个目录
     modules: [resolve(__dirname, '../../node_modules'), 'node_modules']
