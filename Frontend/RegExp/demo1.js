@@ -31,7 +31,7 @@ console.log(regexObj.test(str));
 // 匹配字符范围[0-9]
 
 // 匹配多个连续字符 ()
-// (lo+)=》 loo looo
+// (lo+)=> loo looo
 
 // exec()方法
 // 身份证匹配一 /\d{17}[A-z0-9]/

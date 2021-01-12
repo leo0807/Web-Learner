@@ -27,13 +27,14 @@ module.exports = {
     modules: [resolve(__dirname, '../../node_modules'), 'node_modules']
   },
   optimization: {
+    // 提取公共chunk
     splitChunks: {
       chunks: 'all'
       // 默认值，可以不写~
       /* minSize: 30 * 1024, // 分割的chunk最小为30kb
       maxSiza: 0, // 最大没有限制
       minChunks: 1, // 要提取的chunk最少被引用1次
-      maxAsyncRequests: 5, // 按需加载时并行加载的文件的最大数量
+      maxAsyncRequests: 5, // 按需加载时并行加载的文件的最大数量, 如之前点击事件触发的按需加载
       maxInitialRequests: 3, // 入口js文件最大并行请求数量
       automaticNameDelimiter: '~', // 名称连接符
       name: true, // 可以使用命名规则
@@ -63,10 +64,11 @@ module.exports = {
     },
     minimizer: [
       // 配置生产环境的压缩方案：js和css
+      // 之前使用uglify
       new TerserWebpackPlugin({
         // 开启缓存
         cache: true,
-        // 开启多进程打包
+        // 开启多进程打包, 速度更快
         parallel: true,
         // 启动source-map
         sourceMap: true
