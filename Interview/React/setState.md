@@ -4,3 +4,5 @@
 
 注意： setState的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是**合成事件**和**钩子函数**的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形式了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
 
+在legacy模式下命中batchedUpdates时异步，没有命中（setTimeout）时候同步
+在concurrent模式下都是异步  

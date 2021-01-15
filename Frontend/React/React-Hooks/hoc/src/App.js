@@ -1,5 +1,5 @@
 import HocPage from "./HocPage";
-import MyFormPage from './MyFormPage'
+import MyFormPage from './MyFormPage';
 
 function App() {
   return (
