@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- '/'表示是一个路径 -->
+    <a onclick="push('/a')">a</a>
+    <a onclick="push('/b')">b</a>
+    <script>
+        function push(path){
+            history.pushState({p: path}, null, path);
+        }
+        window.addEventListener('popstate', (e)=>{
+            console.log(history.length);
+            console.log(e);
+        })
+    </script>
+</body>
+</html>
