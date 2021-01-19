@@ -6,3 +6,27 @@
 
 在legacy模式下命中batchedUpdates时异步，没有命中（setTimeout）时候同步
 在concurrent模式下都是异步  
+
+* 合成事件都会进入合成时间queue中
+# setState 原理
+https://www.jianshu.com/p/e09cbecca1d1
+# 生命周期
+https://www.jianshu.com/p/514fe21b9914
+
+调用setState时候，会计算出状态变化，这个阶段是render阶段
+之后将EFFECT或者说状态变化渲染在视图的阶段则是commit阶段，两个阶段通过Effect传递。
+Effect有四个属性分别是插入DOM（PLACEMENT），更新DOM（UPDATE），删除（DELETION）和更新REF（REF）；
+对于包含useEffect回掉函数的Fiber，它还有PASSIVE属性
+
+useEffect没有第二个参数的时候会在MOUNT和UPDATE时候创建PASSIVE；
+当第二个参数为空数组时候，则是在MOUNT创建PASSIVE；
+当第二个参数有值的时候，则是在MOUNT创建PASSIVE
+
+commit包含三个阶段：
+- beforeMutation阶段
+- Mutation阶段
+- layout阶段
+
+useEffect在commit阶段完成后异步调用
+componentDidMount在commit阶段完成视图更新（mutation阶段）后在layout阶段同步完成
+useEffectLayout在layout阶段同步完成
