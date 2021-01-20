@@ -94,7 +94,7 @@ class MyPromise {
         // 死循环 双重返回
         // 不在当前promise中，再返回promise
         if (promise === result) {
-            throw TypeError("Changing cycle detected")
+            throw TypeError("Chaning cycle detected")
         }
         try {
             if (result instanceof MyPromise) {
@@ -129,7 +129,7 @@ class MyPromise {
 
     // ALL 需要全部成功
     static all(promises) {
-        const values = [];
+        let values = [];
         return new MyPromise((resolve, reject) => {
             promises.forEach(promise => {
                 promise.then(
