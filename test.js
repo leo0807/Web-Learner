@@ -47,9 +47,27 @@ class MyPromise{
     }
     let promise = MyPromise((resolve, reject)=>{
       if(this.status === MyPromise.FULLFILLED){
-        setTimeout();
+        setTimeout(()=>{
+          this.parse(promise, onFullfilled(this.value), resolve, reject);
+        });
+      }
+      if(this.status === MyPromise.REJECTED){
+        setTimeout(()=>{
+          this.parse(promise, onRejected(this.value), resolve, reject);
+        })
+      }
+      if(this.status === PENDING){
+        this.callbacks.push({
+          onFullfilled: value =>{
+            this.parse(promise, onFullfilled(value), resolve, reject);
+          },
+          onRejected: value=>{
+            this.parse(promise, onRejected(value), resolve, reject);
+          }
+        })
       }
     })
+    return promise;
   }
 
   parse = (promise, result, resolve, reject) => {
@@ -99,4 +117,6 @@ class MyPromise{
     })
     return await Promise.all(success)
   }
+
+  raceAll2 =
 }
