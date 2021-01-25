@@ -1,3 +1,60 @@
+# 类组件与函数组件
+## 函数式组件捕获了渲染所使用的值
+https://overreacted.io/zh-hans/how-are-function-components-different-from-classes/
+
+
+# useEffect定时器问题解决办法
+1. 首先定义 timer
+const timer= useRef();
+
+2. 在 useEffect 中做清除，以保证内存不被泄露
+
+useEffect(() => {
+...
+return ()=> {
+clearInterval(timer.current);
+};
+}, );
+
+3. 在需要的部分使用定时器，直接调用 state 的数据后
+
+timer.current = setInterval(() => {
+if (count<90) {
+setCount(count+1);
+} else {
+clearInterval(timer.current);
+}
+}, 300);
+
+```
+function App() {
+const [value, setValue] = useState<number>(0);
+const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
+const saveCallBack: any = useRef();
+const callBack = () => {
+const random: number = (Math.random() \* 10) | 0;
+setValue(value + random);
+};
+useEffect(() => {
+saveCallBack.current = callBack;
+return () => {};
+});
+useEffect(() => {
+const tick = () => {
+saveCallBack.current();
+};
+const timer: NodeJS.Timeout = setInterval(tick, 5000);
+timers.push(timer);
+setTimers(timers);
+console.log(timers);
+return () => {
+clearInterval(timer);
+};
+}, []);
+return <div>{value}</div>;
+}
+```
+
 # 实现类似vue的表单双向绑定
 ```
 import React, { Component } from "react"

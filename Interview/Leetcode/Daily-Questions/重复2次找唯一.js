@@ -29,3 +29,26 @@ function setSingleNumber(nums) {
 }
 let res1 = setSingleNumber(arr);
 console.log(res1);
+
+function FindNumsAppearOnce(array) {
+    // write code here
+    // return list, 比如[a,b]，其中ab是出现一次的两个数字
+    let map = new Map();
+    for (let i of array) {
+        if (map.has(i)) {
+            map.set(i, 2);
+        } else {
+            map.set(i, 1);
+        }
+    }
+    console.log(map.keys());
+    let res = [];
+    map.forEach((value, key) => {
+        if (value === 1) {
+            res.push(key)
+        }
+    })
+    return res;
+}
+
+console.log(FindNumsAppearOnce([0, 0, 1, 1, 2, 3, 3, 4, 5, 5, 6, 6]));

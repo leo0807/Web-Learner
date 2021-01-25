@@ -4,7 +4,7 @@ function myInstanceof(left, right) {
     let proto = Object.getPrototypeOf(left);
     while (true) {
         // 查到头未找到
-        if (proto === null) reutn false;
+        if (proto === null) return false;
         if (proto === right.prototype) return true;
         // 继续寻找
         proto = Object.getPrototypeOf(left);
