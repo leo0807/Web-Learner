@@ -4,6 +4,7 @@ import Home from './components/Home'
 import SubHeader from './components/SubHeader'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Checkout from './components/Checkout'
+
 function App() {
   return (
     <Router>

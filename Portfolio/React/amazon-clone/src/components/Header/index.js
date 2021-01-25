@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.css'
-import logo from '../../img/logo.png'
+import logo from '../../img/logo.png';
 import SearchIcon from '@material-ui/icons/Search'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
