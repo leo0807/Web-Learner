@@ -41,6 +41,8 @@ class MyXMLHttpRequest {
                 socket.on('data', data => {
                     data = data.toString();
                     // 处理响应
+                    let [response, bodyRows] = data.split('\r\n\r\n');
+                    
                 })
             })
     }

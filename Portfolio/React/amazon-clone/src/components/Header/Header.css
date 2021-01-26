@@ -83,6 +83,9 @@
     margin-right: 10px;
     color: white;
 }
+/* .header__option.first{
+    cursor:pointer;
+} */
 .header__optionLineOne{
     text-align: left;
     font-size: 10px;
