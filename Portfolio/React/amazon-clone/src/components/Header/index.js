@@ -41,7 +41,7 @@ function Header() {
                 <div className="header__option">
                     <ExpandMoreIcon className="header__category--more" />
                 </div>
-                {!user?(
+                {!user ? (
                     <Link to="/login">
                         <div className="header__option" onClick={handleAuthentication}>
                             <span className="header__optionLineOne">
@@ -52,24 +52,26 @@ function Header() {
                             </span>
                         </div>
                     </Link>
-                ):(
-                    <div className="header__option" onClick={handleAuthentication}>
+                ) : (
+                        <div className="header__option" onClick={handleAuthentication}>
+                            <span className="header__optionLineOne">
+                                Hello, {!user ? 'sign In' : 'Sign Out'}
+                            </span>
+                            <span className="header__optionLineTwo header__account">
+                                Account <span className="header__account--list">& Lists </span><ExpandMoreIcon className="header__category--more" />
+                            </span>
+                        </div>
+                    )}
+                <Link to="/orders">
+                    <div className="header__option">
                         <span className="header__optionLineOne">
-                            Hello, {!user ? 'sign In' : 'Sign Out'}
-                        </span>
-                        <span className="header__optionLineTwo header__account">
-                            Account <span className="header__account--list">& Lists </span><ExpandMoreIcon className="header__category--more" />
-                        </span>
+                            Returns
+                    </span>
+                        <span className="header__optionLineTwo">
+                            & Orders
+                    </span>
                     </div>
-                )}
-                <div className="header__option">
-                    <span className="header__optionLineOne">
-                        Returns
-                    </span>
-                    <span className="header__optionLineTwo">
-                        & Orders
-                    </span>
-                </div>
+                </Link>
                 <div className="header__option">
                     <span className="header__optionLineOne">
                         Your

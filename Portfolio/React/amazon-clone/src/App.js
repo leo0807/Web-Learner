@@ -5,12 +5,13 @@ import SubHeader from './components/SubHeader'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Checkout from './components/Checkout'
 import Login from './components/Login'
+import Orders from './components/Orders'
 import { useEffect } from 'react';
 import { auth } from './firebase';
 import { useStateValue } from './stateProvider';
 import Payment from './components/Payment';
-import {loadStripe} from '@stripe/stripe-js';
-import {Elements} from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 // stripe public key 
 const promise = loadStripe('pk_test_51IDrlfKan2UWK9lDOLifA2bgFtJ2m9vlghPNCakHzDMGCNI1B38m7JdvUAekKpB3X6GVgv3jI6ydhraJN2HVGTIs00SC40DsGn');
@@ -40,6 +41,10 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/orders">
+            <Header />
+            <Orders />
           </Route>
           <Route path="/checkout">
             <Header />
