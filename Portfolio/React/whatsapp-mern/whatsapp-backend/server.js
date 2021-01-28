@@ -38,7 +38,7 @@ db.once("open", () => {
 
         if (change.operationType === "insert") {
             const messageDetails = change.fullDocument;
-            pusher.trigger("message", "inserted", {
+            pusher.trigger("message", "inserted", { // 监听管道 事件
                 name: messageDetails.name,
                 message: messageDetails.message,
                 timestamp: messageDetails.timestamp,
