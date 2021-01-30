@@ -42,13 +42,34 @@ class MyXMLHttpRequest {
                     data = data.toString();
                     // 处理响应
                     let [response, bodyRows] = data.split('\r\n\r\n');
-                    
+                    let [statusLine, ...headerRows] = response.split('\r\n');
+                    let [, status, statusText] = statusLine.split(' ');
+                    this.status = status;
+                    this.statustext = statusText;
+                    this.responseHeaders = headerRows.reduce((memo, row) => {
+                        let [key, value] = row.split(': ');
+                        memo[key] = value;
+                        return memo;
+                    }, {});
+                    let [, body,] = bodyRows.split('\r\n');
+                    this.response = this.responseText = body;
+                    this.onload && this.onload();
                 })
             })
     }
 
     setRequestHeader(key, value) {
         this.headers[key] = value;
+    }
+    getAllResponseHeaders() {
+        let result = '';
+        for (let key in this.responseHeaders) {
+            result += `${key}: ${this.responseHeaders[key]}`;
+        }
+        return result;
+    }
+    getResponseHeaders(key) {
+        return this.responseHeaders[key];
     }
     onload() { }
     send() {

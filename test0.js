@@ -1,17 +1,20 @@
-class EventEmitter {
-  constructor() {
-    this.events = {};
-  }
-  on(eventName, callback)
+
+function ArrayListener() {
+  this.arr = [];
+  this.props = ['push', 'pop'];
+
+  Object.defineProperty(this, 'push', {
+    get: function () {
+      console.log('get');
+    },
+    set: function (value) {
+      this.arr.push(value);
+      console.log('push', value);
+
+    }
+  })
 }
 
-let res = [];
-function flat(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (Array.isArray(arr[i])) {
-      flat(arr[i]);
-    } else {
-      res.push(arr[i]);
-    }
-  }
-}
+let arr = new ArrayListener();
+arr.push(1);
+// console.log(arr);
