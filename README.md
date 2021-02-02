@@ -1,6 +1,11 @@
 # Read Me
 ### This repository is used to record my learning path to be a fullstack developer.
 ## Technology stack
+- Programming Language
+    - JavaScript
+    - TypeScript
+    - Python
+    - C#
 - Frontend Part
     - HTML5 (Canvas & SVG)
     - CSS3 (Less & Sass)
@@ -10,6 +15,7 @@
         - React
             - React-Router
             - React Hook
+            - React-redux
             - Redux
                 - Redux-thunk
                 - Redux-saga
