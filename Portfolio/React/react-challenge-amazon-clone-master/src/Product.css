@@ -10,10 +10,12 @@
   min-width: 100px;
   background-color: white;
   z-index: 1;
+  border-radius: 10px;
   box-shadow:3px 3px 3px #333;
 }
 .product:hover{
-  /* transition: transformation  */
+  transform: scale(.98);
+  transition: transform .5s ease-in-out;
 }
 .product__rating {
   display: flex;
