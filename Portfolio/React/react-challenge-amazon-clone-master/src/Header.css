@@ -1,0 +1,148 @@
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #131921;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header__logo {
+  width: 100px;
+  object-fit: contain;
+  margin: 0 20px;
+  /* margin-top: 10px; */
+  line-height: 0;
+  padding: 13px 17px 0 27px;
+  border: 1px solid #000;
+}
+
+.header__search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  border-radius: 24px;
+}
+
+.header__searchInput {
+  height: 12px;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  min-width: 200px;
+}
+.header__searchInput:focus{
+  outline: none
+}
+
+.header__searchIcon {
+  padding: 5px;
+  height: 22px !important;
+  background-color: #cd9042;
+  cursor: pointer;
+}
+
+.header__optionLineOne {
+  font-size: 10px;
+  line-height: 10px;
+  /* padding: 13px 17px 0 27px; */
+}
+.header__option:hover,
+.header__logo:hover{
+  border: 1px solid #fff;
+}
+.header__optionLineTwo {
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.header__optionBasket {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.header__basketCount {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.header__option {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: white;
+  padding: 3px 10px 3px 20px;
+
+}
+
+/* SubHeader
+*/
+.subHeader{
+    width: 100%;
+    height: 50px;
+    font-size: 1rem;
+    line-height: 1rem;
+    background-color: #373d44;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+}
+.subHeader__content{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.subHeader__content--left{
+    flex: .6;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.subHeader__content{
+    cursor: pointer;
+    padding: 0;
+}
+.subHeader__content--left span{
+    margin-left: 10px;
+}
+.subHeader__content--left .subHeader__content--all:hover{
+    border: 1px solid white;
+}
+.subHeader__content--left a{
+    white-space: nowrap;
+    color: #fff;
+    text-decoration: none;
+    margin: 5px 10px;
+    padding: 2px 5px;
+}
+.subHeader__content--left span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.subHeader__content--left span:hover{
+    border: 1px solid white;
+}
+.subHeader__content--left a:hover{
+    border: 1px solid white;
+}
+.subHeader__content--right{
+    flex: .2;
+    margin:0px auto 0px auto;
+    text-align: right;
+    right: 0;
+    white-space: nowrap;
+}
+.subHeader__content--right:hover{
+    border: 1px solid white;
+}
