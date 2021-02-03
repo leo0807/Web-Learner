@@ -56,3 +56,59 @@ class NewArray extends Array {
 }
 
 // https://zhuanlan.zhihu.com/p/27166404
+
+/**
+ * 
+ */
+
+const listener = (object, onChange) => {
+    const handler = {
+        get(target, property, receiver) {
+            try {
+                return new Proxy(target[property], handler);
+            } catch (err) {
+                return Reflect.get(target, property, receiver);
+            }
+        },
+        defineProperty(target, property, descriptor) {
+            onChange();
+            return Reflect.defineProperty(target, property, descriptor);
+        },
+        deleteProperty(target, property) {
+            onChange();
+            return Reflect.deleteProperty(target, property);
+        }
+    };
+
+    return new Proxy(object, handler);
+}
+module.exports = listener;
+
+
+
+
+
+// // 如何实现一个自存档对象。 当设置temperature 属性时，archive 数组会获取日志条目。
+// function Archiver() {
+//     var temperature = null;
+//     var archive = [];
+
+//     Object.defineProperty(this, 'temperature', {
+//         get: function () {
+//             console.log('get!');
+//             return temperature;
+//         },
+//         set: function (value) {
+//             temperature = value;
+//             archive.push({ val: temperature });
+//         }
+//     });
+
+//     this.getArchive = function () { return archive; };
+// }
+
+// var arc = new Archiver();
+// arc.temperature; // 'get!'
+// arc.temperature = 11;
+// arc.temperature = 13;
+// arc.getArchive(); // [{ val: 11 }, { val: 13 }]

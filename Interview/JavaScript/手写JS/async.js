@@ -2,8 +2,8 @@
 
 function asyncToGenerator(generatorFunc) {
   // 返回的是一个新的函数
-  return function() {
-  
+  return function () {
+
     // 先调用generator函数 生成迭代器
     // 对应 var gen = testG()
     const gen = generatorFunc.apply(this, arguments)
@@ -12,13 +12,13 @@ function asyncToGenerator(generatorFunc) {
     // var test = asyncToGenerator(testG)
     // test().then(res => console.log(res))
     return new Promise((resolve, reject) => {
-    
+
       // 内部定义一个step函数 用来一步一步的跨过yield的阻碍
       // key有next和throw两种取值，分别对应了gen的next和throw方法
       // arg参数则是用来把promise resolve出来的值交给下一个yield
       function step(key, arg) {
         let generatorResult
-        
+
         // 这个方法需要包裹在try catch中
         // 如果报错了 就把promise给reject掉 外部通过.catch可以获取到错误
         try {
