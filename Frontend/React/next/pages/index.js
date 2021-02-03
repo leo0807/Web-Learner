@@ -1,8 +1,9 @@
 import React from 'react';
 import Router from 'next/router'
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
-
+const Highlight = dynamic(import('react-highlight'))
 /**
  * routeChangeStart
  * routeChangeComplete

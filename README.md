@@ -1,5 +1,5 @@
 # Read Me
-### This repository is used to record my learning path to be a fullstack developer.
+### This repository is used to record my learning path to be a fullstack developer. I haven`t mastered all the technologt stacks mentioned below, but I have a some kind of understanding of all these techniques.
 ## Technology stack
 - Programming Language
     - JavaScript

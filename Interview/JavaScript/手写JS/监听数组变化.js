@@ -4,6 +4,13 @@
 3、重新封装数组中push，pop等常用方法。（这里我们只封装我们需要监听的数组的方法，并不做JavaScript原生Array中原型方法的重写的这么一件暴力的事情）
  */
 
+// 非纯函数 pop push shift unshift map filter forEach some every reduce
+
+// indexOf includes concat
+
+// slice //splice 是非纯函数
+// 切片  剪接 
+
 const arrayProto = Array.prototype;
 const arrayMethods = Object.create(arrayProto);
 const newArrProto = [];

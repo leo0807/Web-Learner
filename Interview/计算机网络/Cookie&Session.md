@@ -1,4 +1,11 @@
 # Cookie localStorage sessionStorage
+- sessionStorage, localStorage, cookie这三者都可以被用来在**浏览器端**存储数据，而且都是**字符串类型的键值对**。 区别在于前两者属于WebStorage，创建它们的目的便于客户端存储数据。 而Cookie早在网景公司的浏览器中就开始支持，最初目的是为了保持HTTP的状态。
+
+- cookie是网站为了**标识用户身份**而存储在用户本地终端上的数据（通常经过加密）。cookie**始终**在同源的http请求中携带（即使不需要）都会在浏览器和服务器端间来回传递。session storage和local storage不会自动把数据发给服务器，**仅在本地保存**；
+
+存储大小：cookie数据大小不会超过4K，session storage和local storage虽然也有存储大小的限制，但比cookie大得多，可以达到5M或者更多；
+有期时间：local storage存储持久数据，浏览器关闭后数据不丢失，除非自动删除数据。session storage数据在当前浏览器窗口关闭后**自动删除**。cookie 设置的cookie过期时间之前一直有效，即使窗口或者浏览器关闭；
+
 
 ## cookie
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右，是网景公司的前雇员 Lou Montulli 在1993年3月的发明。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
