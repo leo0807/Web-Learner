@@ -30,8 +30,10 @@
   padding: 10px;
   border: none;
   width: 100%;
-  max-width: 1000px;
+  max-width: 600px;
   min-width: 200px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 .header__searchInput:focus{
   outline: none
@@ -42,6 +44,11 @@
   height: 22px !important;
   background-color: #cd9042;
   cursor: pointer;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.header__searchIcon:hover{
+  background-color: #e0912a;
 }
 
 .header__optionLineOne {
