@@ -1,0 +1,41 @@
+{
+    "includes": [
+        "./src/**/*"
+    ], 
+    "exclude":[
+        //默认值
+        "node_modules", "browser_components", "jspm_packages"
+    ],
+    // "extends": "",   //继承配置文件
+    //编译器选项
+    "compilerOptions": {
+        //target=> ts被编译的版本
+        "target": "ES6",
+        //module 指定使用模块化的规范
+        "module": "ES2015", // "Commonjs",
+        //lib 项目指定的库 例如dom
+        "lib": ["dom"] 
+    },
+    //outDir 编译后文件所在位置
+    "outDir": "./xxx",
+    //代码合并为一个问价
+    "outFile": "./dist/app.js", //此时模块化 须为AMD或system
+    // 允许js编译
+    "allowJs": true,
+    // 检查js语法
+    "checkJs": false,
+    // 移除注释
+    "removeComments": false,
+    //不生成编译文件， 可用于检查文件语法
+    "noEmit": false,
+    // 当有错误时候不生成编译文件
+    "noEmitOnError": true,
+    // 用来设置编译后的文件是严格模式
+    "alwaysStrict": false,
+    //不允许隐式的any类型，如未指定变量或函数的类型 和不明确的this
+    "noImplicityAny": true,
+    // 严格的检查空值 dom节点为空
+    "strictNullChecks": true,
+    // 所有严查的总开关
+    "strict": true,
+}
