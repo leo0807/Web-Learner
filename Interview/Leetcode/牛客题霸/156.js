@@ -22,3 +22,19 @@ function foundOnceNumber(arr, k) {
     }
 }
 
+function foundOnceNumber2(arr, k) {
+    // write code here
+    //计算每一位上出现1的个数，%k得到出现一次的数
+    let res = 0;
+    for (let i = 0; i < 32; ++i) {
+        let sum = 0;
+        for (let num of arr) {
+            //用无符号右移，防止正负号的影响
+            //依次右移num，同1相与，计算每一位上1的个数
+            sum += (num >> i) & 1
+        }
+        //对sum取余，左移恢复
+        res ^= (sum % k) << i
+    }
+    return res
+}
