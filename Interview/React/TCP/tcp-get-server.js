@@ -25,8 +25,8 @@ const server = net.createServer(socket => {
         rows.push('Transfer-Encoding: chunked');
         let body = 'get';
         rows.push(`Content-Length:${Buffer.byteLength(body)}`); //返回字节长度， 一般是body。length
+        rows.push(`\r\n${Buffer.byteLength(body).toString(16)}\r\n${body}\r\n0`);
         let reseponse = rows.join(`\r\n`);
-
         console.log('reseponse', reseponse);
         socket.end(reseponse);
 
