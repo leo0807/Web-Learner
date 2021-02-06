@@ -51,8 +51,11 @@ class MyXMLHttpRequest {
                         memo[key] = value;
                         return memo;
                     }, {});
+                    this.readyState = ReadState.HEADERS_RECEIVED;
                     let [, body,] = bodyRows.split('\r\n');
+                    this.readyState = ReadState.LOADING;
                     this.response = this.responseText = body;
+                    this.readyState = ReadState.DONE;
                     this.onload && this.onload();
                 })
             })

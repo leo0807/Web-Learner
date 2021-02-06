@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    this is propsData html
+    <script>
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            console.log('onreadystatechange', xhr.readyState);
+        }
+        xhr.open('POST','http://127.0.0.1/:8000/post');
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.responseType = 'text';
+        xhr.onload = function(){
+            console.log('readyState', xhr.readyState);
+            console.log('status', xhr.status);
+            console.log('statusText', xhr.statusText);
+            console.log('getAllResponseHeaders',xhr.getAllResponseHeaders());
+            console.log('reseponse', xhr.response);
+        };
+        xhr.send('{"name":"junxu"}');
+    </script>
+</body>
+</html>
