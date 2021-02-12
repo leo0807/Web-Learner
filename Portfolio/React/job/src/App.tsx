@@ -2,8 +2,8 @@ import React,{useEffect, useState} from 'react';
 import './App.css';
 import data from './assets/data.json';
 import JobBoardComponent from './components/JobBoardComponent';
+// import Footer from './container/Footer';
 import Pagination from '@material-ui/lab/Pagination';
-import PaginationItem from '@material-ui/lab/PaginationItem';
 // import {FixedSizeList as List } from 'react-window';
 
 export type dataJson = {
@@ -33,7 +33,7 @@ const App:React.FC = () => {
   useEffect(() => {
     setJobs(data);
   }, []);
-  useEffect(() => setPages(Math.ceil(filteredJobs.length / pageLimit)));
+  
   
   const filterFunc = ({role, level, tools, languages}:dataJson): (string| boolean) => {
     if(filters.length === 0) return true;
@@ -45,10 +45,10 @@ const App:React.FC = () => {
   };
 
   let filteredJobs = jobs.filter(filterFunc);
-  console.log(filteredJobs.length);
+  useEffect(() => setPages(Math.ceil(filteredJobs.length / pageLimit)), [filteredJobs.length]);
   
   if (filteredJobs.length > pageLimit) {
-      showedJobs = filteredJobs.slice(curPage, curPage + pageLimit);
+    showedJobs = filteredJobs.slice(curPage, curPage + pageLimit);
   } else {
     showedJobs = filteredJobs;
   }
@@ -66,29 +66,10 @@ const App:React.FC = () => {
     setFilters([]);
   }
 
-  const handlePageClick = (event: React.MouseEvent<HTMLElement>): void => {
-
-     
-    console.log(event);
-    // switch (event.target) {
-    //   case '<':
-    //     setCurPage(curPage - 1);
-    //     break
-    // }
-    setCurPage(Number(event.target));
-    if (filteredJobs.length > pageLimit) {
-      showedJobs = filteredJobs.slice(curPage, curPage + pageLimit);
-    }
-    setPages(Math.ceil(filteredJobs.length / pageLimit));
+  const handlePageChange = (event: React.ChangeEvent<any>, page: number):void => {
+    setCurPage((page - 1) * pageLimit);
   }
-
-  // const Job = filteredJobs.map(job => (
-  //   <JobBoardComponent
-  //     handleTagClick={handleTagClick}
-  //     job={job}
-  //     key={job.id}
-  //   />)
-  // );
+  
   return (
     <div className="App">
       <header className="bg-green-100 mb-12">
@@ -96,7 +77,7 @@ const App:React.FC = () => {
       </header>
       <div className="container m-auto rounded-md">
         {filters.length > 0 && (
-            <div className="flex flex-wrap bg-white shadow-md -my-20 mb-16 mx-10 p-6 cursor-pointer rounded z-10 relative">
+            <div className="flex flex-wrap bg-white dark:bg-black shadow-md -my-20 mb-16 mx-10 p-6 cursor-pointer rounded z-10 relative">
               {filters.map((filter, index) => 
                   <span  key={index}
                       onClick={()=> handleFilterClick(filter)}
@@ -114,25 +95,20 @@ const App:React.FC = () => {
 
         {jobs.length === 0 ? (
             <p>Jobs are fetching...</p>
-        ) : 
+        ) : showedJobs.length !== 0?
               showedJobs.map(job => (
                 <JobBoardComponent
                   key={job.id}
                   handleTagClick={handleTagClick}
                   job={job}
-                />))
+                />)) :
+            <h1>No Matched Results</h1>
         }
 
       </div>
-      <footer className="flex flex-col items-center">
-        {/* <Pagination  page={curPage} count={pages} variant="outlined" showFirstButton showLastButton siblingCount={2}
-          onClick={handlePageClick}
-        /> */}
-        <Pagination page={curPage} count={pages} showFirstButton showLastButton
-          renderItem={(item) =>
-          (
-            <PaginationItem onClick={handlePageClick} />
-            )}
+      <footer className="flex flex-col items-center bottom-0">
+        <Pagination page={curPage} count={pages} variant="outlined" showFirstButton showLastButton siblingCount={2}
+          onChange={handlePageChange}
         />
         <h3 className="font-bold">Copyright 2021</h3>
       </footer>

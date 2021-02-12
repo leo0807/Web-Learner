@@ -17,6 +17,7 @@ export class User extends BaseEntity {
   @Column("text")
   password: string;
 
+    // 当创建了一个refresh token 给予一个当前token的版本
   @Column("int", { default: 0 })
   tokenVersion: number;
 }

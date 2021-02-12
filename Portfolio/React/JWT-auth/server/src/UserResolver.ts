@@ -64,13 +64,14 @@ export class UserResolver {
     }
   }
 
+  // 用户登出 将refreshToekn 清空
   @Mutation(() => Boolean)
   async logout(@Ctx() { res }: MyContext) {
     sendRefreshToken(res, "");
-
     return true;
   }
 
+    // 撤销refresh token 为了防止 用户被盗取或忘记密码的情况
   @Mutation(() => Boolean)
   async revokeRefreshTokensForUser(@Arg("userId", () => Int) userId: number) {
     await getConnection()

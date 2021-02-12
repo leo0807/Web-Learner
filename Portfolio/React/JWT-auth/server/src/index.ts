@@ -17,7 +17,7 @@ import { createAccessToken, createRefreshToken } from "./auth";
   const app = express();
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: "http://localhost:3000", //前端访问地址 解决跨域
       credentials: true
     })
   );
@@ -48,7 +48,7 @@ import { createAccessToken, createRefreshToken } from "./auth";
     if (user.tokenVersion !== payload.tokenVersion) {
       return res.send({ ok: false, accessToken: "" });
     }
-
+    // access token 过期 触发此函数 返回一个refresh token
     sendRefreshToken(res, createRefreshToken(user));
 
     return res.send({ ok: true, accessToken: createAccessToken(user) });
