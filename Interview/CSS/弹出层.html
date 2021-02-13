@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='zh'>
+<head>
+    <meta charset="utf-8">
+    <title>实现简易弹窗</title>
+    <style>
+        .box-modal{
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            left: 0; 
+            top: 0;
+            right: 0;
+            bottom: 0;
+        }        
+    </style>
+    <script type="text/javascript">
+       
+            let Box = {};
+            Box.close = () =>{
+                let body = document.body;
+                let modal = body.querySelectorAll(".box-modal");
+                modal.forEach((dom) => {
+                    dom.parentNode.removeChild(dom);
+                })
+            };
+            Box.show = (boxhtml) => {
+                Box.close;
+                let Dom = document.createElement('div');
+                Dom.classList.add('box-modal');
+                Dom.innerHTML = boxhtml;
+                document.body.append(Dom);
+            };
+ 
+            function showcustom(){
+                let innerhtml = `<div style="background-color:#eee;width:400px;height:140px;border:1px solid #666;align-self:center;padding:15px">
+            <h3>弹出层标题</h3>
+            <p>弹出框内容</p>
+            <div style="text-align:center"><button onclick="Box.close()">取消</button><button onclick="Box.close()">确定</button></div>
+        </div>`;
+                Box.show(innerhtml);
+            }
+       
+    </script>
+</head>
+<body>
+    <h1>点击弹出窗口</h1>
+    <button onclick="showcustom()">弹窗</button>
+</body>
+</html>
