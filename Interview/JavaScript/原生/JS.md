@@ -3,7 +3,7 @@
     - Object只接受**String**和**Symbol**， 其他类型也可以使用，但是最终都被隐式转换为字符串
     - Map则保留其原始类型且Map可以使用**正则表达式作为键**
 2. 原型prototype
-    - {} 有原型， 不能使用**constructor**作为键，佛则可能会报错
+    - {} 有原型， 不能使用**constructor**作为键，否则可能会报错
     newObject.constructor; // ƒ Object() { [native code] }
     - Map没有这种担心
 3. 迭代器
@@ -14,7 +14,21 @@
     - Map则为O（1）
 
 
-### Undefined 是变量声明未赋值 null 是变量声明并赋值 但值为空地址
+## Undefined 是变量声明未赋值 null 是变量声明并赋值 但值为空地址
+null 是一个表示"无"的对象，转为数值时为 0；undefined 是一个表示"无"的原始值，转为数值时为 NaN。
+### null 表示"没有对象"，即该处不应该有值。典型用法是：
+- 作为函数的参数，表示该函数的参数不是对象。
+- 作为对象原型链的终点。
+```
+Object.getPrototypeOf(Object.prototype)
+// null
+```
+### undefined 表示"缺少值"，就是此处应该有一个值，但是还没有定义。典型用法是：
+- 变量被声明了，但没有赋值时，就等于 undefined。
+- 调用函数时，应该提供的参数没有提供，该参数等于 undefined。
+- 对象没有赋值的属性，该属性的值为 undefined。
+- 函数没有返回值时，默认返回 undefined。
+
 
 1. 注：空地址就是 没有实际的复杂类型数据对应的 地址
 
