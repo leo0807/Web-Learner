@@ -13,7 +13,15 @@
 * Web不再是一张张页面，而是一个整体的应用，一个由路由系统、数据系统、页面（组件）系统...组成的应用程序，其中路由系统是非必须的
  
 ## 前端路由如何修改URL
-1 通过修改HASH，修改URL
+- hash模式
+    - window.location.hash
+    - window.onhashchange = funcition(){} //hash值改变时  这是hash值发生改变时触发的
+
+- history模式
+    - window.location.pathname //改变window.location.pathname会导致页面再次刷新，那也这就死循环了
+    - history.pushState() //第一个参数：存储进历史管理的数据, 第二个参数：历史管理的title（还没实现，但需要占位）,第三个参数： 路由的地址
+    - onpopstate() // 历史回退  监听历史管理发生改变
+
 2 HTML5的**history**中的**pushState** => URL永远显示栈顶的元素 =>通过**back()**方法，即出栈，实现返回上一页面的功能
 3 **replaceState**实现替换URL，但这种情况下无法返回上一页面
 4 **go**方法类似于**back**方法 history.go(-1) = history.back(); history.go(1) = history.forward() 
