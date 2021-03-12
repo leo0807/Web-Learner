@@ -21,7 +21,7 @@ const validPalindrome = function(s){
     right--;
   }
   console.log(1, res);
-  return res.join("");
+  return res.join("");是
 }
   // let line = "abda";
   //   let res = validPalindrome(line);
