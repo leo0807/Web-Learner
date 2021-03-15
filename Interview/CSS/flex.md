@@ -47,3 +47,10 @@ align-self 属性允许单个项目有与其他项目不一样的对齐方式，
 .item {
 align-self: auto | flex-start | flex-end | center | baseline | stretch;
 }
+
+# flex:1 代表什么
+
+flex: 1 => flex: 1 1 0%; => 
+    1. flex-grow: 1;
+    2. flex-shrink: 1;
+    3. flex-basis: 0%;
