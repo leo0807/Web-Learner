@@ -36,3 +36,27 @@ return a + b
 ES6 模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这就是 tree-shaking 的基础。
 
 所谓静态分析就是不执行代码，从字面量上对代码进行分析，ES6 之前的模块化，比如我们可以动态 require 一个模块
+
+# Tree Shaking 前提条件
+1. 首先既然要实现的是减少浏览器下载的资源大小，因此要tree-shaking的环境必然不能是浏览器，一般宿主环境是Node。
+
+2. 其次如果JavaScript是模块化的，那么必须遵从的是ES6 Module规范，而不是CommonJS（由于CommonJS规范所致）或者其他，这是因为ES6 Module是可以静态分析的，故而可以实现静态时编译进行tree-shaking。为什么说是可以静态分析的，是因为ES6制定了以下规范：
+
+```
+Module Syntax
+Module :
+     ModuleBody
+ModuleBody :
+     ModuleItemList
+ModuleItemList :
+     ModuleItem
+     ModuleItemList ModuleItem
+ModuleItem :
+     ImportDeclaration
+     ExportDeclaration
+     StatementListItem
+```
+作者：光哥很霸气
+链接：https://www.jianshu.com/p/199850576e8c
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
