@@ -30,32 +30,8 @@ Function.prototype.myCall = function (thisArg, ...args) {
     delete thisArg[specialMethod]
     return result;
 }
-// bind() 方法不会立即执行，它会返回一个函数，可以将函数存储在变量中，再通过变量获取函数的返回值
-Function.prototype.myBind = function (objThis, ...args) {
-    // 保留当前函数 obj.say
-    const thisFn = this;
-    // 声明函数用来返回
-    // secondParams是返回函数后再次添加的函数
-    let funcForBind = function (...secndParams) {
-        // 判断new 是否用于构造函数
-        const isNew = this instanceof funcForBind;
-        // 如果是new的话 返回新对象，否则返回绑定对象
-        const thisArg = isNew ? this : objThis;
-        return thisFn.call(thisArg, ...args, ...secndParams);
-    }
-    // 复制原型对象
-    funcForBind.prototype = Object.create(thisFn.prototype);
-    return funcForBind;
-}
 
-function myBind() {
-    const args = Array.from(arguments);
-    const _this = args.shift();
-    const self = this;
-    return () => {
-        return self.apply(_this, args);
-    }
-}
+// Apply
 
 let sayClone2 = obj.say.myBind(obj2, 1, 2, 3);
 sayClone2();
@@ -75,4 +51,71 @@ Function.prototype.myApply = function (context = window, args) {
     }
     delete context[fn];
     return result;
+}
+
+
+// bind() 方法不会立即执行，它会返回一个函数，可以将函数存储在变量中，再通过变量获取函数的返回值
+Function.prototype.myBind = function (objThis, ...args) {
+    // 保留当前函数 obj.say
+    const thisFn = this;
+    // 声明函数用来返回
+    // secondParams是返回函数后再次添加的函数
+    let funcForBind = function (...secndParams) {
+        // 判断new 是否用于构造函数
+        const isNew = this instanceof funcForBind;
+        // 如果是new的话 返回新对象，否则返回绑定对象
+        const thisArg = isNew ? this : objThis;
+        return thisFn.call(thisArg, ...args, ...secndParams);
+    }
+    // 复制原型对象
+    funcForBind.prototype = Object.create(thisFn.prototype);
+    return funcForBind;
+}
+// bind() 方法会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，
+// 之后的一序列参数将会在传递的实参前传入作为它的参数。(来自于 MDN )
+
+function myBind() {
+    const args = Array.from(arguments);
+    const _this = args.shift();
+    const self = this;
+    return () => {
+        return self.apply(_this, args);
+    }
+}
+
+function myBind2(context){
+    const self = this;
+    return function(){
+        return self.apply(context);
+    }
+}
+
+function myBind3(context){
+    let self = this;
+    let args = Array.prototype.slice.call(arguments, 1);
+
+    return function(){
+        let bindArgs = Array.prototype.slice.call(arguments);
+        return self.apply(context, args.concat(bindArgs));
+    }
+}
+
+
+
+Function.prototype.bindFunc = function(context){
+    if(typeof this !== 'function'){
+        throw new Error('xxx');
+    }
+    let self = this;
+    let args = Array.prototype.slice.call(arguments, 1);
+
+    let fNOP = function(){};
+
+    let fBound = function(){
+        let bindArgs = Array.prototype.slice.call(arguments);
+        return self.apply(this instanceof fNOP? this: context, args.concat(bindArgs));
+    }
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
+    return fBound;
 }

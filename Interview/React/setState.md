@@ -1,3 +1,8 @@
+# setState的第二个参数
+setState的的第二个参数是回调函数，setState是异步的;
+加入回调的作用是保证state被更新以后再调用回调函数，这样就能保证回调里获取到的state是更新后的。setstate的执行仍然是异步的
+
+
 在React中，如果是由React引发的**事件处理**（比如通过onClick引发的事件处理），调用setState不会**同步更新**this.state，除此之外的setState调用会同步执行this.state 。所谓“除此之外”，指的是绕过React通过addEventListener直接添加的事件处理函数，还有通过setTimeout/setInterval产生的异步调用。
 
 原因： 在React的setState函数实现中，会根据一个变量**isBatchingUpdates**判断是直接更新this.state还是放到队列中回头再说，而isBatchingUpdates默认是**false**，也就表示setState会同步更新this.state，但是，有一个函数**batchedUpdates**，这个函数会把isBatchingUpdates修改为true，而当React在调用事件处理函数之前就会调用这个batchedUpdates，造成的后果，就是由React控制的事件处理过程setState不会同步更新this.state。
