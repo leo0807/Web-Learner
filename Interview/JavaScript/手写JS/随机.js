@@ -24,3 +24,14 @@ let members = ['胖虎', '强夫', '静香', '大雄', '哆啦A梦', '吕布', '
 ];
 
 console.log(shuffle(members).slice(-3));
+
+// 2. 随机产生一个16进制颜色
+function randomHexColor(){
+    let colorSelections =  ['0','1', '2', '3', '4','5','6','7','8','9','A', 'B', 'C', 'D', 'E', 'F'];
+    let res = "#";
+    for(let i = 0; i < 6; i++){
+        res += colorSelections[Math.floor(Math.random() * 16)];
+    }
+    return res;
+}
+console.log(randomHexColor());
