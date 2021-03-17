@@ -1,3 +1,26 @@
+# 闭包陷阱
+
+<!-- https://juejin.cn/post/6844904193044512782#heading-3 -->
+
+原因：
+type Hook = {
+  memoizedState: any,
+  baseState: any,
+  baseUpdate: Update<any, any> | null,
+  queue: UpdateQueue<any, any> | null,
+  next: Hook | null,
+};
+
+hook形成了链表，当component在此渲染的时候会取得上一次的memoizedState， 而依赖项为空，只执行一次，所以永远都是上一次的memoizedState。
+
+作者：Chechengyi
+链接：https://juejin.cn/post/6844904193044512782
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+<!-- —————————————————————————————————————————————————— -->
+
 React API现在有两套：类（class）API 和基于函数的钩子（hooks） API
 
 任何一个组件，可以用类来写，也可以用钩子来写。下面是类的写法
