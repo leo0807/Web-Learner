@@ -10,3 +10,14 @@ function myInstanceof(left, right) {
         proto = Object.getPrototypeOf(left);
     }
 }
+
+// typeof 实现原理
+// js 在底层存储数据类型的方式
+
+// 000：对象
+// 010：浮点数
+// 100：字符串
+// 110：布尔
+// 1：整数
+// null：所有机器码均为0
+// undefined：用 −2 ^ 30 整数来表示
