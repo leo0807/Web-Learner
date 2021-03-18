@@ -5,33 +5,38 @@
  */
 
 // https://zhuanlan.zhihu.com/p/85969406
+
+// React.memo
+// 因此，当Child被memo包装后，就只会当props改变时才会重新渲染了。
+
+
 let hookState = [];
 let hookIndex = 0;
 
-function useMemo(callback, dependencies){
-    if(hookState[hookIndex]){
-        const [oldData, oldDenpendencies] = hookState[hookIndex];
-        // 空数组 every为true
-        let same = oldDenpendencies.every((item, index)=> item === oldDenpendencies[index]);
-        if(same){
-            hookIndex++;
-            return oldData;
-        }else{
-            const newData = callback();
-            hookState[hookIndex++] = [newData, dependencies];
-        }
-        // 非首次渲染
-    }else{
-        // 首次渲染
-        const newData = callback();
-        hookState[hookIndex++] = [newData, dependencies];
+function useMemo(callback, dependencies) {
+  if (hookState[hookIndex]) {
+    const [oldData, oldDenpendencies] = hookState[hookIndex];
+    // 空数组 every为true
+    let same = oldDenpendencies.every((item, index) => item === oldDenpendencies[index]);
+    if (same) {
+      hookIndex++;
+      return oldData;
+    } else {
+      const newData = callback();
+      hookState[hookIndex++] = [newData, dependencies];
     }
+    // 非首次渲染
+  } else {
+    // 首次渲染
+    const newData = callback();
+    hookState[hookIndex++] = [newData, dependencies];
+  }
 }
 
 // 可以用与在重新渲染的时候保持值的饮用不变
 
 const useRef = (v) => {
-  return useMemo(() => ({current: v}), []);
+  return useMemo(() => ({ current: v }), []);
 };
 
 /**

@@ -51,3 +51,24 @@ function App() {
 ————————————————
 版权声明：本文为CSDN博主「杏子_1024」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/weixin_44135121/article/details/108753231
+
+
+# 在 stack reconciler 下，DOM 的更新是同步的，也就是说，在 virtual DOM 的比对过程中，发现一个 instance 有更新，会立即执行 DOM 操作。
+
+# Fiber
+
+module.exports = {
+NoWork: 0, // No work is pending.
+SynchronousPriority: 1, // For controlled text inputs. Synchronous side-effects.
+AnimationPriority: 2, // Needs to complete before the next frame.
+HighPriority: 3, // Interaction that needs to complete pretty soon to feel responsive.
+LowPriority: 4, // Data fetching, or result from updating stores.
+OffscreenPriority: 5, // Won't be visible but do the work in case it becomes visible.
+};
+
+作者：武器大师 1024
+链接：https://juejin.cn/post/6844903582622285831
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+https://juejin.cn/post/6844903582622285831#heading-1
