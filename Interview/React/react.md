@@ -1,3 +1,7 @@
+## 为什么每个 react 组件都需要 import React from 'react'
+因为打包工具是需要**React.createElement**这个方法把你写的 jsx 转化为虚拟 DOM 的
+
+
 # 类组件与函数组件
 ## 函数式组件捕获了渲染所使用的值
 https://overreacted.io/zh-hans/how-are-function-components-different-from-classes/
