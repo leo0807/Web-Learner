@@ -41,6 +41,20 @@ Access-Control-Request-Headers 客户端请求所携带的自定义首部字段 
 ## OPTIONS 优化
 Access-Control-Max-Age 这个响应首部表示 preflight request （预检请求）的返回结果（即 Access-Control-Allow-Methods 和 Access-Control-Allow-Headers 提供的信息） 可以被缓存的最长时间，单位是秒。(MDN)
 
+# GET的URL长度
+在 HTTP 协议里，并没有对 GET 请求的参数的长度做出任何的限制，事实上，HTTP 协议对 URL 的长度没有做任何的限制，而是服务器和浏览器对 URL 长度做了限制
+
+1. GET 的最大长度显示是因为 浏览器和 web 服务器限制了 URI 的长度
+不同的浏览器和 WEB 服务器，限制的最大长度不一样
+2. 要支持 IE，则最大长度为 2083byte，若只支持 Chrome，则最大长度 8182byte
+3. 所谓的请求长度限制是由浏览器和 web 服务器决定和设置的，各种浏览器和 web 服务器的设定均不一样，这依赖于各个浏览器厂家的规定或者可以根据 web 服务器的处理能力来设定
+
+作者：izhongxia
+链接：https://www.jianshu.com/p/512389822f8b
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
 
 # GET 和 POST 有什么区别？
 首先最直观的是语义上的区别。

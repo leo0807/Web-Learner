@@ -10,6 +10,18 @@ function newUnique(arr) {
     const res = new Set(arr);
     return [...res];
 }
+
+function removeDuplicate1(arr) {
+    let res = [];
+    for (let i = 0, len = arr.length; i < len; i++) {
+        let flag = true;
+        for (let j = 0, len = res.length; j < len; j++) {
+            if (arr[i] === res[j]) flag = false;
+        }
+        flag && res.push(arr[i]);
+    }
+}
+
 function deepClone(obj = {}) {
     if (typeof obj !== 'object' || obj == null) return obj;
     let result;

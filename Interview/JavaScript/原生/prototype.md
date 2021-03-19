@@ -1,8 +1,19 @@
+- 实例对象通过隐性__proto__指向原型对象 person.__proto__ === Person.prototype => true
+- 构造实例的对象通过portotype属性指向原型对象 Person.prototype => Person.prototype
+- 原型对象则通过constructor指向构造对象 Person === Person.prototype.constructor
 
+来源： https://github.com/mqyqingfeng/Blog/issues/2
 
-- 实例对象通过隐性__proto__指向原型对象
-- 构造实例的对象通过portotype属性指向原型对象
-- 原型对象则通过constructor指向构造对象
+1. Person.prototype.__proto__ === Object.prototype
+2. 当获取 person.constructor 时，其实 person 中并没有 constructor 属性,当不能读取到 constructor 属性时，会从 person 的原型也就是 Person.prototype 中读取，正好原型中有该属性，所以
+Person.constructor === Person.prototype.constructor
+3.
+**proto**
+其次是 **proto** ，绝大部分浏览器都支持这个非标准的方法访问原型，然而它并不存在于 Person.prototype 中，实际上，它是来自于 Object.prototype ，与其说是一个属性，不如说是一个 getter/setter，当使用 obj.**proto** 时，可以理解成返回了 Object.getPrototypeOf(obj)
+
+# 继承
+继承意味着**复制操作**，然而 JavaScript 默认并不会复制对象的属性，相反，JavaScript 只是在两个对象之间创建一个**关联**，这样，一个对象就可以通过委托访问另一个对象的属性和函数，所以与其叫继承，委托的说法反而更准确些。
+
 
 {} = new Object()
 Object.create(null) 没有指定原型
