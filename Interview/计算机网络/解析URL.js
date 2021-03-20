@@ -1,7 +1,9 @@
-const parseQueryString = url=>{
-     var json = {};
-     var arr = url.substr(url.indexOf('?') + 1).split('&');
-     arr.forEach(item=>{
+const parseQueryString = url => {
+    var json = {};
+    const uri = url.substr(0, url.indexOf('?'));
+    console.log(uri);
+    var arr = url.substr(url.indexOf('?') + 1).split('&');
+    arr.forEach(item => {
         var tmp = item.split('=');
         json[tmp[0]] = tmp[1];
     });
