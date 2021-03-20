@@ -8,6 +8,11 @@
 
 
 ## cookie
+
+具体： https://juejin.cn/post/6844903841909964813#heading-3
+在不设置HttpOnly的情况下， document.cookie可获取cookie
+
+
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右，是网景公司的前雇员 Lou Montulli 在1993年3月的发明。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
 
 ## localStorage
