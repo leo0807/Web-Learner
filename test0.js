@@ -28,5 +28,12 @@ function flatten(arr) {
   }, []);
 }
 
-let arr2 = [[1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10];
-console.log(flatRmDuplicate(arr2));
+// let arr2 = [[1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10];
+// console.log(flatRmDuplicate(arr2));
+function add(x) {
+  return function (...args) {
+    return [x, ...args].reduce((prev, curr) => prev + curr, 0);
+  };
+}
+
+console.log(add(1)(2, 3, 4)(5));
