@@ -38,10 +38,10 @@ fetch(URL).then(checkStatus)
         console.error(error);
     })
 
-    // fetch 是全局量 window 的一个方法，它的主要特点有：
-    // 1、第一个参数是URL:
-    // 2、第二个是可选参数，可以控制不同配置的 init 对象
-    // 3、使用了 JavaScript Promises 来处理结果/回调:
+// fetch 是全局量 window 的一个方法，它的主要特点有：
+// 1、第一个参数是URL:
+// 2、第二个是可选参数，可以控制不同配置的 init 对象
+// 3、使用了 JavaScript Promises 来处理结果/回调:
 
 // fetch规范与jQuery.ajax()主要有两种方式的不同，牢记：
 
@@ -61,5 +61,19 @@ fetch(url, {
 // 对于CORS请求，使用include值允许将凭据发送到其他域：
 
 fetch(url, {
-  credentials: 'include'
+    credentials: 'include'
 })
+
+// ----------------------------------------
+fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST',
+    body: JSON.stringify({
+        name: "ceido",
+        age: 100
+    }),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+})
+    .then(response => response.json())
+    .then(json => console.log(json))

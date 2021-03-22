@@ -7,7 +7,7 @@ function myInstanceof(left, right) {
         if (proto === null) return false;
         if (proto === right.prototype) return true;
         // 继续寻找
-        proto = Object.getPrototypeOf(left);
+        proto = Object.getPrototypeOf(proto);
     }
 }
 

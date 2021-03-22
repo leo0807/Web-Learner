@@ -36,4 +36,13 @@ function add(x) {
   };
 }
 
-console.log(add(1)(2, 3, 4)(5));
+Function.prototype.myCall = function (context = window, ...args) {
+  if (context === Function.prototype) return undefined;
+  const fn = Symbol();
+  context[fn] = this;
+  let res = context[fn](...args)
+  delete context[fn];
+  return res;
+}
+
+console.log(Math.max.myCall(Math, 7, 2, 3, 4, 5));
