@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+
+    <script>
+        class Element {
+            constructor(tagName, props, children) {
+                this.tagName = tagName
+                this.props = props
+                this.children = children
+            }
+        }
+
+        /**
+         * 创建一个结点
+         * @param {*} type 
+         * @param {*} props 
+         * @param {*} children 
+         */
+        function createElement(type, props, children) {
+            return new Element(type, props, children);
+        }
+
+
+        /**
+         * 给结点设置properties
+         * @param {*} node 
+         * @param {*} prop 
+         * @param {*} value 
+         */
+        function setAttrs(node, prop, value) {
+            switch (prop) {
+                case 'value':
+                    if (node.tagName == 'INPUT' || node.tagName === 'TEXTAREA') {
+                        node.value = value;
+                    } else {
+                        node.setAttribute(prop, value);
+                    }
+                    break;
+                case 'style':
+                    node.style.cssText = value;
+                    break;
+                default:
+                    node.setAttribute(prop, value);
+                    break;
+            }
+        }
+
+
+        /**
+         *  将一个virtualdom转换成真实dom对象
+         * @param {*} vDom 
+         */
+        function render(vDom) {
+            const {
+                tagName,
+                props,
+                children
+            } = vDom
+
+            const el = document.createElement(tagName);
+
+            for (let key in props) {
+                setAttrs(el, key, props[key]);
+            }
+            children.map((c) => {
+                if (c instanceof Element) {
+                    c = render(c);
+                } else {
+                    c = document.createTextNode(c);
+                }
+
+                el.appendChild(c)
+            })
+
+            return el;
+        }
+
+
+        /**
+         * 将一个节点添加到root元素上
+         * @param {*} rDom 
+         * @param {*} rootEl 
+         */
+        function renderDom(rDom, rootEl) {
+            rootEl.appendChild(rDom);
+        }
+
+
+        // 开始测试
+
+        const rootEl = document.getElementById("app")
+
+        const vDom = createElement(
+            'ul', {
+                class: 'list',
+                style: 'width:300px;height:300px;background-color:orange'
+            },
+            [
+                createElement(
+                    'li', {
+                        class: 'item',
+                        data_id: 0,
+                    },
+                    [
+                        createElement(
+                            'p', {
+                                class: 'text',
+                            },
+                            ["第一个列表项"]
+                        )
+                    ]
+                ),
+                createElement(
+                    'li', {
+                        class: 'item',
+                        data_id: 1,
+                    },
+                    [
+                        createElement(
+                            'p', {
+                                class: 'text',
+                            },
+                            [
+                                createElement(
+                                    'span', {
+                                        class: "title"
+                                    },
+                                    [
+                                        '第二个列表项'
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
+                ),
+                createElement(
+                    'li', {
+                        class: "item",
+                        data_id: 2
+                    },
+                    [
+                        '第三个列表项'
+                    ]
+                )
+            ]
+        )
+    
+    
+
+        trueDom = render(vDom)
+        renderDom(trueDom, rootEl)
+
+
+    </script>
+</body>
+
+</html>
+<!-- ————————————————
+版权声明：本文为CSDN博主「梓川祢豆子」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/qq_41996454/article/details/110811143 -->

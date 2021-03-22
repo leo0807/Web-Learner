@@ -100,33 +100,35 @@ function longestPalindrome(s) {
     return end - start;
 }
 let s = "DAB*B*ACD";
-console.log(longestPalindrome(s));
+// console.log(longestPalindrome(s));
 
-function swapChar(s) {
-    s = s.split('');
-    let tmp = [...s];
-    tmp = tmp.sort((a, b) => {
-        if (a > b) {
-            return 1;
-        } else {
-            return -1;
-        }
-    });
-    console.log(s);
-    let maxChar, minChar;
-    while (true) {
-        maxChar = tmp[tmp.length - 1],
-            minChar = tmp[0]
-        if (maxChar > minChar && s.indexOf(maxChar) < s.indexOf(minChar)) {
-            [s[s.indexOf(maxChar)], s[s.indexOf(minChar)]] = [s[s.indexOf(minChar)], s[s.indexOf(maxChar)]];
-            break;
-        } else {
-            // tmp.pop();
-            tmp.shift();
-        }
+function debounce(fn, delay) {
+    let timer = null;
+    return function () {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, arguments);
+            timer = null;
+        }, delay);
     }
-    return s.join("");
-
 }
-let ss = "aaazbcdeadcd";
-console.log(swapChar(ss));
+
+function handle(a) {
+    setTimeout(() => console.log(a), 500);
+}
+
+// for (let i = 0; i < 10; i++) {
+//     debounce(handle(i), 100);
+// }
+let xx = 1
+new Promise((resolve, reject) => {
+    resolve(xx);
+    resolve(xx + 1);
+    reject(2)
+}).then(() => {
+    console.log(xx);
+}).then(() => {
+    console.log(xx);
+}).catch(() => {
+    console.log(xx);
+})
