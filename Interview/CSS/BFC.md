@@ -58,5 +58,18 @@
 - 没有内容将父元素和后代元素分开
 如果没有边框 border，内边距 padding，行内内容，也没有创建块级格式上下文或清除浮动来分开一个块级元素的上边界 margin-top 与其内一个或多个后代块级元素的上边界 margin-top；或没有边框，内边距，行内内容，高度 height，最小高度 min-height 或 最大高度 max-height 来分开一个块级元素的下边界 margin-bottom 与其内的一个或多个后代后代块元素的下边界 margin-bottom，则就会出现父块元素和其内后代块元素外边界重叠，重叠部分最终会溢出到父级块元素外面。
 
+## 解决办法
+  
+- 外层元素添加 padding
+- 外层元素 overflow:hidden;
+- 外层元素透明边框 border:1px solid transparent;
+- 内层元素绝对定位 postion:absolute:
+- 内层元素 加 float:left;或 display:inline-block;
+
+
+
+
 - 空的块级元素
 当一个块元素上边界 margin-top 直接贴到元素下边界 margin-bottom 时也会发生边界折叠。这种情况会发生在一个块元素完全没有设定边框 border、内边距 paddng、高度 height、最小高度 min-height 、最大高度 max-height 、内容设定为 inline 或是加上 clear-fix 的时候。
+
+## 解决办法
