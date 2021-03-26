@@ -9,7 +9,14 @@
 - absolute
 在布置文档流中其它元素时，绝对定位元素不占据空间。绝对定位元素相对于最近的非 static 祖先元素定位。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。
 - fixed
-固定定位与绝对定位相似，元素会被移出正常文档流，并不为元素预留空间，而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在**屏幕滚动时**不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。
+固定定位与绝对定位相似，元素会被移出正常文档流，并不为元素预留空间，而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在**屏幕滚动时**不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。
+## position: fixed失效的原因
+MDN解释：**当元素祖先的 transform 属性非 none 时，定位容器由视口改为该祖先。**
+- 当元素祖先的 transform, perspective 或 filter 属性非 none 时，容器由视口改为该祖先。
+- 1. transform 属性值不为 none 的元素；
+    2. perspective 值不为 none 的元素；
+    3. 在 will-change 中指定了任意 CSS 属性
+
 - sticky
 元素根据正常文档流进行定位，然后相对它的最近滚动祖先（nearest scrolling ancestor）和 containing block (最近块级祖先 nearest block-level ancestor)，包括table-related元素，基于top, right, bottom, 和 left的值进行偏移。偏移值不会影响任何其他元素的位置。
 
@@ -18,3 +25,5 @@
 #one { position: sticky; top: 10px; }
 ```
 在 viewport 视口滚动到元素 top 距离小于 10px 之前，元素为相对定位。之后，元素将固定在与顶部距离 10px 的位置，直到 viewport 视口回滚到阈值以下。
+
+transform 属性值不为none 的元素 perspective 值不为none 的元素 在 will-change 中指定了任意CSS 属性
