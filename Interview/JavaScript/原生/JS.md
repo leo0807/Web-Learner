@@ -1,18 +1,3 @@
-### {}与 map的区别
-1. 键名类型
-    - Object只接受**String**和**Symbol**， 其他类型也可以使用，但是最终都被隐式转换为字符串
-    - Map则保留其原始类型且Map可以使用**正则表达式作为键**
-2. 原型prototype
-    - {} 有原型， 不能使用**constructor**作为键，否则可能会报错
-    newObject.constructor; // ƒ Object() { [native code] }
-    - Map没有这种担心
-3. 迭代器
-    - Object不能直接迭代
-    - Map可以用for，forEach等直接迭代
-4. 复杂度
-    - Object的增删以及属性长度查询复杂度为O（n）
-    - Map则为O（1）
-
 # 什么是静态（static）方法？
 
 类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上 static 关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”
