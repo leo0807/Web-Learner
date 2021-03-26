@@ -25,6 +25,8 @@ Cache-Control 是最重要的规则。常见的取值有private、public、no-ca
 - no-cache:            需要使用**对比缓存**来验证缓存数据（后面介绍）
 - no-store:            所有内容都不会缓存，强制缓存，对比缓存都不会触发
 
+**max-age 为 0 表示强制检查 Last-Modified／ETag，可以近似理解为与 no-cache 等效**
+
 **Pragma和Cache-control共存时，Pragma的优先级是比Cache-Control高的**
 ![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存2.png)
 
@@ -52,7 +54,9 @@ Cache-Control 是最重要的规则。常见的取值有private、public、no-ca
 ### Etag/If-None-Match
 - Etag：
 服务器响应请求时，告诉浏览器当前资源在服务器的唯一标识（生成规则由服务器决定），资源有变化，它会重新生成。
-**精确性**Etag更高，但是**性能**略低，优先级先考虑Etag
+1. **精确性**Etag更高，但是**性能**略低，优先级先考虑Etag
+2. 一般分布式环境下（比如 CDN）很少使用 ETag，因为 ETag 依赖 Web Server 的哈希算法，不同 Web Server、不同版本、不同的配置，都会导致同样的文件 ETag 可能是不相等的
+
 
 - If-None-Match：
 再次请求服务器时，通过此字段通知服务器客户段缓存数据的唯一标识。
@@ -64,6 +68,17 @@ Cache-Control 是最重要的规则。常见的取值有private、public、no-ca
 ![image](https://github.com/leo0807/Web-Learner/blob/master/images/缓存3.png)
 
 协商缓存的执行流程是这样的：当浏览器第一次向服务器发送请求时，会在响应头中返回协商缓存的头属性：ETag和Last-Modified,其中**ETag**返回的是一个**hash**值，**Last-Modified**返回的是**GMT格式**的最后修改时间。然后浏览器在第二次发送请求的时候，会在请求头中带上与**ETag**对应的**If-Not-Match**，其值就是响应头中返回的ETag的值，Last-Modified对应的If-Modified-Since。服务器在接收到这两个参数后会做比较，如果返回的是304状态码，则说明请求的资源没有修改，浏览器可以直接在缓存中取数据，否则，服务器会直接返回数据。
+
+例子：假设传输一个 10MB 的文件，如果是 200，那么需要至少下载 10MB 的信息（响应正文 + 响应标头）；而 304 则只需下载几 kB 甚至几 B 的信息（响应标头）就可以了
+
+
+## 优先级总结
+
+顺序的话是先判断 Cache-Control／Expires，再 ETag，最后 Last-Modified，都满足就 304，有一项不满足就 200。
+
+**Expires**是设一个具体的时间点、**Cache-Control**是设一个秒数。但显然 Expires 可能因为客户端与服务端时间不一致、或网络延迟导致过期时间不准确，并且 Cache-Control 能设的值更多也就更灵活，如果两者同时存在，以 Cache-Control 为准
+
+
 
 ## 浏览器缓存 ETag 里的值是怎么生成的
 Etag 是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)。
