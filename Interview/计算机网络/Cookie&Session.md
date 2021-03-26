@@ -16,7 +16,31 @@
 
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右，是网景公司的前雇员 Lou Montulli 在1993年3月的发明。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
 
-每个域名下的Cookie不得超过50个（IE），大小不超过4KB。不同浏览器有不同的约束。
+每个域名下的Cookie不得超过**50个（IE）**，大小不超过4KB。不同浏览器有不同的约束。
+### 使用场景
+- 对话管理：保存登陆，购物车等需要记录的信息
+- 个性化： 保存用户的偏好，比如网页的字体大小，背景颜色等等
+- 追踪： 记录和分析用户行为
+### 相关属性
+1. Expires 和 Max-Age
+- Expires 属性指定一个具体的到期时间，到了这个指定的时间之后，浏览器就不再保留这个 cookie ,它的值是 UTC 格式，可以使用 Date.prototype.toUTCString() 格式进行转换
+
+- Max-Age 属性制定了从现在开始 cookie 存在的秒数，比如 60 _ 60 _ 24 \* 365（即一年）。过了这个时间以后，浏览器就不再保留这个 Cookie
+
+2. Domain 和 path
+这两个属性决定了，HTTP 请求的时候，哪些请求会带上哪些 Cookie
+
+现在一个 cookie 它的 Domain 属性为 www.example.com，path 属性值为 /。意味着，这个 cookie 对该域的根路径以及它的所有子路径都有效。如果我们修改了它的 path 值，为 /forums，那么这个 cookie 只要在访问 www.example.com/forums 及其子路径时才会带上
+
+
+
+3. Secure 和 HttpOnly
+- Secure 属性指定浏览器只有在加密协议 HTTPS 下，才能将这个 Cookie 发送到服务器。另一方面，如果当前协议是 HTTP，浏览器会自动忽略服务器发来的 Secure 属性。
+ 
+- HttpOnly 属性指定该 Cookie 无法通过 JavaScript 脚本拿到，主要是 Document.cookie 属性、XMLHttpRequest 对象和 Request API 都拿不到该属性。这样就防止了该 Cookie 被脚本读到，只有浏览器发出 HTTP 请求时，才会带上该 Cookie。
+
+
+
 
 ## localStorage
 localStorage 是 HTML5 标准中新加入的技术，它并不是什么划时代的新东西。早在 IE 6 时代，就有一个叫**userData**的东西用于本地存储，而当时考虑到浏览器兼容性，更通用的方案是使用 Flash。而如今，localStorage 被大多数浏览器所支持，如果你的网站需要支持 IE6+，那以 userData 作为你的 polyfill 的方案是种不错的选择。
