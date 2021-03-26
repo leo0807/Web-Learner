@@ -10,7 +10,8 @@
 ## cookie
 
 具体： https://juejin.cn/post/6844903841909964813#heading-3
-在不设置HttpOnly的情况下， document.cookie可获取cookie
+一般来说，只有服务器操作 Cookie 才能保证一些必要的安全。但有时候，可能需要前端来增删改查 Cookie
+在不设置**HttpOnly**的情况下， 客户端可以通过**document.cookie**可获取cookie
 
 
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右，是网景公司的前雇员 Lou Montulli 在1993年3月的发明。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
@@ -19,6 +20,10 @@ Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大
 
 ## localStorage
 localStorage 是 HTML5 标准中新加入的技术，它并不是什么划时代的新东西。早在 IE 6 时代，就有一个叫**userData**的东西用于本地存储，而当时考虑到浏览器兼容性，更通用的方案是使用 Flash。而如今，localStorage 被大多数浏览器所支持，如果你的网站需要支持 IE6+，那以 userData 作为你的 polyfill 的方案是种不错的选择。
+
+### localstorage跨域问题
+每个**域名**都有自己的localstorage,普通的方式是无法获取的，但是可以通过**postMessage**实现跨域获取
+
 
 ### localstorage容量问题
 localStorage 最大容量**5M**的意思是**每一个域名下**的localStorage容量是 5M，假如现在 a.com 域名下 localstorage 存不下了，我们可以使用**iframe**创建 b.com 域框架（子页面）用于存储 a.com 剩下的数据。然后使用 postMessage 读写数据。
