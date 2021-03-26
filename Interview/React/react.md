@@ -1,6 +1,8 @@
 ## 为什么每个 react 组件都需要 import React from 'react'
 因为打包工具是需要**React.createElement**这个方法把你写的 jsx 转化为虚拟 DOM 的
 
+<!-- https://zhuanlan.zhihu.com/p/92211533
+ -->
 
 # 类组件与函数组件
 ## 函数式组件捕获了渲染所使用的值
@@ -44,28 +46,30 @@ clearInterval(timer.current);
 
 ```
 function App() {
+
 const [value, setValue] = useState<number>(0);
 const [timers, setTimers] = useState<Array<NodeJS.Timeout>>([]);
+
 const saveCallBack: any = useRef();
 const callBack = () => {
-const random: number = (Math.random() \* 10) | 0;
-setValue(value + random);
+  const random: number = (Math.random() \* 10) | 0;
+  setValue(value + random);
 };
 useEffect(() => {
-saveCallBack.current = callBack;
-return () => {};
+  saveCallBack.current = callBack;
+  return () => {};
 });
 useEffect(() => {
-const tick = () => {
-saveCallBack.current();
+  const tick = () => {
+  saveCallBack.current();
 };
 const timer: NodeJS.Timeout = setInterval(tick, 5000);
-timers.push(timer);
-setTimers(timers);
-console.log(timers);
-return () => {
-clearInterval(timer);
-};
+  timers.push(timer);
+  setTimers(timers);
+  console.log(timers);
+  return () => {
+    clearInterval(timer);
+  };
 }, []);
 return <div>{value}</div>;
 }
