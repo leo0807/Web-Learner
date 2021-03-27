@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+        }
+    </style>
+</head>
+<body onload="load()">
+    <div id="tab"></div>
+    <script>
+        let str1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        function getStr(num) {
+            if (num >= 0 && num <= 25) {
+                return str1[num];
+            } else {
+                return getStr(Math.floor(num / 26) - 1) + getStr(num % 26);
+            }
+        }
+
+        function load(){
+            let div = document.getElementById("tab");
+            let table = document.createElement("table");
+            table.style.borderCollapse = "collapse";
+            table.style.border = "1px solid black";
+            for(let i = 0; i < 100; i++){
+                let tr = table.insertRow();
+                tr.height = "10px";
+                tr.style.border = "1px solid black";
+                for(let j = 0; j < 100; j++){
+                    let td = tr.insertCell();
+                    if(i === 0){
+                        td.innerText = getStr(j);
+                    }
+                    td.width = "10px";
+                    td.style.border = "1px solid black";
+                }
+            }
+            div.appendChild(table);
+        }
+
+    </script>
+</body>
+</html>
