@@ -28,6 +28,11 @@ function add() {
 let x = add(1, 3)(2)
 console.log(x.toString());
 
+function add(x) {
+    return function (...args) {
+        return [x, ...args].reduce((prev, curr) => prev + curr, 0);
+    };
+}
 
 function curry(fn, args) {
     let length = fn.length;
