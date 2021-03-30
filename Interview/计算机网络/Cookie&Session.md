@@ -69,9 +69,35 @@ otherWindow.postMessage(message, targetOrigin, \[transfer\]);
 - _**transfer**_ 可选
 是一串和 message 同时传递的 Transferable 对象. 这些对象的所有权将被转移给消息的接收方，而发送一方将不再保有所有权。
 
+### 使用场景
+localStorage 可以用于存储该浏览器对该页面的访问次数，当然，如果换个浏览器，这个次数就重新开始计数了。还可以用来存储一些固定不变的页面信息，这样就不需要每次都重新加载了，这个值也可以进行覆盖。
+
+访问这个页面的时候，script 脚本会自动运行，localStorage.pagecount 就会 ++ 了，从而达到统计页面访问次数的目的。
+
 
 ## sessionStorage
 sessionStorage 与 localStorage 的接口类似，但保存数据的生命周期与 localStorage 不同。做过后端开发的同学应该知道 Session 这个词的意思，直译过来是“会话”。而 sessionStorage 是一个前端的概念，它只是可以将一部分数据在当前会话中保存下来，刷新页面数据依旧存在。但当页面关闭后，sessionStorage 中的数据就会被清空。
+
+### sessionStorage 应用场景
+使用 sessionStorage 进行页面传值
+
+//有时会有这样的需求，我们从 A 页面获取的数据，需要在 B 页面发送给后端，这时就需要我们将数据从 A 页面传递到 B 页面。
+
+//A 页面
+//首先检测 Storage
+```
+if (typeof(Storage) !== "undefined") {
+    sessionStorage.'name'=value;
+} else {
+    sessionStorage.name = '';
+}
+
+//B 页面
+if (typeof(Storage) !== "undefined") {
+    var B_name = sessionStorage.name;
+}
+```
+
 
 ## 三者异同
 cookie 一般由服务器生成，可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效,存放数据大小一般4K左右，而sessionStorage与localStorage大小在5兆左右，在客户端生成，localStorage除非被清除，否则会永久保存，sessionStorage仅在当前会话下有效，关闭页面或浏览器后被清除，cookie在与服务器端通信每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题,而sessionStorage与localStorage仅在客户端（即浏览器）中保存，不参与和服务器的通信。
