@@ -27,3 +27,14 @@ MDN解释：**当元素祖先的 transform 属性非 none 时，定位容器由�
 在 viewport 视口滚动到元素 top 距离小于 10px 之前，元素为相对定位。之后，元素将固定在与顶部距离 10px 的位置，直到 viewport 视口回滚到阈值以下。
 
 transform 属性值不为none 的元素 perspective 值不为none 的元素 在 will-change 中指定了任意CSS 属性
+## 注意事项
+1. 设定为 position:sticky 元素的任意父节点的 overflow 属性必须是 visible，否则 position:sticky 不会生效。
+
+2. 如果 position:sticky 元素的任意父节点定位设置为 position:relative | absolute | fixed，则元素相对父元素进行定位，而不会相对 viewprot 定位。
+
+3. 必须指定 top, right, bottom 或 left 四个阈值其中之一，才可使粘性定位生效。否则其行为与相对定位相同。
+
+4. 设置了 position: sticky 的元素并不脱离文档流，仍然保留元素原本在文档流中的位置
+————————————————
+版权声明：本文为 CSDN 博主「冰茶茶」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/ice_teas/article/details/103876733
