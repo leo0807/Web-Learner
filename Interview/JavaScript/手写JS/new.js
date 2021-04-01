@@ -5,13 +5,38 @@
 // 如果执行结果有返回值并且是一个对象, 返回执行的结果, 否则, 返回新创建的对象。
 
 // 1、创建了一个空的js对象（即{ } ）
-
 // 2、将空对象的原型prototype指向构造函数的原型
-
 // 3、将空对象作为构造函数的上下文（改变this指向）
-
 // 4、对构造函数有返回值的判断
 // Object.create() 方法会使用指定的原型对象及其属性去创建一个新的对象。
+// 使用Object.create()是将对象继承到原型链上，然后可以通过对象实例的__proto__属性进行访问原型链上的属性
+
+
+
+// new Person() ：使用new我们可以得到实际的对象，有__proto__属性和constructor属性；
+// 使用instanceof判断存在构造函数。
+
+// Object.create() ：使用Object.create()创建的对象并没有上面的两个属性，
+// 使用instanceof判断存在构造函数，无法指向自身构造函数；
+// 但是Object.create()可以设置某个属性的底层是否可操作，这一点在new Person()没有
+
+// new 和 Object.creat的区别 https://www.jianshu.com/p/165cb07b9de0
+const Base = function () { };
+// new
+let o1 = new Object();
+o1.__proto__ = Base.prototype;
+Base.call(o1);
+// Object
+Object.create = function (Base) {
+    let F = function () { };
+    F.prototype = Base;
+    return new F();
+}
+
+
+
+
+
 
 function myNew(obj, ...args) {
     if (typeof obj !== 'function') {
