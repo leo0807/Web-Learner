@@ -78,3 +78,21 @@ function flatLevel(arr, level) {
 
 const arrL = [1, 2, 3, 4, [1, 2, 3, [1, 2, 3, [1, 2, 3]]], 5, ["string", { type: "对象" }]];
 console.log(flatLevel(arrL, 4));
+
+Array.prototype.transfer = function (depth) {
+  let res = [];
+  let arr = this;
+  for (let i = 0, len = arr.length; i < len; i++) {
+    if (Array.isArray(arr[i])) {
+      let tmpDepth = depth;
+      while (tmpDepth > 1 && Array.isArray(arr[i])) {
+        arr[i] = [].concat(...arr[i]);
+        tmpDepth--;
+      }
+      res.push(...arr[i]);
+    } else {
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
