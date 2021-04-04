@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通过Iframe进行跨域</title>
+    <!-- https://segmentfault.com/a/1190000000702539 -->
+</head>
+<body>
+    <iframe id="ifr" src="http://img.foo.com/b.html"></iframe>
+    <!-- document.domain -->
+    <!-- foo.com/a.html -->
+    <script>
+        document.domain = "foo.com";
+        function aa(str){
+            console.log(str);
+        }
+        window.onload = function(){
+            document.getElementById("ifr").contentWindow.bb("aaa");
+        }
+    </script>
+    <!-- img.foo.com/b.html -->
+    <script>
+        document.domain = "foo.com";
+        function bb(str){
+            console.log(str);
+        }
+        parent.aa("bbb");
+    </script>
+
+    <!-- window.name -->
+    <!-- 
+        只要不关闭浏览器，window.name可以在不同页面加载后依然保持。
+        尝试在浏览器打开百度baidu.com，然后在控制台输入window.name='aaa';
+        回车，接着在地址栏输入qq.com转到腾讯首页，打开控制台输入window.name查看它的值，
+        可以看到输出了"aaa"。例如子页面bar.com/b.html向父页面foo.com/a.html传数据
+     -->
+     <!-- foo.com/a.html -->
+    <iframe id="ifr1" src="http://bar.com/b.html"></iframe>
+    <script>
+        function callback(data) {
+            console.log(data)
+        }
+    </script>
+    <!-- bar.com/b.html -->
+    <input id="txt" type="text">
+    <input type="button" value="Send" onclick="send();">
+    <script>
+        var proxyA = 'http://foo.com/aa.html';    // foo.com下代理页面
+        var proxyB = 'http://bar.com/bb.html';    // bar.com下代理空页面
+
+        var ifr = document.createElement('iframe');
+        ifr.style.display = "none";
+        document.body.appendChild(ifr);
+        function send(){
+            ifr.src = proxyB;
+        }
+
+        ifr.onload = function(){
+            ifr.contentWindow.name = document.getElementById("txt").value;
+            ifr.src = proxyA; 
+        }
+    </script>
+    <!-- foo.com/aa.html -->
+    <script>
+        top.callback(window.name)
+    </script>
+
+    <!-- location.hash -->
+    <!-- 
+        较常用，把传递的数据依附在url上
+        例如获取子页面bar.com/b.html的高度及其他数据
+     -->
+
+</body>
+</html>
