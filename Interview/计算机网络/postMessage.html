@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        HTML5新增方法，现在浏览器及IE8+支持，简单易用高大上。
+        .postMessage(message, targetOrigin)参数说明
+
+        message: 是要发送的消息，类型为 String、Object (IE8、9 不支持)
+        targetOrigin: 是限定消息接收范围，不限制请使用 '*'
+        'message', function(e)回调函数第一个参数接收 Event 对象，有三个常用属性：
+
+        data: 消息
+        origin: 消息来源地址
+        source: 源 DOMWindow 对象
+        一个简单的父页面foo.com/a.html 和子页面 bar.com/b.html建立通信
+     -->
+     <!-- foo.com/a.html -->
+     <iframe id="ifr" src="http://bar.com/b.html"></iframe>
+     <script>
+         window.onload = function(){
+             var ifr = document.getElementById("ifr");
+             ifr.contentWindow.postMessage({a: 1}, '*');
+         }
+         window.addEventListener('message', function(e){
+             console.log('bar say:'+ e.data);
+         }, false);
+     </script>
+
+     <!-- bar.com/b.html -->
+     <script>
+         window.addEventListener('message',function(e){
+             console.log('foo say:' + e.data.a);
+             e.source.postMessage('get', '*');
+         }, false);
+     </script>
+</body>
+</html>
