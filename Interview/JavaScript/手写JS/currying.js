@@ -28,10 +28,10 @@ function add() {
 let x = add(1, 3)(2)
 console.log(x.toString());
 
-function add(x) {
-    return function (...args) {
-        return [x, ...args].reduce((prev, curr) => prev + curr, 0);
-    };
+function sum(...args) {
+    const target = (...args1) => sum(...[...args, ...args1]);
+    target.getValue = () => args.reduce((p, n) => p + n, 0);
+    return target;
 }
 
 function curry(fn, args) {
