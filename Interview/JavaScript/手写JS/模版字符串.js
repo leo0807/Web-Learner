@@ -6,7 +6,7 @@ let render = (template, context) => {
 var template = "{{name}}很厉害，才{{age}}岁"
 var context = { name: "bottle", age: "15" }
 
-// console.log(render(template, context));
+console.log(render(template, context));
 
 
 function render2(template, context) {
