@@ -87,3 +87,18 @@ console.log(person.age) // 18
 // const tb2 = myNew(Person, 'Chen', 'Tianbao');
 // console.log(tb2)
 
+function Person(name) {
+
+    this.name = name
+    // 1. return name; => {name:"Tom"}
+    // 2. return {} => {}
+}
+// 1和2实例化过程中，p有什么不同
+let p = new Person('Tom');
+// 作者：我今天血糖低
+// 链接：https://www.nowcoder.com/discuss/611521?type=post&order=time&pos=&page=1&channel=-1&source_id=search_post_nctrack
+// 来源：牛客网
+
+// 构造函数不需要显示的返回值。使用new来创建对象(调用构造函数)时，
+// 如果return的是非对象(数字、字符串、布尔类型等)会忽而略返回值;
+// 如果return的是对象，则返回该对象(注：若return null也会忽略返回值）。
