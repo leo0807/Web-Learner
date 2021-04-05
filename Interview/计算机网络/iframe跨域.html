@@ -72,6 +72,23 @@
         较常用，把传递的数据依附在url上
         例如获取子页面bar.com/b.html的高度及其他数据
      -->
-
+     <!-- foo.com/a.html -->
+     <iframe id="ifr2" src="http://bar.com/b.html"></iframe>
+     <script>
+         function callback(data){
+             console.log(data);
+         }
+     </script>
+     <!-- bar.com/b.html -->
+     <script>
+         window.onload = function(){
+             var ifr = document.createElement("iframe");
+             ifr.style.display = "none";
+             var height = document.documentElement.scrollHeight;
+             var data = '{"h"'+height+',"json":{"a":1, "b":2}}';
+             ifr.src = 'http://foo.com/aa.html#' + data;
+             document.body.appendChild(ifr);
+         }
+     </script>
 </body>
 </html>
