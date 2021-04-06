@@ -77,3 +77,16 @@ fetch('https://jsonplaceholder.typicode.com/posts', {
 })
     .then(response => response.json())
     .then(json => console.log(json))
+
+// 优点：
+// 1.语法简介，更加语义化2.基于标准promise实现，支持async / await3.更加底层，提供的API丰富(request, response)4.脱离了XHR，是Es规范里新的实现方
+// 缺点：
+// 1.支持网络请求报错，也就是说只有网络错误这些导致请求不能完成时他才会调用reject，而对400，500这种错误它并不会reject
+// 2.默认不会带cookie，需要添加配置项：fetch(url, { credentials: ‘include’ })
+// 3.不支持abort，不支持超时控制，使用setTimeout及promise.reject的实现的超时控制不能阻止请求过程继续在后台运行，会造成流量的浪费
+// 4.fetch没办法原生检测请求的进度，XHR可以
+
+// 作者：彭斌呀
+// 链接：https://juejin.cn/post/6844904184748195848
+// 来源：掘金
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
