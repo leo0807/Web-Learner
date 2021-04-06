@@ -96,3 +96,13 @@ Array.prototype.transfer = function (depth) {
   }
   return res;
 }
+
+function flat(arr, num) {
+  return num > 0 ? arr.reduce((prev, curr) => {
+    return prev.concat(Array.isArray(curr) ? flat(curr, num - 1) : curr);
+  }, []) : arr.slice();
+}
+let ary = [1, [2, [3, [4, 5]]], 6];
+Array.prototype.myFlat = function (num) {
+  return flat(this, num);
+}
