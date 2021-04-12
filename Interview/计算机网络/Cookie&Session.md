@@ -13,7 +13,6 @@
 一般来说，只有服务器操作 Cookie 才能保证一些必要的安全。但有时候，可能需要前端来增删改查 Cookie
 在不设置**HttpOnly**的情况下， 客户端可以通过**document.cookie**可获取cookie
 
-
 Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大小限制为4KB左右，是网景公司的前雇员 Lou Montulli 在1993年3月的发明。它的主要用途有保存登录信息，比如你登录某个网站市场可以看到“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。
 
 每个域名下的Cookie不得超过**50个（IE）**，大小不超过4KB。不同浏览器有不同的约束。
@@ -32,12 +31,25 @@ Cookie 是小甜饼的意思。顾名思义，cookie 确实非常小，它的大
 
 现在一个 cookie 它的 Domain 属性为 www.example.com，path 属性值为 /。意味着，这个 cookie 对该域的根路径以及它的所有子路径都有效。如果我们修改了它的 path 值，为 /forums，那么这个 cookie 只要在访问 www.example.com/forums 及其子路径时才会带上
 
-
-
 3. Secure 和 HttpOnly
 - Secure 属性指定浏览器只有在加密协议 HTTPS 下，才能将这个 Cookie 发送到服务器。另一方面，如果当前协议是 HTTP，浏览器会自动忽略服务器发来的 Secure 属性。
  
 - HttpOnly 属性指定该 Cookie 无法通过 JavaScript 脚本拿到，主要是 Document.cookie 属性、XMLHttpRequest 对象和 Request API 都拿不到该属性。这样就防止了该 Cookie 被脚本读到，只有浏览器发出 HTTP 请求时，才会带上该 Cookie。
+
+### Cookie安全性问题
+为什么 cookie 不安全
+最大的原因是因为它存储在浏览器端（用户本地），一些别有用心的人能够通过浏览器截获 cookie（脚本、利用工具抓取等）
+
+1. cookie 截获
+cookie 以纯文本的形式在浏览器和服务器之间传递，在 web 通信时极容易被非法用户截获和利用。非法用户截获 cookie 后，在 cookie 的有效时间内重新发放给服务器，那么这个非法用户就拥有了这个合法用户的所有权限。
+2. Flash 的内部代码隐患
+Flash 中有一个 getURL()函数，Flash 利用它自动打开指定的页面。那么这个就意味着，你在观看 Flash 动画时，在 Flash 的内部可以悄无声息的打开一个极小的不易发现的包含特殊操作的页面，可以是木马，可以向远端输入当前 cookie 或者用户信息，这是非常危险的，由于这个是 Flash 内部的操作，所以网站无法禁止，要想避免，尽量打开本地防火墙以及访问正规网站。
+
+作者：肆桶
+链接：https://www.jianshu.com/p/3104e83dea8d
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 
 
 
