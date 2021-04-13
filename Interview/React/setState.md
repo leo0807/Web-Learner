@@ -35,3 +35,17 @@ commit包含三个阶段：
 useEffect在commit阶段完成后异步调用
 componentDidMount在commit阶段完成视图更新（mutation阶段）后在layout阶段同步完成
 useEffectLayout在layout阶段同步完成
+
+
+# React 的 setState 本身并不是异步的，是因为其批处理机制给人一种异步的假象。
+**React 的更新机制**
+
+1. 生命周期函数和合成事件中：
+无论调用多少次 setState，都不会立即执行更新。而是将要更新的 state 存入'\_pendingStateQuene',将要更新的组件存入'dirtyComponent';
+当根组件 didMount 后，批处理机制更新为 false。此时再取出'\_pendingStateQuene'和'dirtyComponent'中的 state 和组件进行合并更新；
+原生事件和异步代码中：
+
+2. 原生事件不会触发 react 的批处理机制，因而调用 setState 会直接更新；
+异步代码中调用 setState，由于 js 的异步处理机制，异步代码会暂存，等待同步代码执行完毕再执行，此时 react 的批处理机制已经结束，因而直接更新。
+总结：
+react 会表现出同步和异步的现象，但本质上是同步的，是其批处理机制造成了一种异步的假象。（其实完全可以在开发过程中，在合成事件和生命周期函数里，完全可以将其视为异步）
