@@ -56,6 +56,7 @@ Array.prototype.newMap = function (callback) {
     k = 0;
     while (k < len) {
         var kValue, mappedValue;
+        // 判断是否有key，没有则略过
         if (k in O) {
             kValue = O[k];
             mappedValue = callback.call(T, kValue, k, O);
