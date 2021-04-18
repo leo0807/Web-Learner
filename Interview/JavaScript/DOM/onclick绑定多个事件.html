@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="container" onclick="A();B();"></div>
+    <script>
+        function A(){
+            console.log('this is function A');
+        }
+        function B(){
+            console.log('this is function B');
+        }
+    </script> -->
+
+    <!-- <div class="container"></div>
+    <script>
+        let dom = document.querySelector('.container');
+        dom.onclick = function(){
+            A();
+            B();
+        }
+        function A(){
+            console.log('this is function A');
+        }
+        function B(){
+            console.log('this is function B');
+        }
+    </script> -->
+    <!-- 解除绑定
+    dom.removeAttribute("onclick");   or
+    dom.onclick="";
+    -->
+    <div class="container"></div>
+    <script>
+        let dom = document.querySelector('.container');
+        function A(){
+            console.log('this is function A');
+        }
+        function B(){
+            console.log('this is function B');
+        }
+        function addClickEvent(dom, func){
+            if(dom.onclick){
+                let cb = dom.onclick;
+                dom.onclick = function(...args){
+                    cb.call(this, ...args);
+                    func.call(this, ...args);
+                }
+            }else{
+                dom.onclick = func;
+            }
+        }
+        addClickEvent(dom, A);
+        addClickEvent(dom, B);
+        // 3.
+        elem.onclick = function (fn) {
+            var bak = elem.onclick;
+            return function (e) {
+                bak && bak.call(this, e);
+                fn.call(this, e);
+            };
+        }(new_callback)
+    </script>
+</body>
+</html>
