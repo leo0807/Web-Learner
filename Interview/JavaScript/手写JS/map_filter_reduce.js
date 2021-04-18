@@ -66,3 +66,38 @@ Array.prototype.newMap = function (callback) {
     }
     return A;
 }
+
+// 使用reduce实现map
+Array.prototype.myMap = function (callback) {
+    let arr = this,
+        res = [];
+    return arr.reduce((prev, curr, index, array) => {
+        return prev.concat(callback(curr, index, array));
+    }, res);
+}
+
+let a = [1, 2, 3];
+// a.myMap(console.log);
+console.log(a.myMap(item => item * 2));
+
+Array.prototype._map = function (fn, thisArg) {
+    const result = [];
+    this.reduce((prev, curr, index, array) => {
+        result[index] = fn.call(thisArg, array[index], index, array);
+    }, 0)
+    return result;
+}
+
+// ————————————————
+// 版权声明：本文为CSDN博主「进击的桐人」的原创文章，遵循CC 4.0 BY - SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/romeo12334/article/details/105046767
+
+
+Array.prototype.mapFunc = function (fn, thisArg) {
+    let res = [];
+    thisArg = thisArg || [];
+    return this.reduce((prev, curr, index, arr) => {
+        return prev.concat(fn.call(thisArg, curr, index, arr));
+    }, res);
+}
+
