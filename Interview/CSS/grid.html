@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: grid;
+            /* display: -ms-inline-grid; 行内元素 */
+            /* grid-template-columns: repeat(3, 33.3%); */
+            /* 重复某种模式 */
+            /* grid-template-columns: repeat(2, 100px 20px 80px); */
+            /* 每一行（或每一列）容纳尽可能多的单元格 */
+            /* grid-template-columns: repeat(auto-fill, 100px); */
+            /* fr => fraction */
+            /* grid-template-columns: 1fr 1fr; */
+            /* minmax=> 不小于100px 不大于 1fr */
+            /* grid-template-columns: 1fr 1fr minmax(100px, 1fr); */
+            /* auto 表示由浏览器自己决定长度 */
+            /* grid-template-columns: 100px auto 100px; */
+            /* 百分比 */
+            /* grid-template-columns: 30% 60%; */
+            /* grid-template-columns: 200px 1fr; */
+            /* grid-template-rows: repeat(3, 33.3%); */
+
+            /* 
+                1. grid-column-gap
+                2. grid-row-gap
+                3. grid-gap: row col; 如果省略第二个值，则其值等同于第一个
+             */
+
+             /* grid-template-areas 属性 */
+
+             /* grid-template-areas: 'a b c'
+                        'd e f'; */
+            /* grid-template-areas: "header header header"
+                     "main main sidebar"
+                     "footer footer footer"; */
+            /* 如果某些区域不需要利用，则使用"点"（.）表示。
+            grid-template-areas: 'a . c'
+                     'd . f'
+                     'g . i'; */
+
+            /* 
+            1. justify-items: start | end | center | stretch;
+            2. align-items: start | end | center | stretch;
+            3. stretch 占满整个单元格
+            4. place-items: <align-items> <justify-items>;
+             */
+             
+             /* 
+             1. justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+             2. align-content: start | end | center | stretch | space-around | space-between | space-evenly;   
+             3. place-content: <align-content> <justify-content>
+             */
+
+             /* 
+             项目的位置是可以指定的，具体方法就是指定项目的四个边框，分别定位在哪根网格线。
+
+                grid-column-start属性：左边框所在的垂直网格线
+                grid-column-end属性：右边框所在的垂直网格线
+                grid-row-start属性：上边框所在的水平网格线
+                grid-row-end属性：下边框所在的水平网格线
+
+                .item-1 {
+                grid-column-start: 2;
+                grid-column-end: 4;
+                }
+
+                指定网格线的名称
+                .item-1 {
+                grid-column-start: header-start;
+                grid-column-end: header-end;
+                }
+                这四个属性的值还可以使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格。
+                跨越两个col
+                .item-1 {
+                grid-column-start: span 2;
+                }
+              */
+
+
+              /*               
+                grid-column属性是grid-column-start和grid-column-end的合并简写形式，grid-row属性是grid-row-start属性和grid-row-end的合并简写形式。
+
+                .item {
+                grid-column: <start-line> / <end-line>;
+                grid-row: <start-line> / <end-line>;
+                }
+               */
+
+
+               /* 
+               
+               grid-area属性指定项目放在哪一个区域。
+                
+                .item-1 {
+                grid-area: e;
+                }
+                grid-area属性还可用作grid-row-start、grid-column-start、grid-row-end、grid-column-end的合并简写形式，直接指定项目的位置。
+                .item {
+                grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
+                }
+                */
+                
+
+                /* 
+                justify-self属性设置单元格内容的水平位置（左中右），跟justify-items属性的用法完全一致，但只作用于单个项目。
+
+                align-self属性设置单元格内容的垂直位置（上中下），跟align-items属性的用法完全一致，也是只作用于单个项目。
+                .item {
+                justify-self: start | end | center | stretch;
+                align-self: start | end | center | stretch;
+                }
+                place-self: <align-self> <justify-self>;
+                 */
+
+        }
+        .left{
+            background-color: red;
+            /* width: 200px !important; */
+            height: 100vh;
+        }
+        .right{
+            background-color: yellow;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>
