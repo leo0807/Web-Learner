@@ -53,3 +53,6 @@ array.forEach(function(currentValue, index, arr), thisValue)
 
 # map
 同样不能使用```break```或```return```返回外层函数，但是可以用return 返回值
+
+# 效率比较
+普通 for 循环 > forEach > for of > map > for in
