@@ -12,6 +12,7 @@ sort一开是会对数组中每一项的最左边进数字行排序，然而对�
 
 sort可以接收两个参数的函数 进行两两对比
 若
-x - y < 0 x会被移动到y前面 升序 return x - y     return > 0
-x - y < 0 x会被移动到y后面 降序 return y - x     return > 0
+x - y < 0 x会被移动到y前面 升序 return x - y    等同于 return -1
+x - y < 0 x会被移动到y后面 降序 return y - x    等同于 return 1
 x - y = 0 x和y位置不变 但不是所有浏览器都支持
+**如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序(按照字符编码的顺序)**
