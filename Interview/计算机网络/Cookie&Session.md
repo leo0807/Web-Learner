@@ -123,6 +123,17 @@ cookie 一般由服务器生成，可设置失效时间。如果在浏览器端�
 
 作者：heachou
 链接：https://www.jianshu.com/p/846c033c0cc8
-来源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+其他来源：https://segmentfault.com/a/1190000017831088
 
+
+# cookie 和 session
+由于 http 的无状态性，为了使某个域名下的所有网页能够共享某些数据，session 和 cookie 出现了。客户端访问服务器的流程如下
+
+1. 首先，客户端会发送一个 http 请求到服务器端。
+2. 服务器端接受客户端请求后，建立一个 session，并发送一个 http 响应到客户端，这个响应头，其中就包含 Set-Cookie 头部。该头部包含了 sessionId。Set-Cookie 格式如下，具体请看 Cookie 详解
+Set-Cookie: value[; expires=date][; domain=domain][; path=path][; secure]
+3. 在客户端发起的第二次请求，假如服务器给了 set-Cookie，浏览器会自动在请求头中添加 cookie
+4. 服务器接收请求，分解 cookie，验证信息，核对成功后返回 response 给客户端
+
+- 用 session 只需要在客户端保存一个 id，实际上大量数据都是保存在服务端。如果全部用 cookie，数据量大的时候客户端是没有那么多空间的。
+- 如果只用 cookie 不用 session，那么账户信息全部保存在客户端，一旦被劫持，全部信息都会泄露。并且客户端数据量变大，网络传输的数据量也会变大。
