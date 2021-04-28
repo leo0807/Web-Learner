@@ -1,17 +1,37 @@
-import React, { createRef } from 'react';
-import './App.css';
-
-function App() {
-  function traceInput(e) {
-    console.log(e.target.value);
+import React, { useState } from 'react';
+import fetchJsonp from 'fetch-jsonp';
+export default function App() {
+  const [inputVal, setInputVal] = useState("");
+  const [arrVal, setArrVal] = useState([]);
+  function handleInputChange(e) {
+    let val = e.target.value;
+    setInputVal(val);
+    let URL = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=';
+    fetchJsonp(URL + val, { jsonpCallback: 'cb' }).then((streamObj) => {
+      streamObj.json().then(data => {
+        setArrVal(data.s);
+      })
+    })
   }
-  let inputRef = createRef();
+  function mouseOverHandler(e) {
+    e.target.style.backgroundColor = "#ccc";
+    e.target.style.color = "darkgreen";
+  }
+  function mouseOutHandler(e) {
+    e.target.className = "";
+  }
   return (
     <div className="App">
-      <input type="text" onChange={(e) => traceInput(e)} />
-      <input type="text" ref={inputRef} onChange={() => console.log(inputRef.current.value)} />
+      <input type="text" value={inputVal} onChange={(e) => handleInputChange(e)} />
+      { inputVal.length > 0 && <ul>
+        {
+          arrVal.map((val, index) => {
+            return (
+              <li key={index} onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler}>{val}</li>
+            )
+          })
+        }
+      </ul>}
     </div>
-  );
+  )
 }
-
-export default App;
