@@ -11,7 +11,9 @@
     - CSS3 (Less & Sass)
     - Javascriptp (TypeScript)
     - JQuery
-    - MVVN
+    - Client-side Framework
+        - Angular
+            - RxJs
         - React
             - React-Router
             - React Hook
