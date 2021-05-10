@@ -9,7 +9,7 @@
 - Frontend Part
     - HTML5 (Canvas & SVG)
     - CSS3 (Less & Sass)
-    - Javascriptp (TypeScript)
+    - Javascript (TypeScript)
     - JQuery
     - Client-side Framework
         - Angular
@@ -31,7 +31,7 @@
         - Layui
         - Material-UI (React)
 - Backend
-    - Nodejs
+    - NodeJs
         - Koa
         - Express
     - Database
