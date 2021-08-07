@@ -10,6 +10,8 @@ public class Sc {
             String str = scanner.nextLine();
             System.out.println("The output content is :" + str);
         }
+        int number = scanner.nextInt();
+        System.out.println("Number is " + number);
         scanner.close();
     }
 }
