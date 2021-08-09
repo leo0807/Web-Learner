@@ -1,28 +1,3 @@
-function toTree(data){
-    let result = [];
-    if(!Array.isArray(data)){
-        return result;
-    }
-    data.forEach(item => {
-        delete item.children;
-    })
-
-    let map = {};
-    data.forEach(item =>{
-        map[item.id] = item;
-    });
-    
-    data.forEach(item =>{
-        let parent = map[item.pid];
-        if(parent){
-            (parent.children || (parent.children = [])).push(item);
-        }else{
-            result.push(item);
-        }
-    });
-
-    return result;
-}
 
 let arr = [
   {
@@ -57,4 +32,37 @@ let arr = [
   }
 ];
 
-console.log(toTree(arr));
+function listToTree(list) {
+  var map = {}, node, tree = [], i;
+  for (i = 0; i < list.length; i++) {
+    map[list[i].id] = list[i];
+    list[i].children = [];
+  }
+  for (i = 0; i < list.length; i += 1) {
+    node = list[i];
+    if (node.pid) {
+      map[node.pid].children.push(node);
+    } else {
+      tree.push(node);
+    }
+  }
+  console.log(tree);
+  return tree;
+}
+listToTree(arr);
+
+
+function isCicleReference(obj) {
+  for (let i in obj) {
+    if (typeof obj[i] === 'object') {
+      if (obj[i] === obj) {
+        return true;
+      } else {
+        if (isCicleReference(obj[i])) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}

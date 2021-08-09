@@ -1,166 +1,133 @@
-function isPrime(num) {
-  return !/^.?$|^(..+?)\1+$/.test(Array(num + 1).join("1"));
-}
-
-function getSum(arr) {
-  if (arr.length === 0) {
-    return 0
+Array.prototype.newMap = function (callback) {
+  var T, A, k;
+  if (this === null) {
+    throw new TypeError('this is null or undefined');
   }
-  return arr.shift() + getSum(arr);
-}
-// console.log(getSum([1, 2, 3, 4, 5, 6, 7]));
+  var O = Object(this);
+  var len = O.length >>> 0;
 
-function spReduce(arr) {
-  return arr.reduce((prev, curr) => {
-    return Array.isArray(curr) ? prev + spReduce(curr) : prev + curr;
-  }, 0);
-}
-// let arr1 = [1, 2, 3, [[4, 5], 6], 7, 8, 9];
-// console.log(spReduce(arr1));
+  if (typeof callback !== 'function') {
+    throw new TypeError(callback + 'is not a function');
+  }
 
-function flatRmDuplicate(arr) {
-  return [...new Set(flatten(arr))].sort((a, b) => a - b);
+  if (arguments.length > 1) {
+    T = arguments[1];
+  }
+
+  A = new Array(len);
+  k = 0;
+  while (k < len) {
+    var kValue, mappedValue;
+    if (k in O) {
+
+      kValue = O[k];
+      mappedValue = callback.call(T, kValue, k, O);
+      A[k] = mappedValue;
+    }
+    k++;
+  }
+
+  return A;
 }
 
 function flatten(arr) {
   return arr.reduce((prev, curr) => {
-    return prev.concat(Array.isArray(curr) ? flatten(curr) : curr);
-  }, []);
+    return prev.concat(Array.isArray(curr) ? arguments.callee(curr) : curr)
+  }, [])
 }
-
-// let arr2 = [[1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10];
-// console.log(flatRmDuplicate(arr2));
-function add(x) {
-  return function (...args) {
-    return [x, ...args].reduce((prev, curr) => prev + curr, 0);
-  };
-}
-
-Function.prototype.myCall = function (context = window, ...args) {
-  if (context === Function.prototype) return undefined;
-  const fn = Symbol();
-  context[fn] = this;
-  let res = context[fn](...args)
-  delete context[fn];
-  return res;
-}
-
-// console.log(Math.max.myCall(Math, 7, 2, 3, 4, 5));
-
-
-// var a = 10
-// var obj = {
-//   a: 20,
-//   say: () => {
-//     console.log(this.a)
-//   }
-// }
-// obj.say()
-// var anotherobj = { a: 30 }
-// obj.say.apply(anotherobj)
-
-
-
-// function foo() {
-//   console.log(this.a);
-// }
-
-// function doFoo() {
-//   foo();
-// }
-
-// var obj = {
-//   a: 1,
-//   doFoo: doFoo
-// };
-
-// var a = 2;
-// obj.doFoo()
-
-
-
-
-// 引用一个未声明的变量
-// function Bar() {
-//   baz = 42; // it's ok
-// }
-// const bar = new Bar();
-
-let str1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let res = "";
-function fillHead(num) {
-
-  while (num > 25) {
-    let first = Math.floor(num / 26) - 1;
-
-    res += str[first];
-    num = Math.floor(num / 26);
-  }
-  if (num >= 0) res += str[num];
-  return res;
-}
-
-function getStr(num) {
-  if (num >= 0 && num <= 25) {
-    return str1[num];
-  } else {
-    return getStr(Math.floor(num / 26) - 1) + getStr(num % 26);
-  }
-}
-
-// console.log(fillHead(700), fillHead(72), fillHead(25));
-// console.log(getStr(702), getStr(703), getStr(72), getStr(25));
-// function f1() {
-
-//   var n = 999;
-
-//   nAdd = function () { n += 1 }
-
-//   function f2() {
-//     console.log(n);
-//   }
-
-//   return f2;
-
-// }
-
-// var result = f1();
-
-// result();
-
-// nAdd();
-
-// result();
-
-
-// function Parent() {
-//   this.a = 'Parent'
-// }
-
-// function Child() {
-//   this.a = 'Child'
-// }
-
-// Function.prototype.print = function () {
-//   console.log(this.a)
-// }
-
-// Parent.print()
-// Child.print()
-
-// var p = new Parent()
-// p.print()
-
-function solver(nums) {
-  let first = nums.reduce((prev, curr) => prev + curr, 0);
-  let len = nums.length
-  let res = 0
-  for (let i = 0; i < len; i++) {
-    for (let j = 0; j < len; j++) {
-      if (i === j) continue;
-      res += (nums[i] | nums[j]);
+function getUnique(str) {
+  let map = new Map();
+  let res = [];
+  for (let i of str) {
+    if (map.has(i)) {
+      map.delete(i);
+    } else {
+      map.set(i, 1);
     }
   }
-  return res + first;
+  for (let i of map.keys()) {
+    console.log(i);
+  }
+  return map.values()[0];
 }
-console.log(solver([]));
+
+function extend(target, source) {
+  for (var obj in source) {
+    target[obj] = source[obj];
+  }
+  return target;
+}
+
+// var obj1 = { a: 1 };
+// var obj2 = { b: 2, c: 3 };
+// for (var key in obj2) {
+//   if (obj2.hasOwnProperty(key) === true) {
+//此处hasOwnProperty是判断自有属性，使用 for in 循环遍历对象的属性时，原型链上的所有属性都将被访问会避免原型对象扩展带来的干扰
+//     obj1[key] = obj2[key];
+//   }
+// }
+// console.log(obj1);
+// console.log(obj2);
+
+// 合并对象 如果是数组就合并在一起否则就覆盖
+var obj1 = {
+  a: {
+    c: 5,
+    b: [2, 3, 4]
+  },
+  d() {
+    console.log(5);
+  }
+}
+var obj2 = {
+  a: {
+    c: 4,
+    b: [5]
+  },
+  d: 5
+}
+function mergeObj(obj1, obj2) {
+  for (var key in obj2) {
+    if (obj2.hasOwnProperty(key) === true) {
+      if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
+        obj1[key] = obj1[key].concat(obj2[key]);
+      } else {
+        obj1[key] = obj2[key];
+      }
+    }
+  }
+  return obj1;
+}
+// console.log(mergeObj(obj1, obj2));
+
+function add(...args) {
+  let _add = (...args1) => add(...args1, ...args);
+  _add.value = () => args.reduce((prev, curr) => prev + curr);
+  return _add;
+}
+// console.log(add(1, 2, 3)(4)(5).value());
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortArray = function (nums) {
+  const len = nums.length;
+  let mid = Math.floor(len / 2);
+  let left = nums.slice(0, mid),
+    right = nums.slice(mid);
+  return mergeSort(sortArray(left), sortArray(right));
+};
+function mergeSort(left, right) {
+  const res = [];
+  while (left.length && right.length) {
+    if (left[0] < right[0]) {
+      res.push(left.shift());
+    } else {
+      res.push(right.shift());
+    }
+  }
+  while (left.length) res.push(left.shift());
+  while (right.length) res.push(right.shift());
+  return res;
+}
+console.log(sortArray([5, 1, 1, 2, 0, 0]));
