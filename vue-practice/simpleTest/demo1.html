@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1 v-if="type==='A'">A</h1>
+        <h1 v-else-if="type==='B'">B</h1>
+        <h1 v-else-if="type==='C'">C</h1>
+        <h1 v-else>D</h1>
+
+        <li v-for="item in items">
+            {{item.message}}
+        </li>
+        <!-- 双向绑定 -->
+        <input type="text" v-model="message">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                type: 'A',
+                items: [
+                    {message: "1"},
+                    {message: "2"},
+                    {message: "3"}
+                ],
+                message: ""
+            }
+        });
+    </script>
+</body>
+</html>
