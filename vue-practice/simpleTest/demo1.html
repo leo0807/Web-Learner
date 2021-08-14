@@ -16,11 +16,33 @@
         <li v-for="item in items">
             {{item.message}}
         </li>
+        <hr/>
         <!-- 双向绑定 -->
+        <!-- v-model会忽略所有表单元素的value，selected等特性值，渲染vue中data所绑定的值 -->
         <input type="text" v-model="message">
+        <input type="radio" v-model="gender" value="Male"> Male
+        <input type="radio" v-model="gender" value="Female"> Female
+        {{gender}}
+        <hr>
+        <select v-model="gender">
+            <option value="" disabled>Options</option>
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+        </select>
+
+        <!-- 组件复用 -->
+        <comp v-for="item in items" v-bind:arr="item"></comp>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>5454
     <script>
+        Vue.component("comp",{
+            props: ["arr"],
+            template: '<p>A component</p>'
+        });
+
         var vue = new Vue({
             el: "#app",
             data: {
@@ -30,7 +52,8 @@
                     {message: "2"},
                     {message: "3"}
                 ],
-                message: ""
+                message: "",
+                gender: ""
             }
         });
     </script>
