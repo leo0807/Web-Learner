@@ -1,4 +1,4 @@
-# Amdahl's law（阿姆达尔定律）
+# 1. Amdahl's law（阿姆达尔定律）
 参考来源：https://zhuanlan.zhihu.com/p/48022905
 
 Gene Amdahl发现了一个观察，即：提升一个系统的一个部分的性能对整个系统有多大影响。
@@ -13,7 +13,7 @@ $T_{new} = (1 - \alpha) T_{old} + \frac {\alpha T_{old}}{k} = T_{old}[(1-\alpha)
 
 简化后其公式为：
 
-$Speedup_{Amdahl} = \frac{1}{1 - \alpha + \frac{\alpha}{k}}$
+$S_{Amdahl} = \frac{1}{1 - \alpha + \frac{\alpha}{k}}$
 
 举例：
 
@@ -22,3 +22,7 @@ $Speedup_{Amdahl} = \frac{1}{1 - \alpha + \frac{\alpha}{k}}$
 根据如上例子，可见即使一个系统的主要部分性能提升了很多，整个系统的性能的提升远远小于此部分的提升。
 
 若把该例子进行极端化处理，即把提升的性能从$3$倍提升到无穷倍，即$k = \infty$， 这部分能瞬间执行完毕，则有$S_{\infty} = \frac{1} {1 - \alpha} = \frac{1} {1 - 0.6}$, 远远小于 $\infty$。
+
+
+## 2. Amdahl`s Law 局限性
+Amdahl’s law 忽略了一些重要的事实。Amdahl’s law 是一个 fixed-size model，就是要解决的问题的大小是固定的，可并行化的比例是固定的。而在实际中，我们不会用 1000 个处理机来处理一个小问题，当我们的计算能力的总和增加之后，可以也应该去解决更大的问题。当问题更大的时候，通常情况下，这个问题也有更大的可能被分为可并行化的小问题（或者说处理多个相互独立的问题），也就意味着 $\alpha$ 更大（更接近 1），能得到更大的 Speedup。
