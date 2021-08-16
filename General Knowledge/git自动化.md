@@ -33,15 +33,12 @@
     1. 如果需要Oauth验证，则为如下
     ```
     curl -H "Authorization: token MYTOKEN" -u 'USERNAME:PASSWORD' https://api.github.com/user/repos -d '{"name":"REPONAME"}'
-
     ```
     其中大写字母根据自身进行替换, ```PASSWORD```可去掉，去掉后需要手动输入密码；
     2. ```'{"name":"REPONAME","private":"true", "description":"none"}'```可以进行选填
     3. 或者也可以去掉Oauth
     操作如链接所示 <a href="https://docs.github.com/en/organizations/restricting-access-to-your-organizations-data/disabling-oauth-app-access-restrictions-for-your-organization
     " title="Hobbit lifestyles">LINK</a>
-
-
     - E.g.2
     ```
     curl -F 'login=username' -F 'token=API Token' https://github.com/api/v2/yaml/repos/create -F name=reponame
