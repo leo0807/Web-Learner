@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Demo1",
+            "request": "launch",
+            "mainClass": "Backend.Java.网络编程.Demo1",
+            "projectName": "Documents_e0c07872"
+        },
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Backend/.net/day2/bin/Debug/net5.0/day2.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Backend/.net/day2",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}
