@@ -44,3 +44,81 @@ let a3 = new Action("总监")
 a1.setNextAction(a2)
 a2.setNextAction(a3)
 a1.handle()
+class EmployeeChain {
+    setNextEmp(nextEmpInChain) { }
+    assignWork(req) { }
+}
+
+class Employee {
+    constructor(name, level) {
+        this.name = name
+        this.level = level
+    }
+
+    getLevel() {
+        return this.level
+    }
+
+    getName() {
+        return this.name
+    }
+
+}
+
+class EasyLevelWorkHandler extends EmployeeChain {
+    constructor() {
+        super()
+        this.nextEmpInChain = new EmployeeChain()
+    }
+
+    setNextEmp(nextEmpObj) {
+        this.nextEmpInChain = nextEmpObj;
+    }
+
+    assignWork(req) {
+        if (req.getLevel() == "Easy") {
+            console.log("Easy work assigned to: " + req.getName());
+        } else {
+            this.nextEmpInChain.assignWork(req);
+        }
+    }
+}
+
+class MediumLevelWorkHandler extends EmployeeChain {
+    constructor() {
+        super()
+        this.nextEmpInChain = new EmployeeChain()
+    }
+
+    setNextEmp(nextEmpObj) {
+        this.nextEmpInChain = nextEmpObj;
+    }
+
+    assignWork(req) {
+        if (req.getLevel() == "Medium") {
+            console.log("Medium work assigned to: " + req.getName());
+        } else {
+            this.nextEmpInChain.assignWork(req);
+        }
+    }
+}
+
+
+class HardLevelWorkHandler extends EmployeeChain {
+    constructor() {
+        super()
+        this.nextEmpInChain = new EmployeeChain()
+    }
+
+    setNextEmp(nextEmpObj) {
+        this.nextEmpInChain = nextEmpObj;
+    }
+
+    assignWork(req) {
+        if (req.getLevel() == "Hard") {
+            console.log("Hard work assigned to: " + req.getName());
+        } else {
+            this.nextEmpInChain.assignWork(req);
+        }
+    }
+}
