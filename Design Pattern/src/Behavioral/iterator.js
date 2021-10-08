@@ -105,9 +105,6 @@ class ReverseIterator {
 
 
 function reverseIterate(items) {
-    //write-your-code-here
-    //to display the values of keys
-    //in items in reverse 
     const iter = new ReverseIterator(items);
     for (let i = iter.last(); iter.hasprevElement(); i = iter.previous()) {
         console.log(i);
