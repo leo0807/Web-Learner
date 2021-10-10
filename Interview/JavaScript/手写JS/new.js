@@ -33,11 +33,6 @@ Object.create = function (Base) {
     return new F();
 }
 
-
-
-
-
-
 function myNew(obj, ...args) {
     if (typeof obj !== 'function') {
         throw Error('The first parameter type must be a function');
