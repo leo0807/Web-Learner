@@ -17,6 +17,7 @@ JavaScript执行JavaScript引擎和页面渲染引擎在同一个渲染线程，
     但是如果到了超时时间（即1000ms后），即使没有空余时间，也要执行这个callback
 ## Fiber之前
 ### 协调
+
 - React会递归比对Virtual DOM树，找出需要变动的节点，然后**同步更新**它们，这个过程React称为 Reconcilation（协调）
 - 在**协调**期间，React会一直占用着浏览器资源，
     - 一则会导致用户触发的事件得不到响应；
@@ -28,6 +29,15 @@ JavaScript执行JavaScript引擎和页面渲染引擎在同一个渲染线程，
 但是如果用户或者说客户端写代码的时候或者执行时间超过给的剩余时间，浏览器没有办法
 所以一个虚拟DOM的更新超过16ms，也会卡的
  -->
+ - JavaScript 引擎和页面渲染引擎两个线程是互斥的，当其中一个线程执行时，另一个线程只能挂起等待。
+  在这样的机制下，如果 JavaScript 线程长时间地占用了主线程，那么渲染层面的更新就不得不长时间地等待，界面长时间不更新，会导致页面响应度变差，用户可能会感觉到卡顿
+
+## Fiber的核心架构
+1. Scheduler 调度器 —— 调度任务的优先级，高优任务优先进入 Reconciler
+2. Reconciler 协调器 —— 负责找出变化的组件
+3. Renderer 渲染器 —— 负责将变化的组件渲染到页面上
+
+
 ## Fiber
 - Fiber是一个**执行单元**，每执行完一个执行单元，React会检查现在还剩多少时间，如果没有就会将控制权交出去
 - 浏览器会先执行**高优先级任务**，如事件处理，Js执行，布局/绘制等
@@ -36,6 +46,11 @@ Fiber是把整个任务分成很多个小任务，每次执行一个任务，
 
 - React目前的做法是使用链表，每个VirtualDOM节点内部表示为一个Fiber
     - 每一个Fiber节点有三个指针，Child 大儿子，return 父亲， sibling兄弟节点
+    ```
+    this.return = null;
+    this.child = null;
+    this.sibling = null;
+    ```
 ### Fiber 执行阶段
 虚拟节点会转化为Fiber结构
 - 每次渲染有两个阶段， **Reconciliation**（协调、Render阶段）和**Commit**（提交阶段）

@@ -3,8 +3,8 @@ function type(target) {
     var template = {
         "[object Array]": "array",
         "[object Object]": "object",
-        "[object Number]": "number - object",
-        "[object Boolean]": "boolean - object",
+        "[object Number]": "number-object",
+        "[object Boolean]": "boolean-object",
         "[object String]": 'string-object'
     }
 
