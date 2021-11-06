@@ -153,7 +153,9 @@ function createComputedGetter (key) {
 4. 从编码上 computed 实现的功能也可以通过普通 method 实现，但与函数相比，计算属性是基于响应式依赖进行缓存的，只有在依赖的数据发生改变是，才重新进行计算，只要依赖项没有发生变化，多次访问都只是从缓存中获取;
 
 ## vue 中 key 的作用
-1. diff中的sameVnode判断，利用快速节点比对
+不使用key会导致的BUG[!https://juejin.cn/post/6844903918619590669](LINK)
+1. diff中的sameVnode判断，了高效的更新虚拟 DOM，其原理是 vue 在 patch 过程中通过 key 可以精准判断两个节点是否是同一个，从而避免频繁更新不同元素，使得整个 patch 过程更加高效，减少 DOM 操 作量，提高性能。
+
 2. 列表节点唯一标识
 列表循环 v-for="i in dataList" 会有提示我们需要加上 key ，因为循环后的 dom 节点的结构没特殊处理的话是相同的， key 的默认值是 undefined ，那么按照上面 sameVnode 的算法，新生成的 Vnode 与 旧的节点的比较结果就是相同的，vue 会对这些节点尝试就地修改/复用相同类型元素的，这种模式是高效，但是这种模式会有副作用，比如节点是带有状态的，那么就会出现异常的 bug，所以这种不写 key 的默认处理只适用于不依赖其他状态的列表
 3. 利于节点高效查找
@@ -175,6 +177,7 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
 }
 ```
 最终可以使用map直接查找
+4. vue 中在使用相同标签名元素的过渡切换时，也会使用到 key 属性，其目的也是为了让 vue 可以区分它们，否则 vue 只会替换其内部属性而不会触发过渡效果。
 
 
 
