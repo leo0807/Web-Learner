@@ -286,16 +286,89 @@ render Virtual DOM + diff O 显然比渲染 html string 要慢，但我们知道
 
 4. VDOM的真正意义
 - 为函数式的 UI 编程方式打开了大门；
-- 可以渲染到 DOM 以外的 backend，比如 ReactNative；
+- 可以渲染到 DOM 以外的 backend，比如 ```React Native```；
+- 跨平台，对比```Svelte```。
+
+# Vue 组件 data 为什么必须是个函数而 Vue 的```根```实例则没有此限制？
+函数每次执行都会返回全新data对象实例
+1. Vue组件可能存在多个实例，如果使用对象定义data，则会导致他们共用一个data对象，那么状态变更将会影响所有组件实例；
+2. 采用函数形式定义，在initData时会将其作为工厂函数返回全新对象，有效规避多实例之间状态污染问题；
+3. Vue根实例创建过程中则不存在该限制，也是因为根实例只能有一个，不需要担心这种情况
+
+# Vue 组件为什么 data 必须是一个函数？
+每次实例化组件调用 data 函数，返回一个新对象，使其组件拥有独立的对象数据，若不是函数共用一个对象，不具有独立性
+。
+举例，
+```
+function Component(){
+ 
+}
+Component.prototype.data = {
+    name:'jack',
+    age:22,
+}
+var componentA = new Component();
+var componentB = new Component();
+componentA.data.age=55;
+console.log(componentA,componentB)
+```
+此时componentA,componentB的age数据指向同一片数据地址，数据见不具备独立性；
+- 使用函数修改后
+```
+function Component(){
+ this.data = this.data()
+}
+Component.prototype.data = function (){
+    return {
+    name:'jack',
+    age:22,
+}
+}
+var componentA = new Component();
+var componentB = new Component();
+componentA.data.age=55;
+console.log(componentA,componentB)
+```
+此时 componentA,componentB 的 age 分别为55，22，数据间隔具备独立性；
+
+# nextTick
+- nextTick作用
+1. nextTick 是 Vue 提供的一个全局 API 由于 vue 的异步更新策略导致我们对数据的修改不会立刻体现在 dom 变化上，此时如果想要立即获取更新后的 dom 状态，就需要使用这个方法
+2. Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发
+生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。nextTick 方法会在队列中加入一个回调函数，确保该函数在前面的 dom 操作完成后才调用。 
+3. 所以当我们想在修改数据后立即看到 dom 执行结果就需要用到 nextTick 方法。
+4. 比如，我在干什么的时候就会使用 nextTick 传一个回调函数进去，在里面执行 dom 操作即可。
+5. 我也有简单了解 nextTick 实现，它会在 callbacks 里面加入我们传入的函数然后用 timerFunc 异步方式调用它
+们，首选的异步方式会是 Promise。这让我明白了为什么可以在 nextTick 中看到 dom 操作结果。
+
+- 降级策略
+0. vue 的数据响应过程包含：数据更改->通知 Watcher->更新 DOM。
+1. 早期的Vue利用了MutationObserver中的microtask特性，而不是用其做DOM监听。核心是MicroTask，用不用MutationObserver均可。Vue2.5已经删除了MutationObserver的相关代码，因为其是H5的特性且在IOS上存在BUG。
+虽然最优的MicroTask是Promise，但是因为存在兼容性问题，所以不得不进行降级，使用MacroTask。
+2. setTimeout 是一种，但它不是理想的方案。因为 setTimeout 执行的最小时间间隔是约 4ms 的样子，略微有点延迟。在 vue2.5 的源码中，macrotask 降级的方案依次是：setImmediate、MessageChannel、setTimeout. setImmediate 是最理想的方案了，可惜的是只有 IE 和 nodejs 支持。MessageChannel 的 onmessage 回调也是 microtask，但也是个新 API，面临兼容性的尴尬。
+3. 兜底方案就是 setTimeout 了，尽管它有执行延迟，可能造成多次渲染，算是没有办法的办法 了。
+
+- 总结
+1. Vue 用异步队列的方式来控制 DOM 更新和 nextTick 回调先后执行
+2. Microtask 因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕
+3. 因为兼容性问题，Vue 不得不做了 Microtask 向 Macrotask 的降级方案
+
+- Vue的nextTick实现原理
+1. 
 
 
-
-
-部分来源：
+来源：
 作者：counterxing
 链接：https://www.zhihu.com/question/315844790/answer/637000219
 作者：小黎也
 链接：https://juejin.cn/post/6844904089956925454
 作者：尤雨溪
 链接：https://www.zhihu.com/question/31809713/answer/53544875
+作者：Deno
+链接：https://juejin.cn/post/6844904185352159239
+作者：有蝉
+链接：https://juejin.cn/post/6966418770768166919
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 
