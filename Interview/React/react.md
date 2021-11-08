@@ -19,9 +19,47 @@
 # 类组件与函数组件
 ## 函数式组件捕获了渲染所使用的值
 https://overreacted.io/zh-hans/how-are-function-components-different-from-classes/
+```
+class App extends Component {
+
+  handleClick() {
+    console.log('handleClick')
+  }
+  
+  render() {
+    return (
+      <button onClick={this.handleClick}>按钮</button>
+    );
+  }
+
+}
+
+```
+类组件中的```this.handleClick``` 中的 ```handleClick``` 被提取出来，放在一个事件池中
+之后当再次被触发的时候嘛，```this``` 早已经不是指向那个组件了
+
+- 解决办法
+1. 虚拟 dom 直接 bind 绑定
+2. 构造函数绑定
+3. 直接绑定一个匿名函数
 
 
-# 为什么说单页面的SEO不友好
+## React16和React17的事件委托
+(Link)[!https://juejin.cn/post/6927981303313006599#heading-10]
+在 16 版本上，React 把所有事件全部挂载到 document；
+在 17 版本上，事件委托不放在 document 上，而是放在执行的根节点上，如 #root
+
+- persist
+React 为了把事件绑定性能做到了极致，做了一件事，当绑定的事件结束之后合成事件回调对象 就会被立马销毁。
+```
+const handleClick = useCallback((e) => {
+  //e.persist();不加此行语句，会发现宏任务中的e为null，事件被清空
+  console.log(e)
+  setTimeout(() => console.log(e))
+}, [])
+```
+
+# 为什么说单页面应用（SPA）的SEO不友好
 因为单页面的情况下的页面中的很多内容都是根据匹配到的路由动态生成并展示出来的,而且很多页面内容是通过ajax异步获取的,网络抓取工具并不会等待异步请求完成后再行抓取页面内容,对于网络抓取工来说去准确模拟相关的行为获取复合数据是很困难的,它们更擅长对静态资源的抓取和分析.
 
 作者：前端古力士
