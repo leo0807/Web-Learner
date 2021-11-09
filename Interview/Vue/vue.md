@@ -329,7 +329,77 @@ var componentB = new Component();
 componentA.data.age=55;
 console.log(componentA,componentB)
 ```
-此时 componentA,componentB 的 age 分别为55，22，数据间隔具备独立性；
+此时 ```componentA```, ```componentB``` 的 age 分别为55，22，数据间隔具备独立性；
+
+## 原理分析
+当```Vue```初始化```data```的代码，data的定义可以是函数可以是对象
+源码位置：/vue-dev/src/core/instance/state.js
+```
+function initData (vm: Component) {
+  let data = vm.$options.data
+  data = vm._data = typeof data === 'function'
+    ? getData(data, vm)
+    : data || {}
+    ...
+}
+```
+此时，```data```既可以是```object```也可以是```function```。
+
+- 当组件在创建的时候，Vue会进行选项的合并
+源码位置：```/vue-dev/src/core/util/options.js```
+自定义组件会进入 ```mergeOptions``` 进行选项合并
+```
+Vue.prototype._init = function (options?: Object) {
+    ...
+    // merge options
+    if (options && options._isComponent) {
+      // optimize internal component instantiation
+      // since dynamic options merging is pretty slow, and none of the
+      // internal component options needs special treatment.
+      initInternalComponent(vm, options)
+    } else {
+      vm.$options = mergeOptions(
+        resolveConstructorOptions(vm.constructor),
+        options || {},
+        vm
+      )
+    }
+    ...
+  }
+```
+合并的时候会对定义 ```data``` 会进行数据校验
+源码位置：```/vue-dev/src/core/instance/init.js```
+这时候 ```vm``` 实例为 ```undefined```，进入 ```if``` 判断，若 ```data``` 类型不是 ```function```，则出现警告提示
+```
+strats.data = function (
+  parentVal: any,
+  childVal: any,
+  vm?: Component
+): ?Function {
+  if (!vm) {
+    if (childVal && typeof childVal !== "function") {
+      process.env.NODE_ENV !== "production" &&
+        warn(
+          'The "data" option should be a function ' +
+            "that returns a per-instance value in component " +
+            "definitions.",
+          vm
+        );
+
+      return parentVal;
+    }
+    return mergeDataOrFn(parentVal, childVal);
+  }
+  return mergeDataOrFn(parentVal, childVal, vm);
+};
+```
+
+## 总结
+1. 根实例对象 ```data``` 可以是对象也可以是函数（根实例是单例），不会产生数据污染情况
+2. 组件实例对象 ```data``` 必须为函数，目的是为了防止多个组件实例对象之间共用一个 ```data```，产生数据污染。采用函数的形式，```initData``` 时会将其作为工厂函数都会返回全新 ```data``` 对象
+
+# 动态给 vue 的 data 添加一个新的属性时会发生什么？怎样解决？
+
 
 # nextTick
 - nextTick作用
@@ -354,7 +424,44 @@ console.log(componentA,componentB)
 3. 因为兼容性问题，Vue 不得不做了 Microtask 向 Macrotask 的降级方案
 
 - Vue的nextTick实现原理
-1. 
+源码位置：```/src/core/util/next-tick.js```
+```callbacks```也就是异步操作队列
+```callbacks``` 新增回调函数后又执行了 ```timerFunc``` 函数，```pending``` 是用来标识同一个时间只能执行一次
+
+```
+export function nextTick(cb?: Function, ctx?: Object) {
+  let _resolve;
+
+  // cb 回调函数会经统一处理压入 callbacks 数组
+  callbacks.push(() => {
+    if (cb) {
+      // 给 cb 回调函数执行加上了 try-catch 错误处理
+      try {
+        cb.call(ctx);
+      } catch (e) {
+        handleError(e, ctx, 'nextTick');
+      }
+    } else if (_resolve) {
+      _resolve(ctx);
+    }
+  });
+
+  // 执行异步延迟函数 timerFunc
+  if (!pending) {
+    pending = true;
+    timerFunc();
+  }
+
+  // 当 nextTick 没有传入函数参数的时候，返回一个 Promise 化的调用
+  if (!cb && typeof Promise !== 'undefined') {
+    return new Promise(resolve => {
+      _resolve = resolve;
+    });
+  }
+}
+```
+
+
 
 
 来源：
