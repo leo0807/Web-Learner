@@ -421,61 +421,182 @@ strats.data = function (
 - 总结
 1. Vue 用异步队列的方式来控制 DOM 更新和 nextTick 回调先后执行
 2. Microtask 因为其高优先级特性，能确保队列中的微任务在一次事件循环前被执行完毕
-3. 因为兼容性问题，Vue 不得不做了 Microtask 向 Macrotask 的降级方案
-
+3. 因为兼容性问题，Vue 不得不做了 ```Microtask``` 向 Macrotask 的降级方案
+4. ```timeFunc```优先级顺序 ```Promise```, ```MutationObserver```, ```setImmediate```, ```setTimeout```
 - Vue的nextTick实现原理
 源码位置：```/src/core/util/next-tick.js```
 ```callbacks```也就是异步操作队列
 ```callbacks``` 新增回调函数后又执行了 ```timerFunc``` 函数，```pending``` 是用来标识同一个时间只能执行一次
 
 ```
-export function nextTick(cb?: Function, ctx?: Object) {
-  let _resolve;
+export const nextTick = (function () {
+  const callbacks = []
+  let pending = false
+  let timerFunc
 
-  // cb 回调函数会经统一处理压入 callbacks 数组
-  callbacks.push(() => {
-    if (cb) {
-      // 给 cb 回调函数执行加上了 try-catch 错误处理
-      try {
-        cb.call(ctx);
-      } catch (e) {
-        handleError(e, ctx, 'nextTick');
-      }
-    } else if (_resolve) {
-      _resolve(ctx);
+  function nextTickHandler () {
+    pending = false
+    const copies = callbacks.slice(0)
+    callbacks.length = 0
+    for (let i = 0; i < copies.length; i++) {
+      copies[i]()
     }
-  });
-
-  // 执行异步延迟函数 timerFunc
-  if (!pending) {
-    pending = true;
-    timerFunc();
   }
 
-  // 当 nextTick 没有传入函数参数的时候，返回一个 Promise 化的调用
-  if (!cb && typeof Promise !== 'undefined') {
-    return new Promise(resolve => {
-      _resolve = resolve;
-    });
+  // An asynchronous deferring mechanism.
+  // In pre 2.4, we used to use microtasks (Promise/MutationObserver)
+  // but microtasks actually has too high a priority and fires in between
+  // supposedly sequential events (e.g. #4521, #6690) or even between
+  // bubbling of the same event (#6566). Technically setImmediate should be
+  // the ideal choice, but it's not available everywhere; and the only polyfill
+  // that consistently queues the callback after all DOM events triggered in the
+  // same loop is by using MessageChannel.
+  /* istanbul ignore if */
+  if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+    timerFunc = () => {
+      setImmediate(nextTickHandler)
+    }
+  } else if (typeof MessageChannel !== 'undefined' && (
+    isNative(MessageChannel) ||
+    // PhantomJS
+    MessageChannel.toString() === '[object MessageChannelConstructor]'
+  )) {
+    const channel = new MessageChannel()
+    const port = channel.port2
+    channel.port1.onmessage = nextTickHandler
+    timerFunc = () => {
+      port.postMessage(1)
+    }
+  } else
+  /* istanbul ignore next */
+  if (typeof Promise !== 'undefined' && isNative(Promise)) {
+    // use microtask in non-DOM environments, e.g. Weex
+    const p = Promise.resolve()
+    timerFunc = () => {
+      p.then(nextTickHandler)
+    }
+  } else {
+    // fallback to setTimeout
+    timerFunc = () => {
+      setTimeout(nextTickHandler, 0)
+    }
+  }
+
+  return function queueNextTick (cb?: Function, ctx?: Object) {
+    let _resolve
+    callbacks.push(() => {
+      if (cb) {
+        try {
+          cb.call(ctx)
+        } catch (e) {
+          handleError(e, ctx, 'nextTick')
+        }
+      } else if (_resolve) {
+        _resolve(ctx)
+      }
+    })
+    if (!pending) {
+      pending = true
+      timerFunc()
+    }
+    // $flow-disable-line
+    if (!cb && typeof Promise !== 'undefined') {
+      return new Promise((resolve, reject) => {
+        _resolve = resolve
+      })
+    }
+  }
+})()
+```
+
+```timerFunc``` 函数定义，这里是根据当前环境支持什么方法则确定调用哪个，分别有：
+```Promise.then```、```MutationObserver```、```setImmediate```、```setTimeout```
+通过上面任意一种方法，进行降级操作
+```
+export let isUsingMicroTask = false
+if (typeof Promise !== 'undefined' && isNative(Promise)) {
+  //判断1：是否原生支持Promise
+  const p = Promise.resolve()
+  timerFunc = () => {
+    p.then(flushCallbacks)
+    if (isIOS) setTimeout(noop)
+  }
+  isUsingMicroTask = true
+} else if (!isIE && typeof MutationObserver !== 'undefined' && (
+  isNative(MutationObserver) ||
+  MutationObserver.toString() === '[object MutationObserverConstructor]'
+)) {
+  //判断2：是否原生支持MutationObserver
+  let counter = 1
+  const observer = new MutationObserver(flushCallbacks)
+  const textNode = document.createTextNode(String(counter))
+  observer.observe(textNode, {
+    characterData: true
+  })
+  timerFunc = () => {
+    counter = (counter + 1) % 2
+    textNode.data = String(counter)
+  }
+  isUsingMicroTask = true
+} else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+  //判断3：是否原生支持setImmediate
+  timerFunc = () => {
+    setImmediate(flushCallbacks)
+  }
+} else {
+  //判断4：上面都不行，直接用setTimeout
+  timerFunc = () => {
+    setTimeout(flushCallbacks, 0)
   }
 }
 ```
+无论是微任务还是宏任务，都会放到 ```flushCallbacks``` 使用
+这里将 ```callbacks``` 里面的函数复制一份，同时 ```callbacks``` 置空
+依次执行 ```callbacks``` 里面的函数
+```
+function flushCallbacks () {
+  // 使下个事件循环中能 nextTick 函数中调用 timerFunc 函数
+  pending = false
+  const copies = callbacks.slice(0)
+  callbacks.length = 0
+  for (let i = 0; i < copies.length; i++) {
+    copies[i]()
+  }
+}
+```
+- 小结：
+1. 把回调函数放入 callbacks 等待执行
+2. 将执行函数放到微任务或者宏任务中，每个时间段只执行一次```timeFunc```
+3. 事件循环到了微任务或者宏任务，执行函数依次执行 callbacks 中的回调
+
+#
 
 
 
 
-来源：
-作者：counterxing
-链接：https://www.zhihu.com/question/315844790/answer/637000219
+
+
+
+
+作者：counterxing 
+
+链接：https://www.zhihu.com/question/315844790/answer/637000219 
+
 作者：小黎也
+
 链接：https://juejin.cn/post/6844904089956925454
+
 作者：尤雨溪
+
 链接：https://www.zhihu.com/question/31809713/answer/53544875
+
 作者：Deno
+
 链接：https://juejin.cn/post/6844904185352159239
+
 作者：有蝉
+
 链接：https://juejin.cn/post/6966418770768166919
-来源：稀土掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 
 
