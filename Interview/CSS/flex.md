@@ -55,6 +55,12 @@ flex: 1 => flex: 1 1 0%; =>
     2. flex-shrink: 1;
     3. flex-basis: 0%;
 
+- flex: 1 = flex: 1 1 0%
+- flex: 2 = flex: 2 1 0%
+- flex: auto = flex: 1 1 auto
+- flex: none = flex: 0 0 auto，常用于固定尺寸不伸缩
+
+
 # flex: 0 1 auto
 
 flex-grow: 0; // 增长比例，子项合计宽度小于容器宽度，需要根据每个子项设置的此属性比例对剩下的长度进行分配
