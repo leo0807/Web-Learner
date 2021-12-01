@@ -144,12 +144,12 @@ vueEvents.\$emit('notifyToNew',this.homeMsg+numbery);
 ```
 import vueEvents from '../Model/vueEvent.js'
 mounted(){
-var \_this = this;
-vueEvents.\$on("notifyToNew",function(data_P){
-//注意 this 的作用域
-console.log('广播传过来的值是'+data_P);
-\_this.receive = data_P;
-})
+    var _this = this;
+    vueEvents.$on("notifyToNew",function(data_P){
+        //注意 this 的作用域
+        console.log('广播传过来的值是'+data_P);
+        this.receive = data_P;
+    })
 }
 ```
 <a href="https://blog.csdn.net/qq_35430000/article/details/79291287">来源</a>
@@ -295,3 +295,210 @@ console.log('广播传过来的值是'+data_P);
 
 - 使用Vue.observable 响应式优化<a src="https://blog.csdn.net/xiasohuai/article/details/98887189
 ">来源</a>
+
+## 在属于 Vuex 的 state 上使用 v-model
+```<input v-model="obj.message">```
+假设这里的 obj 是在计算属性中返回的一个属于 Vuex store 的对象，在用户输入时，v-model 会试图直接修改 obj.message。在严格模式中，由于这个修改不是在 mutation handler 中执行的, 这里会抛出一个错误。
+
+用『Vuex 的思维』去解决这个问题的方法是：给 <input> 中绑定 value，然后侦听 input 或者 change 事件，在事件回调中调用 action:
+```<input :value="obj.message" @input="updateMessage">```
+```
+// ...
+methods: {
+  updateMessage: function (e) {
+    vuex.actions.updateMessage(e.target.value)
+  }
+}
+```
+我们假设 updateMessage action 会 ```dispatch 'UPDATE_MESSAGE'```, 下面是 ```mutation handler```:
+```
+// ...
+mutations: {
+  UPDATE_MESSAGE (state, message) {
+    state.obj.message = message
+  }
+}
+```
+必须承认，这样做比简单地使用 ```v-model``` 要啰嗦得多，但这换来的是 ```state``` 的改变更加清晰和可被跟踪。另一方面，Vuex 并不强制要求所有的状态都必须放在 Vuex store 中 —— 如果有些状态你觉得并没有需要对其变化进行追踪，那么你完全可以把它放在 ```Vuex``` 外面（比如作为组件的本地状态），这样就可以愉快地使用 ```v-model``` 了。
+
+
+此外，如果仍然希望使用 ```Vuex``` 管理跟踪状态，并愉快地使用 ```v-model```，还可以在组件中使用带 ```setter``` 的计算属性，这样，你就可以使用诸如 ```lazy```、```number``` 和 ```debounce``` 这样的参数特性了。
+```<input v-model="thisMessage">```
+```
+// ...
+vuex: {
+  getters: {
+    message: state => state.obj.message
+  },
+  actions: {
+    updateMessage: ({ dispatch }, value) => {
+      dispatch('UPDATE_MESSAGE', value)
+    }
+  }
+},
+computed: {
+  thisMessage: {
+    get () {
+      return this.message
+    },
+    set (val) {
+      this.updateMessage(val)
+    }
+  }
+}
+```
+
+
+## Proxy 和 Object.defineProperty区别和使用
+
+### Object.defineProperty
+- 全局变量 Date 不可修改，为了安全性考虑
+```
+Object.defineProperty(window,'Date',{
+  writable:false,
+  configurable:false
+})
+```
+- Object.defineProperties
+Object.defineProperties 本质上定义了 obj 对象上 props 的可枚举属性相对应的所有属性。
+```
+var obj = {};
+Object.defineProperties(obj, {
+  'property1': {
+    value: true,
+    writable: true
+  },
+  'property2': {
+    value: 'Hello',
+    writable: false
+  }
+  // etc. etc.
+});
+```
+- Object.defineProperty 只能遍历对象属性进行劫持
+```
+function observe(obj) {
+    if (typeof obj !== 'object' || obj == null) {
+        return
+    }
+    Object.keys(obj).forEach(key => {
+        defineReactive(obj, key, obj[key])
+    })
+}
+```
+
+### Proxy
+```const p = new Proxy(target, handler)```
+- handler 对象的方法
+handler 对象是一个容纳一批特定属性的占位符对象。它包含有 Proxy 的各个捕获器（trap）。
+所有的捕捉器是可选的。如果没有定义某个捕捉器，那么就会保留源对象的默认行为。
+
+```
+handler.getPrototypeOf()
+handler.setPrototypeOf()
+handler.isExtensible()
+handler.preventExtensions()
+handler.getOwnPropertyDescriptor()
+handler.defineProperty()
+handler.has()//in 操作符的捕捉器。
+handler.get(target, property)
+handler.set(target, property, value)
+handler.deleteProperty()//delete 操作符的捕捉器。
+handler.ownKeys()
+handler.apply()
+handler.construct()//new 操作符的捕捉器。
+```
+
+- Proxy 直接可以劫持整个对象，并返回一个新对象，我们可以只操作新的对象达到响应式目的
+- 基本操作
+```
+const handler = {
+    get: function(obj, prop) {
+        return prop in obj ? obj[prop] : 37;
+    }
+};
+
+const p = new Proxy({}, handler);
+p.a = 1;
+p.b = undefined;
+
+console.log(p.a, p.b);      // 1, undefined
+console.log('c' in p, p.c); // false, 37
+```
+- Proxy 只代理对象外层属性
+```
+let obj={a:1,b:{c:2}};
+let handler={
+  get:function(obj,prop){
+    const v = Reflect.get(obj,prop);
+    return v; // 返回obj[prop]
+  },
+  set(obj,prop,value){
+    return Reflect.set(obj,prop,value);//设置成功返回true
+  }
+};
+let p=new Proxy(obj,handler);
+
+p.a//会触发get方法
+p.b.c//会触发get方法获取p.b，不会触发.c的set，因为c没被代理。
+```
+- 递归代理对象内部对象
+```
+let obj={a:1,b:{c:2}};
+let handler={
+  get:function(obj,prop){
+    const v = Reflect.get(obj,prop);
+    if(v !== null && typeof v === 'object'){
+      return new Proxy(v,handler);//代理内层
+    }else{
+      return v; // 返回obj[prop]
+    }
+  },
+  set(obj,prop,value){
+    return Reflect.set(obj,prop,value);//设置成功返回true
+  }
+};
+let p=new Proxy(obj,handler);
+
+p.a//会触发get方法
+p.b.c//会先触发get方法获取p.b，然后触发返回的新代理对象的.c的set。
+```
+
+```
+function reactive(obj) {
+    if (typeof obj !== 'object' && obj != null) {
+        return obj
+    }
+    // Proxy相当于在对象外层加拦截
+    const observed = new Proxy(obj, {
+        get(target, key, receiver) {
+            const res = Reflect.get(target, key, receiver)
+            console.log(`获取${key}:${res}`)
+            return res
+        },
+        set(target, key, value, receiver) {
+            const res = Reflect.set(target, key, value, receiver)
+            console.log(`设置${key}:${value}`)
+            return res
+        },
+        deleteProperty(target, key) {
+            const res = Reflect.deleteProperty(target, key)
+            console.log(`删除${key}:${res}`)
+            return res
+        }
+    })
+    return observed
+}
+```
+### 总结
+1. Proxy 使用上比 Object.defineProperty 方便的多。
+2. Proxy 代理整个对象，Object.defineProperty 只代理对象上的某个属性。
+3. 如果对象内部要全部递归代理，则 Proxy 可以只在调用时递归，而 Object.defineProperty 需要在一开始就全部递归，Proxy 性能优于 Object.defineProperty。
+4. 对象上定义新属性时，Proxy 可以监听到，Object.defineProperty 监听不到。
+5. 数组新增删除修改时，Proxy 可以监听到，Object.defineProperty 监听不到。
+6. Proxy 不兼容 IE，Object.defineProperty 不兼容 IE8 及以下。
+
+作者：抽疯的稻草绳
+链接：https://www.jianshu.com/p/7ced8c744477
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
