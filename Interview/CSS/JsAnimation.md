@@ -50,6 +50,8 @@ CSS动画
 
 浏览器使用与 requestAnimationFrame 类似的机制，requestAnimationFrame比起setTimeout，setInterval设置动画的优势主要是:
 - requestAnimationFrame **会把每一帧中的所有DOM操作集中起来**，在一次重绘或回流中就完成,并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率,一般来说,这个频率为每秒60帧，这个人间隔人类不易察觉
+- 每一次重新渲染的最佳时间大约是 16.6 ms，如果定时器的时间间隔过短，就会造成 ```过度渲染```(跳帧)，增加开销；过长又会延迟渲染，使动画不流畅。
+
 - 在隐藏或不可见的元素中requestAnimationFrame不会进行重绘或回流，这当然就意味着**更少的的cpu，gpu和内存使用量**。
 
 强制使用硬件加速 （通过 GPU 来提高动画性能）
@@ -75,3 +77,77 @@ CSS动画
 对于帧速表现不好的低版本浏览器，CSS3可以做到自然降级，而JS则需要撰写额外代码
 
 
+来源：https://juejin.cn/post/6844903848981577735
+
+## requestIdleCallback 和 requestAnimationFrame 详解
+### 浏览器每一帧都需要完成的工作
+1. 处理用户的交互
+2. JS 解析执行
+3. 帧开始。窗口尺寸变更，页面滚去等的处理
+4. requestAnimationFrame(rAF)
+5. 布局
+6. 绘制
+
+## requestAnimationFrame
+
+- requestAnimationFrame 方法不同与 setTimeout 或 setInterval，它是由系统来决定回调函数的执行时机的，会请求浏览器在下一次重新渲染之前执行回调函数。
+- 可以通过```cancelAnimationFrame```取消动画，或者通过设置flag取消递归
+
+
+### requestIdleCallback
+
+上面六个步骤完成后没超过 16 ms，说明时间有富余，此时就会执行 ```requestIdleCallback``` 里注册的任务。
+```var handle = window.requestIdleCallback(callback[, options])```
+- ```callback```：回调，即空闲时需要执行的任务，该回调函数接收一个 IdleDeadline 对象作为入参。其中 IdleDeadline 对象包含：
+    - didTimeout，布尔值，表示任务是否超时，结合 timeRemaining 使用。
+    - timeRemaining()，表示当前帧剩余的时间，也可理解为留给任务的时间还有多少。
+
+- options：目前 options 只有一个参数
+    - timeout。表示超过这个时间后，如果任务还没执行，则强制执行，不必等待空闲。
+
+```
+requestIdleCallback(myNonEssentialWork, { timeout: 2000 });
+​
+// 任务队列
+const tasks = [
+ () => {
+   console.log("第一个任务");
+ },
+ () => {
+   console.log("第二个任务");
+ },
+ () => {
+   console.log("第三个任务");
+ },
+];
+​
+function myNonEssentialWork (deadline) {
+ // 如果帧内有富余的时间，或者超时
+ while ((deadline.timeRemaining() > 0 || deadline.didTimeout) && tasks.length > 0) {
+   work();
+ }
+​
+ if (tasks.length > 0)
+   requestIdleCallback(myNonEssentialWork);
+ }
+​
+function work () {
+ tasks.shift()();
+ console.log('执行任务');
+}
+```
+
+
+- cancelIdleCallback
+与 ```setTimeout``` 类似，返回一个唯一 id，可通过 ```cancelIdleCallback``` 来取消任务。
+
+- 一些低优先级的任务可使用 requestIdleCallback 等浏览器不忙的时候来执行，同时因为时间有限，它所执行的任务应该尽量是能够量化，细分的微任务（micro task）。
+
+因为它发生在一帧的最后，此时页面布局已经完成，所以不建议在 requestIdleCallback 里再操作 DOM，这样会导致页面再次重绘。DOM 操作建议在 rAF 中进行。同时，操作 DOM 所需要的耗时是不确定的，因为会导致重新计算布局和视图的绘制，所以这类操作不具备可预测性。
+
+Promise 也不建议在这里面进行，因为 Promise 的回调属性 Event loop 中优先级较高的一种微任务，会在 requestIdleCallback 结束时立即执行，不管此时是否还有富余的时间，这样有很大可能会让一帧超过 16 ms。
+
+作者：DC_er
+链接：https://juejin.cn/post/6844903848981577735
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
