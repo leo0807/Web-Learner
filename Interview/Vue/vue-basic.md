@@ -498,6 +498,100 @@ function reactive(obj) {
 5. 数组新增删除修改时，Proxy 可以监听到，Object.defineProperty 监听不到。
 6. Proxy 不兼容 IE，Object.defineProperty 不兼容 IE8 及以下。
 
+
+### 在VUE中使用JSX
+
+这个其实跟最开始我例举的例子很像。我在项目中用它来干掉了满屏的 v-if/v-else
+由于我的业务是 pad 上的，需求是一套试卷有几十道题目，要求一屏只显示一道题目，点击下一题显示下一个题，思路也比较简单：
+
+用一个 num 变量表示当前正在展示的题目索引
+每次点击下一题按钮时 num++
+用 v-if 来判断 num===1，num===2 这样来决定展示哪个。
+
+这一写，模板里面好多啊，由于我们的题目每道题的模板可能都不一样，所以没办法循环，只能手写全部。之前考虑过用动态组件来切换，但是放弃了，因为没有 if 直观啊。
+```
+//父组件
+  export default {
+    name: "list",
+    data() {
+      return {
+       data:'我是函数式组件',
+        id:1,
+         tests:{
+          1:<div><span>第一道题</span></div>,
+          2:<div><section>第二道题</section></div>,
+          3:<div><p>第三道题</p></div>
+        }
+      }
+    },
+    methods:{
+      next(){
+        ++this.id
+      }
+    },
+    render(){
+      return (
+       <div>
+         <Item data={this.tests[this.id]} class="large"/>
+         <button onClick={this.next}>下一题</button>
+       </div>
+      )
+    }
+  }
+```
+上面每道题目的结构都不一致
+
+```
+//子组件,只接受数据展示，用函数式组件
+
+<script>
+  export default {
+  functional:true,
+    name: "item",
+    render(h,context){
+      return (
+        <div class="red" {...context.data}>
+          {context.props.data}
+        </div>
+      )
+    }
+  }
+</script>
+```
+### v-model 的缺点和解决办法
+在创建类似复选框或者单选框的常见组件时，v-model 就不好用了。
+```<input type="checkbox" v-model="something" />```
+
+v-model 给我们提供好了 value 属性和 oninput 事件，但是，我们需要的不是 value 属性，而是 checked 属性，并且当你点击这个单选框的时候不会触发 oninput 事件，它只会触发 onchange 事件。
+```<input type="checkbox" :checked="value" @change="change(value, \$event)"```
+### 单向数据流和双向数据绑定
+从上面 v-model 的分析我们可以这么理解，双向数据绑定就是在单向绑定的基础上给可输入元素（input、textare 等）添加了 change(input) 事件，来动态修改 ```model``` 和 ```view``` ，即通过触发```（$emit）```父组件的事件来修改 ```MV``` 来达到 ```MVVM``` 的效果。而 ```VUE``` 组件间传递数据是单向的，即数据总是由父组件传递到子组件，子组件在其内部可以有自己维护的数据，但它无权修改父组件传递给它的数据,子组件只能通过事件通知父组件进行数据更改，当开发者尝试这样做的时候，vue 将会报错。这样做是为了组件间更好的```解耦```，在开发中可能有多个子组件依赖于父组件的某个数据，假如子组件可以修改父组件数据的话，一个子组件变化会引发所有依赖这个数据的子组件发生变化，所以
+vue 不推荐子组件修改父组件的数据，直接修改 props 会抛出警告。流程图如下：
+
+![流程](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/10/20/3f909e038bfd8acf3c4289a3b4e288b6~tplv-t2oaga2asx-watermark.awebp)
+
+- 单向绑定 vs 双向绑定
+    单双向绑定，指的是 View 层和 Model 层之间的映射关系。
+    - react 采取单向绑定，如图所示：
+        ![](https://segmentfault.com/img/bVbxKEi)
+        用户访问 View，用户发出交互到 Actions 中进行处理，Actions 中通过 setState 对 State 进行更新，State 更新后触发 View 更新。可以看出，View 层不能直接修改 State，必须要通过 Actions 来进行操作，这样更加清晰可控
+    - vue 支持单向绑定和双向绑定
+        - 单向绑定：插值形式{{data}}，v-bind 也是单向绑定
+        - 双向绑定：表单的 v-model，用户对 View 层的更改会直接同步到 Model 层
+        - 不用去写繁琐的 onChange 事件去处理每个表单数据的变化，但是双向绑定也会导致数据变化不透明，不清晰可控。
+        - 对于非 UI 控件来说，不存在双向，只有单向。只有 UI 控件才有双向的问题。
+
+
+作者：wendyq
+链接：https://juejin.cn/post/6844903504834740232
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+作者：SuperMan 一路向北
+链接：https://juejin.cn/post/6844903607909744654
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 作者：抽疯的稻草绳
 链接：https://www.jianshu.com/p/7ced8c744477
 来源：简书
