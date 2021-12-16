@@ -145,8 +145,12 @@ function work () {
 
 因为它发生在一帧的最后，此时页面布局已经完成，所以不建议在 requestIdleCallback 里再操作 DOM，这样会导致页面再次重绘。DOM 操作建议在 rAF 中进行。同时，操作 DOM 所需要的耗时是不确定的，因为会导致重新计算布局和视图的绘制，所以这类操作不具备可预测性。
 
-Promise 也不建议在这里面进行，因为 Promise 的回调属性 Event loop 中优先级较高的一种微任务，会在 requestIdleCallback 结束时立即执行，不管此时是否还有富余的时间，这样有很大可能会让一帧超过 16 ms。
-
+```Promise``` 也不建议在这里面进行，因为 Promise 的回调属性 Event loop 中优先级较高的一种微任务，会在 ```requestIdleCallback``` 结束时立即执行，不管此时是否还有富余的时间，这样有很大可能会让一帧超过 16 ms。
+- 使用 ```requestIdleCallback``` 更新 DOM 存在的问题
+1. 可能因为浏览器过于忙碌导致没有空余时间执行```requestIdleCallback```
+2. 即使有时间执行```requestIdleCallback```，但是因为DOM执行时间不可预测，而导致执行时间超过浏览器提供的deadline，从使得画面卡顿
+- 解决方案
+    - 在```requestAnimationFrame```回调中进行对 DOM 更新， 因为此```API```和```setImmediate```类似，是按帧执行的
 作者：DC_er
 链接：https://juejin.cn/post/6844903848981577735
 来源：稀土掘金
