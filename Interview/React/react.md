@@ -157,3 +157,65 @@ export default class User extends Component {
 所谓的**非约束性组件**，就是在```<input type="text" defaultValue="a" /> ```中，这个 **defaultValue** 其实就是原生DOM中的 value 属性。这样写出的来的组件，其value值就是用户输入的内容，React完全不管理输入的过程。
 
 而**约束性组件**是指在```<input value={this.state.username} type="text" onChange={this.handleUsername} />```中，**value**属性不再是一个写死的值，他是 this.state.username, this.state.username被**onChange绑定**。这个时候实际上 input 的 value 根本不是用户输入的内容。而是onChange 事件触发之后，由于 this.setState 导致了一次重新渲染。不过React会优化这个渲染过程。看上去有点类似**双向数据绑定**。
+
+# useCallback缺陷
+```
+function updateCallback<T>(
+    callback: T, // useCallback 的第一个参数
+    deps: Array<mixed> | void | null // useCallback 的第二个参数
+): T {
+
+  // 取到当前的 useCallback 语句对应的 hook 节点，
+  const hook = updateWorkInProgressHook();
+  
+  // 当前的依赖，后面拿来和上一次的依赖进行比较
+  const nextDeps = deps === undefined ? null : deps;
+  
+  // 取到上一次缓存的函数
+  const prevState = hook.memoizedState;
+  if (prevState !== null) {
+    // 传了 useCallbck 的第二个参数才走到这里
+    if (nextDeps !== null) {
+      const prevDeps: Array<mixed> | null = prevState[1];
+      // 上一次的依赖和这一次的依赖进行比较，
+      // 相同就直接返回缓存的结果
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        return prevState[0];
+      }
+    }
+  }
+  hook.memoizedState = [callback, nextDeps];
+  return callback;
+}
+```
+- 执行流程：
+1. 首先，我们要额外执行 useCallback 函数，
+2. 同时，我们也要申请 useCallbck 第一个参数对应的函数所需要的内存，这一点的花费就和 method1 的开销一样了，就算我们会使用缓存，useCallback 第一个参数的内存的开销也是要的。
+3. 除此之外，为了能判断 useCallback 要不要更新结果，我们还要在内存保存上一次的依赖。
+4. 并且，如果我们的 useCallback 返回的函数依赖了组件其他的值，由于 JS 中闭包的特性，他们也会一直存在而不被销毁。
+
+
+
+## useCallback使用场景
+假设我们有一个叫做 Counter 的子组件，初始化渲染的时候消耗非常大：
+```<ExpensiveCounter count={count} onClick={handleClick} />```
+如果我们不做任何优化，父组件有了任何更新，都会重新渲染 Counter。为了避免每次渲染父组件的时候都重新渲染子组件，我们可以使用 ```React.memo```：
+```
+const ExpensiveCounter = React.memo(function Counter(props) {
+...
+})
+```
+使用 ```React.memo``` 包裹之后，```Counter``` 组件只有在 ```props``` 发生变化的时候才会重新渲染，我们的 ```Counter``` 接受两个 ```props```：原始值 ```count```，函数 ```handleClick```。
+如果父组件由于其他值的更改而发生了更新，父组件会重新渲染，由于 ```handleClick``` 是一个对象，每次渲染生成的 ```handleClick``` 都是新的。
+这就会导致，尽管 Counter 被 React.memo 包裹了一层，但是还是会重新渲染，为了解决这个问题，我们就要这样写 handleClick 函数了：
+```
+const handleClick = useCallback(() => {
+// 原来的 handleClick...
+}, [])
+```
+这样，我们每次传递给 Counter 组件的 handleClick 都是同一个，我们的 Counter 组件只有在 count 发生变化的时候才会去渲染，这正是我们想要的，也就起到了很好的优化作用。
+
+作者：mysteryven
+链接：https://juejin.cn/post/7019989729148059656
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
