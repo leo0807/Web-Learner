@@ -398,6 +398,60 @@ Git 的设置文件为.gitconfig，它可以在用户主目录下（全局配置
 
 # git rebase 
 1. 合并多个 commit 为一个完整 commit
-  ```git rebase -i [startpoint][endpoint]```
+  
+    ```git rebase -i [startpoint][endpoint]```
 2. 将某一段 commit 粘贴到另一个分支上
-  ```git rebase   [startpoint]   [endpoint]  --onto  [branchName]```
+  
+    ```git rebase   [startpoint]   [endpoint]  --onto  [branchName]```
+
+# Git 使用规范流程
+1. 新建分支
+
+  ```
+  # 获取主干最新代码
+
+  $ git checkout master
+  $ git pull
+
+  # 新建一个开发分支 myfeature
+
+  \$ git checkout -b myfeature
+  ```
+
+2. 提交分支 commit
+  ```
+  $ git add --all
+  $ git status
+  $ git commit --verbose // git commit 命令的 verbose 参数，会列出 diff 的结果。
+  ```
+
+3. 撰写提交信息
+  提交 commit 时，必须给出完整扼要的提交信息，下面是一个范本。
+
+  ```
+  Present-tense summary under 50 characters
+  - More information about commit (under 72 characters).
+  - More information about commit (under 72 characters).
+  http://project.management-system.com/ticket/123
+  ```
+
+4. 与主干同步
+  ```
+  $ git fetch origin 
+  $ git rebase origin/master
+  ```
+
+5. 合并 commit
+  ```
+  \$ git rebase -i origin/master
+  ```
+  - pick：正常选中
+  - reword：选中，并且修改提交信息；
+  - edit：选中，rebase 时会暂停，允许你修改这个 commit（参考这里）
+  - squash：选中，会将当前 commit 与上一个 commit 合并
+  - fixup：与 squash 相同，但不会保存当前 commit 的提交信息
+  - exec：执行其他 shell 命令
+6. 推送到远程仓库
+  - \$ git push --force origin myfeature
+7. 发出 Pull Request
+  - 提交到远程仓库以后，就可以发出 Pull Request 到 master 分支，然后请求别人进行代码 review，确认可以合并到 master。
