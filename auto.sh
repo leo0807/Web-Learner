@@ -12,12 +12,12 @@ git status
 echo -e "
 ▶ \033[33;1mcommit message:
 \033[37;1m" 
-read msg
+# read msg
 
 echo -e "
-▶ \033[33;1mgit commit -m '$msg'
+▶ \033[33;1mgit commit -m daily-update
 \033[0m"
-git commit -m "$msg"
+git commit -m "daily update"
 
 echo -e "
 ▶ \033[33;1mgit push
