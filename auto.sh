@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "================="
 echo "auto git by Junxu"
-echo "======= 🤪  ========="
+echo "======= 🤪  ====="
 
 echo -e  "
 ▶ \033[33;1mgit add .
