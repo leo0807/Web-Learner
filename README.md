@@ -6,7 +6,7 @@
     - TypeScript
     - Python
     - C#
-- Frontend Part
+- Frontend Technology Stack
     - HTML5 (Canvas & SVG)
     - CSS3 (Less & Sass)
     - Javascript (TypeScript)
@@ -24,6 +24,8 @@
         - Vue
             - vue-router
             - vuex
+            - nuxt
+            - vurtify
     - UI
         - Bootstrap
         - Font-awsome
