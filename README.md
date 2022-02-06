@@ -24,8 +24,8 @@
         - Vue
             - vue-router
             - vuex
-            - nuxt
-            - vurtify
+            - nuxtJS
+            - vuetify
     - UI
         - Bootstrap
         - Font-awsome
