@@ -1,31 +1,37 @@
 # Read Me
-### This repository is used to record my learning path to be a fullstack developer. I haven`t mastered all the technologt stacks mentioned below, but I have a some kind of understanding of all these techniques.
+- This repository is used to record my learning path to be a fullstack developer. I haven`t mastered all the technologt stacks mentioned below, but I have a some kind of understanding of all these techniques.
+- Tick Sign represents skill level, which 5 is the highest level and 1 is the lowest level.
+
 ## Technology stack
 - Programming Language
-    - JavaScript
+    - JavaScript (**√√√√√**)
     - TypeScript
-    - Python
+    - Python (**√√√√√**)
     - C#
+    - C
 - Frontend Technology Stack
-    - HTML5 (Canvas & SVG)
-    - CSS3 (Less & Sass)
-    - Javascript (TypeScript)
+    - HTML5 (Canvas & SVG) (**√√√√√**)
+    - CSS3 (Less & Sass) (**√√√√√**)
+    - Javascript (TypeScript) (**√√√√√**)
     - JQuery
     - Client-side Framework
         - Angular
             - RxJs
-        - React
+        - React (**√√√√√**)
             - React-Router
             - React Hook
             - React-redux
             - Redux
                 - Redux-thunk
                 - Redux-saga
-        - Vue
+        - Vue (**√√√√√**)
             - vue-router
             - vuex
             - nuxtJS
             - vuetify
+            - vue-class-component
+            - vue-property-decorator
+        - Svelte
     - UI
         - Bootstrap
         - Font-awsome
@@ -33,19 +39,19 @@
         - Layui
         - Material-UI (React)
 - Backend
-    - NodeJs
+    - NodeJs (**√√√√**)
         - Koa
-        - Express
+        - Express (**√√√√**)
     - Database
         - GraphQL
         - MySQL
         - MongoDB
 - DevOps
-    - Git
+    - Git (**√√√√√**)
     - Docker
-    - Webpack
+    - Webpack (**√√√√**)
     - Nginx
-    - Jest
+    - Jest (**√√√√**)
     - ESlint
     - Gulp 
     - Kubernetes

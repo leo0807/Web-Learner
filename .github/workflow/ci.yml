@@ -1,4 +1,0 @@
-name: Document auto push
-on: commit 
-jobs:
-  job1:

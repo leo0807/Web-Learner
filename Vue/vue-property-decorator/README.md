@@ -1,2 +1,103 @@
 # VUE-PROPERTY-DECORATOR 
 [Official Site](https://github.com/kaorun343/vue-property-decorator#Prop)
+
+[相关参考](https://juejin.cn/post/6844903893734785032)
+
+`vue-property-decorator`提供了多个装饰器和一个函数（Mixin）:
+- @Prop
+- @PropSync
+- @Model
+- @ModelSync
+- @Watch
+- @Provide
+- @Inject
+- @ProvideReactive
+- @InjectReactive
+- @Emit
+- @Ref
+- @Vmodeal
+- @Component (由vue-class-component提供)
+- Mixins（mixins的辅助函数由vue-class-component）
+
+## @Prop
+`@Prop(options: (PropOptions | Constructor[] | Constructor) = {})`
+`@Prop`装饰器接收一个参数，这个参数可以有三种写法：
+- `Constructor`， 如`String`，`Number`，`Boolean`等，指定`prop`的类型；
+- `Constructor[]`，指定`prop`的可选类型；
+- `PropOptions`，可以使用以下选项：`type`，`default`，`required`，`validator`。
+
+例子，
+```
+import { Vue, Component, Prop } from 'vue-property-decorator';
+@Component
+export default class YourComponent extends Vue{
+  @Prop(Number) readonly propA: number | undefined
+  @Prop({ default: 'default value' }) readonly propB!: string
+  @Prop([String, Boolean]) readonly propC: string | boolean | undefined
+}
+```
+上述代码相当于，
+```
+export default {
+  props: {
+    propA: {
+      type: Number,
+    },
+    propB: {
+      default: 'default value',
+    },
+    propC: {
+      type: [String, Boolean],
+    },
+  },
+}
+```
+
+```
+import 'reflect-metadata';
+import { Vue, Component, Prop } from 'vue-property-decorator';
+
+@Component
+export default class MyComponent extends Vue {
+  @Prop() age!: number
+}
+```
+每一个
+
+## @PropSync
+`@PropSync(propName: string, options: (PropOptions | Constructor[] | Constructor) = {})`
+
+`@PropSync` 装饰器与`@prop` 用法类似，二者的区别在于：
+- `@PropSync`  装饰器接收两个参数
+- `propName: string`  表示父组件传递过来的属性名 
+- `options: Constructor | Constructor[] | PropOptions`  与`@Prop` 的第一个参数一致
+- `@PropSync` 会生成一个新的计算属性
+
+```
+import { Vue, Component, PropSync } from 'vue-property-decorator'
+
+@Component
+export default class YourComponent extends Vue {
+  @PropSync('name', { type: String }) syncedName!: string
+}
+```
+相当于
+```
+export default {
+  props: {
+    name: {
+      type: String,
+    },
+  },
+  computed: {
+    syncedName: {
+      get() {
+        return this.name
+      },
+      set(value) {
+        this.$emit('update:name', value)
+      },
+    },
+  },
+}
+```
