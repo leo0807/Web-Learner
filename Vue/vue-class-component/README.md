@@ -84,7 +84,61 @@ export default class HelloWord extends Vue
 
 ```
 
-## Custom Decorators
+## Additional Hooks 额外的钩子函数
+如果你使用一些`Vue`插件，如`Vue Router`，你可能希望类组件解析它们提供的钩子。在这种情况下，`Component.registerHooks`允许你来注册这些`hooks`：
+```
+<!-- class-component-hooks.js -->
+import Component from 'vue-class-component';
+
+<!-- 注册router的hooks -->
+Component.register([
+  'beforeRouteEnter',
+  'beforeRouteLeave',
+  'beforeRouteUpdate'
+]);
+```
+Hooks注册完成之后，类组件会把这些组件当作类的原生方法使用
+```
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component
+export default class HelloWorld extends Vue {
+  // The class component now treats beforeRouteEnter,
+  // beforeRouteUpdate and beforeRouteLeave as Vue Router hooks
+  beforeRouteEnter(to, from, next) {
+    console.log('beforeRouteEnter')
+    next()
+  }
+
+  beforeRouteUpdate(to, from, next) {
+    console.log('beforeRouteUpdate')
+    next()
+  }
+
+  beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave')
+    next()
+  }
+}
+```
+通常建议将`hooks`的注册代码写在一个单独的文件中，因为使用者必须在任何组件定义之前注册它们。 您可以通过将钩子注册的导入语句放在主文件的顶部来确保执行顺序：
+如，
+```
+// main.js
+
+// Make sure to register before importing any components
+import './class-component-hooks'
+
+import Vue from 'vue'
+import App from './App'
+
+new Vue({
+  el: '#app',
+  render: h => h(App)
+})
+```
+## Custom Decorators 自定义装饰器
 
 通过辅助函数`createDecorator`可以实现自定义的装饰器。
 
@@ -92,7 +146,7 @@ export default class HelloWord extends Vue
 `createDecorator`的第一个参数是一个回调函数，这个回调函数接受以下这些参数：
   - `options`： Vue组件类型对象。此对象的改变会影响到被提供的组件。
   - `key`：装饰器需要的属性或方法。
-  - `parameterIndex`：
+  - `parameterIndex`：如果自定义装饰器用于参数，则为装饰参数的索。
 ```
 <!-- decorators.js -->
 import { createDecorator } from 'vue-class-component';
