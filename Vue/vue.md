@@ -145,8 +145,121 @@ function createComputedGetter (key) {
 扮演的角色是调度中心，主要的作用就是收集观察者 ```Watcher``` 和通知观察者目标更新。
 每一个属性都有一个 ```Dep``` 对象,用于存放所有订阅了该属性的观察者对象，当数据发生改变时，会遍历观察者列表（dep.subs），通知所有的 ```watch```，让订阅者执行自己的 ```update``` 逻辑。
 
+## Watch 侦听器
+[部分参考](https://www.cnblogs.com/amujoe/p/11429691.html)
+```
+<div>
+      <p>FullName: {{fullName}}</p>
+      <p>FirstName: <input type="text" v-model="firstName"></p>
+</div>
+ 
+new Vue({
+  el: '#root',
+  data: {
+    firstName: 'Dawei',
+    lastName: 'Lou',
+    fullName: ''
+  },
+  watch: {
+    firstName(newName, oldName) {
+      this.fullName = newName + ' ' + this.lastName;
+    }
+  } 
+})
+```
+上面的代码的效果是，当我们输入 firstName 后，wacth 监听每次修改变化的新值，然后计算输出 fullName
 
-## watch 和 computed
+<hr />
+
+### handler方法和immediate属性
+`watch`的其中一个特点是最初绑定的时候，handler是不会被执行的，以上方代码为例，只有等到`firstName` 改变的时候才会执行监听器。如果想要一开始就让它在最初绑定的时候就执行，需要使用`immediate`属性。例子如下，
+```
+watch: {
+  firstName: {
+    handler(newName, oldName) {
+      this.fullName = newName + ' ' + this.lastName;
+    },
+    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+    immediate: true // 默认false
+  }
+}
+```
+<hr />
+
+### `deep`属性
+当需要监听一个对象的改变时，普通的 `watch` 方法无法监听到对象内部属性的改变，只有 `data` 中的数据才能够监听到变化，此时就需要 `deep` 属性对对象进行深度监听。
+
+```
+<div>
+  <p>obj.a: {{ obj.a }}</p>
+  <p>obj.a: <input type="text" v-model="obj.a"/></p>
+</div>
+
+new Vue ({
+  el: '#root',
+  data: {
+    obj: {
+      a: 123
+    }
+  },
+  watch: {
+    obj: {
+      handler(newName, oldName){
+        console.log('obj.a changed');
+      },
+      immediate: true,
+      deep: true
+    }
+  }
+})
+```
+`deep` 的意思就是深入观察，监听器会一层层的往下遍历，给对象的所有属性都加上这个监听器，但是这样性能开销就会非常大了，任何修改 `obj` 里面任何一个属性都会触发这个监听器里的 handler。
+
+优化：
+```
+watch: {
+  'obj.a': {
+    handler(newName, oldName) {
+      console.log('obj.a changed');
+    },
+    immediate: true,
+    // deep: true
+  }
+}
+```
+### `watch`注销
+<hr />
+
+组件是经常要被销毁的，比如我们跳一个路由，从一个页面跳到另外一个页面，那么原来的页面的 `watch` 其实就没用了，这时候我们应该注销掉原来页面的 `watch` 的，不然的话可能会导致内置溢出。好在我们平时 `watch` 都是写在组件的选项中的，他会随着组件的销毁而销毁
+
+```
+const unWatch = app.$watch('text', (newVal, oldVal) => {
+  console.log(`${newVal} : ${oldVal}`);
+})
+ 
+unWatch(); // 手动注销watch
+```
+
+### 使用`watch`进行路由监听
+<hr />
+```
+watch: {
+    changeShowType(value) {
+      console.log("-----"+value);
+    },
+    '$route'(to,from){
+      console.log(to);   //to表示去往的界面
+      console.log(from); //from表示来自于哪个界面
+      if(to.path=="/shop/detail"){
+        console.log("商品详情");
+      }
+    }
+  },
+```
+
+
+### `watch` 和 `computed`
+<hr />
 1. computed主要用于同步数据的处理，而watch主要用于事件的派发，可以异步
 2. computed拥有缓存属性，只有当依赖数据发生变化的时候，关联的数据才会变化，适用于计算或者格式化数据的场景；
 3. watch监听数据，有关联但是没有依赖，只要某个数据发生变化，就可以一些数据或者派发事件，并同步或者异步执行;

@@ -109,3 +109,73 @@ export default {
 - `event: string` 事件名称
 - `options: Constructor | Constructor[] | PropOptions` 与@Prop 的第一个参数一致。
 
+## #Watch
+`@Watch(path: string, options: WatchOptions = {})`
+
+`@Watch`装饰器接收两个参数：
+- `path: string` 被侦听的属性名称
+- `options?: WatchOptions={} options` 可以包含两个属性：
+  1. `immediate?: boolean`侦听开始之后是否立即调用该回调函数；
+  2. `deep?: boolean` 被真挺多一项的属性改变时，是否调用该回调函数
+
+```
+import { Vue, Component, Watch } from 'vue-property-decorator';
+
+@Component
+export default class YourComponent extends Vue {
+  @Watch('child')
+  onChildChanged(val: string, oldVal: string) {}
+
+  @Watch('person', { immediate: true, deep: true })
+  onPersonChanged1(val: Person, oldVal: Person) {}
+
+  @Watch('person')
+  onPersonChanged2(val: Person, oldVal: Person) {}
+
+  @Watch('person')
+  @Watch('child')
+  onPersonAndChildChanged() {}
+}
+```
+相当于
+```
+export default {
+  watch{
+    child: [
+      {
+        handler: 'onChildChanged',
+        immediate: false,
+        deep: false
+      },
+      {
+        handler: 'onPersonAndChildChanged',
+        immediate: false,
+        deep: false
+      }
+    ],
+    person: [
+      {
+        handler: 'onPersonChanged1',
+        immediate: true,
+        deep: true
+      },
+      {
+        handler: 'onPersonChanged2',
+        immediate: false,
+        deep: false,
+      },
+      {
+        handler: 'onPersonAndChildChanged',
+        immediate: false,
+        deep: false,
+      }
+    ]
+  },
+  methods: {
+    onChildChanged(val, oldVal) {},
+    onPersonChanged1(val, oldVal) {},
+    onPersonChanged2(val, oldVal) {},
+    onPersonAndChanged() {},
+  },
+}
+```
