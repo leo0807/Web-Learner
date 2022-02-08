@@ -109,10 +109,10 @@ function initComputed (vm: Component, computed: Object) {
     if (!(key in vm)) {
       /*定义计算属性*/
       defineComputed(vm, key, userDef)
-    } else if (process.env.NODE_ENV !== 'production') {
-      /*如果计算属性与已定义的data或者props中的名称冲突则发出warning*/
-      if (key in vm.$data) {
-        warn(`The computed property "${key}" is already defined in data.`, vm)
+    } else if (process.env.NODE_E$V !== 'production') {
+      /*如果计算属性与已定义的data或者`props`中的名称冲突则发出`warning*/`
+      if (key in v`m.$d`ata) `{
+       warn(``The computed pro- `$listeners`perty "${key}" is already defined in data.`, vm)
       } else if (vm.$options.props && key in vm.$options.props) {
         warn(`The computed property "${key}" is already defined as a prop.`, vm)
       }
@@ -242,6 +242,7 @@ unWatch(); // 手动注销watch
 
 ### 使用`watch`进行路由监听
 <hr />
+
 ```
 watch: {
     changeShowType(value) {
@@ -266,7 +267,10 @@ watch: {
 4. 从编码上 computed 实现的功能也可以通过普通 method 实现，但与函数相比，计算属性是基于响应式依赖进行缓存的，只有在依赖的数据发生改变是，才重新进行计算，只要依赖项没有发生变化，多次访问都只是从缓存中获取;
 
 ## vue 中 key 的作用
-不使用key会导致的BUG[!https://juejin.cn/post/6844903918619590669](LINK)
+不使用key会导致的BUG
+
+[LINK](https://juejin.cn/post/6844903918619590669)
+
 1. diff中的sameVnode判断，了高效的更新虚拟 DOM，其原理是 vue 在 patch 过程中通过 key 可以精准判断两个节点是否是同一个，从而避免频繁更新不同元素，使得整个 patch 过程更加高效，减少 DOM 操 作量，提高性能。
 
 2. 列表节点唯一标识
@@ -735,30 +739,164 @@ function defineReactive(obj, key, val) {
 
 ```this.someObject = Object.assign({},this.someObject,{newProperty1:1,newProperty2:2 ...})```
 ## $forceUpdate
-如果你发现你自己需要在 Vue中做一次强制更新，99.9% 的情况，是你在某个地方做错了事
+如果你发现你自己需要在`Vue`中做一次强制更新，99.9% 的情况，是你在某个地方做错了事
 
-$forceUpdate迫使Vue 实例重新渲染
+`$forceUpdate`迫使`Vue`实例重新渲染
 
 PS：仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件。
 
 ## 
-- 如果为对象添加少量的新属性，可以直接采用 Vue.set()
-- 如果需要为新对象添加大量的新属性，则通过 Object.assign()创建新对象
-- 如果你实在不知道怎么操作时，可采取\$forceUpdate()进行强制刷新 (不建议)
+- 如果为对象添加少量的新属性，可以直接采用 `Vue.set()`
+- 如果需要为新对象添加大量的新属性，则通过 `Object.assign()`创建新对象
+- 如果你实在不知道怎么操作时，可采取`$forceUpdate()`进行强制刷新 (不建议)
+
+
+
+- `v-bind`在`Vue2.x`中，如果一个元素同时定义了 `v-bind="object"` 和一个相同的独立 `attribute`，那么这个独立 `attribute` 总是会覆盖 `object` 中的绑定。
+如，
+```
+<!-- 模板 -->
+<div id="red" v-bind="{ id: 'blue' }"></div>
+<!-- 结果 -->
+<div id="red"></div>
+```
+- 在 `Vue3.x` 中，如果一个元素同时定义了 `v-bind="object"` 和一个相同的独立 `attribute`，那么绑定的声明顺序将决定它们如何被合并。换句话说，相对于假设开发者总是希望独立 `attribute` 覆盖 `object` 中定义的内容，现在开发者能够对自己所希望的合并行为做更好的控制
+```
+<!-- 模板 -->
+<div id="red" v-bind="{ id: 'blue' }"></div>
+<!-- 结果 -->
+<div id="blue"></div>
+
+<!-- 模板 -->
+<div v-bind="{ id: 'blue' }" id="red"></div>
+<!-- 结果 -->
+<div id="red"></div>
+```
+
+## `vue`中的`$attrs`和`$listeners`
+<hr />
+
+[参考链接](https://segmentfault.com/a/1190000022708579)
+
+多级组件嵌套需要传递数据时，通常使用的方法是通过 `vuex`。如果仅仅是传递数据，而不做中间处理，使用 `vuex` 处理，这就有点大材小用了。所以就有了 `$attrs / $listeners` ，通常配合 `inheritAttrs` 一起使用。
+
+`inheritAttrs：true 继承除 props 之外的所有属性(除外class和style)；inheritAttrs：false 只继承 class 属性`
+
+- `$attrs`: 包含了父作用域中不作为组件 `props` 或自定义事件的 `attribute` 绑定和事件。当一个组件没有声明任何 `prop` 时，这里会包含所有父作用域的绑定，并且可以通过 `v-bind="$attrs"` 传入内部组件——这在创建高阶的组件时会非常有用。
+- `$listeners`: 包含了父作用域中的 (不含 `.native` 修饰符) `v-on` 事件监听器。它可以通过 `v-on=”$listeners”` 传入内部组件。它是一个对象，里面包含了作用在这个组件上的所有事件监听器，相当于子组件继承了父组件的事件。
+
+使用例子：
+father.vue
+```
+<template>
+　　 <child :name="name" :age="age" :infoObj="infoObj" @updateInfo="updateInfo" @delInfo="delInfo" />
+</template>
+<script>
+    import Child from '../components/child.vue'
+
+    export default {
+        name: 'father',
+        components: { Child },
+        data () {
+            return {
+                name: 'Lily',
+                age: 22,
+                infoObj: {
+                    from: '上海',
+                    job: 'policeman',
+                    hobby: ['reading', 'writing', 'skating']
+                }
+            }
+        },
+        methods: {
+            updateInfo() {
+                console.log('update info');
+            },
+            delInfo() {
+                console.log('delete info');
+            }
+        }
+    }
+</script>
+
+```
+Child.vue
+```
+<template>
+    <grand-son :height="height" :weight="weight" @addInfo="addInfo" v-bind="$attrs" v-on="$listeners"  />
+    // 通过 $listeners 将父作用域中的事件，传入 grandSon 组件，使其可以获取到 father 中的事件
+</template>
+<script>
+    import GrandSon from '../components/grandSon.vue'
+    export default {
+        name: 'child',
+        components: { GrandSon },
+        props: ['name'],
+        data() {
+          return {
+              height: '180cm',
+              weight: '70kg'
+          };
+        },
+        created() {
+            console.log(this.$attrs); 
+　　　　　　　// 结果：age, infoObj, 因为父组件共传来name, age, infoObj三个值，由于name被 props接收了，所以只有age, infoObj属性
+            console.log(this.$listeners); // updateInfo: f, delInfo: f
+        },
+        methods: {
+            addInfo () {
+                console.log('add info')
+            }
+        }
+    }
+</script>
+```
+GrandSon.vue
+```
+<template>
+    <div>
+        {{ $attrs }} --- {{ $listeners }}
+    <div>
+</template>
+<script>
+    export default {
+        ... ... 
+        props: ['weight'],
+        created() {
+            console.log(this.$attrs); // age, infoObj, height 
+            console.log(this.$listeners) // updateInfo: f, delInfo: f, addInfo: f
+            this.$emit('updateInfo') // 可以触发 father 组件中的updateInfo函数
+        }
+    }
+</script>
+```
+
+## inheritAttrs
+<hr />
+
+
+## 自定义事件
+
+### `.sync`修饰符
+<hr />
 
 
 
 
 
 
+
+
+### 相关链接 
+<hr />
 
 作者：counterxing 
 
-链接：https://www.zhihu.com/question/315844790/answer/637000219 
+[链接](https://www.zhihu.com/question/315844790/answer/637000219)
 
 作者：小黎也
 
-链接：https://juejin.cn/post/6844904089956925454
+[链接](https://juejin.cn/post/6844904089956925454)
 
 作者：尤雨溪
 
