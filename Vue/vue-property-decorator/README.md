@@ -101,3 +101,11 @@ export default {
   },
 }
 ```
+
+## @Model
+`@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})`
+
+`@Model`装饰器允许用户在一个组件自定义`v-model`，它接收两个参数
+- `event: string` 事件名称
+- `options: Constructor | Constructor[] | PropOptions` 与@Prop 的第一个参数一致。
+
