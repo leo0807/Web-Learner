@@ -871,9 +871,59 @@ GrandSon.vue
 </script>
 ```
 
-## inheritAttrs
+### inheritAttrs
 <hr />
 
+如果你不希望组件的根元素(最外层元素，举例`<html>`)继承 `attribute`，可以在组件的选项中设置 `inheritAttrs`: `false`。
+
+禁用 `attribute` 继承的常见场景是需要将 `attribute` 应用于根节点之外的其他元素。
+
+通过将 `inheritAttrs` 选项设置为 `false`，你可以使用组件的 `$attrs property` 将 `attribute` 应用到其它元素上，该 `property` 包括组件 `props` 和 `emits property` 中未包含的所有属性 (例如，`class`、`style`、`v-on` 监听器等)。
+
+举例，默认情况下，有：
+```
+app.component('date-picker', {
+  template: `
+    <div class="date-picker">
+      <input type="datetime-local" />
+    </div>
+  `
+})
+```
+如果我们需要通过 `data-status attribute` 定义 `<date-picker>` 组件的状态，它将应用于根节点 (即 `div.date-picker`)。
+
+```
+<!-- 具有非 prop 的 attribute 的 date-picker 组件-->
+
+<date-picker data-status="activated"></date-picker>
+
+<!-- 渲染后的 date-picker 组件 -->
+<div class="date-picker" data-status="activated">
+  <input type="datetime-local" />
+</div>
+```
+使用 `inheritAttrs: false`后：
+```
+app.component('date-picker', {
+  inheritAttrs: false,
+  template: `
+    <div class="date-picker">
+      <input type="datetime-local" v-bind="$attrs" />
+    </div>
+  `
+})
+```
+有了这个新配置，`data-status attribute` 将应用于 input 元素！
+```
+<!-- date-picker 组件使用非 prop 的 attribute -->
+
+<date-picker data-status="activated"></date-picker>
+
+<!-- 渲染后的 date-picker 组件 -->
+<div class="date-picker">
+  <input type="datetime-local" data-status="activated" />
+</div>
+```
 
 ## 自定义事件
 
