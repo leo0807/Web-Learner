@@ -342,3 +342,312 @@ store.set('foo', false)
   // { key: "id", order: "asc" } 
   copy('sort')
   ```
+
+
+## 组件辅助器
+<hr />
+
+1. `Pathify` 组件辅助器旨在轻松地将组件连接到store。
+
+```
+import { get, sync, call } from "vuex-pathify";
+
+// component
+export default {
+  computed: {
+    // 只读， 单一属性
+    items: get('products/items'),
+
+    // 读/写，单一属性
+    search: sync('products/filters@search'),
+
+    // 读/写，重命名，多（子）属性
+    ...sync('products/filters@sort', {
+      sortOrder: 'order',
+      sortKey: 'key',
+    }),
+
+    // 读/写，多个自动属性
+    ...sync('products/*')
+  },
+
+  methods: {
+    // 写多个 actions
+    ...actions('products/*')
+  }
+}
+```
+
+### API
+
+1. get(path: string): *
+使用`get()`来读取在`store`的属性
+```
+computed: {
+  items: get('products/items')
+}
+```
+辅助器则会产生以下计算属性：
+```
+computed: {
+  items () {
+    return this.$store.getters['products/items']
+  }
+}
+```
+这个函数类似于`mapState()`和`mapGetter()`的结合。
+
+2. sync(path: string): *
+使用sync()来进行数据的双向绑定
+```
+computed: {
+  items: sync('products/status')
+}
+```
+辅助器生成以下复合计算属性：
+```
+computed: {
+  status: {
+    get () { 
+      return this.$store.state.products.status
+    },
+    set (value) {
+      return this.$store.commit('products/SET_STATUS', value)
+    },
+  }
+}
+```
+这个函数类似于`mapState()`和`mapMutations()`的结合。
+
+注意，`sync()` 仅从 `state` 中读取，以防止出现同名转换 getter 可能最终递归修改 state 的真实值的情况。
+
+如果你想指定一个替代的`mutation`或`action`，`sync()` 需要一个额外的路径语法 `|` 您可以使用它指定直接访问：
+```
+computed: {
+    // 使用 `items` 进行访问 但是 使用 `update()` action 进行修改
+    items: sync('items|update')
+}
+
+```
+
+### call(path: string): *
+使用 `call()` 创建将操作分派到`store`的函数：
+```
+methods: {
+  load: call('products/load')
+}
+```
+辅助器生成以下方法：
+
+```
+methods: {
+  load (payload) {
+    return this.$store.dispatch('products/load', payload);
+  }
+}
+```
+此函数类似于`mapActions()`
+
+## 多属性访问
+<hr />
+
+每个组件辅助器都可以生成多个成员。
+
+你可以使用：
+
+- 数组语法 - 将属性与商店 1:1 映射
+- 对象语法 - 在组件上映射具有不同名称的属性
+- 通配符扩展 - 自动获取属性集
+
+每种语法都会生成一个具有命名属性的对象，这些属性必须混合到关联的块（`computed`或`methods`）中或设置为块本身：
+
+```
+computed: {
+  ...sync(map),
+  ...sync(path, map)
+},
+methods: {
+  ...call(map),
+  ...call(path, map)  
+}
+
+-------------------------
+computed: sync(path, map),
+methods: call(path, map)
+```
+
+### Array syntax
+数组语法将属性名称映射到`store`。
+
+```
+computed: {
+  ...get('products', [
+    'search',
+    'items',
+  ])
+},
+methods: {
+  ...get('products', [
+    'load',
+    'update',
+  ])
+}
+```
+```
+items  : products/items
+filter : products/filter
+load   : products/load()
+update : products/update()
+```
+
+### Object syntax
+对象语法以不同的方式将属性名称映射到`store`。
+
+它需要一个可选的`path`前缀和 `key:member` 名称的散列：
+
+```
+computed: {
+  ...sync('products/filters@sort', { 
+    sortOrder: 'order',
+    sortKey: 'key',
+  })
+},
+methods: {
+  ...call('products', { 
+    loadItems: 'load',
+    updateItems: 'update',
+  })
+}
+```
+```
+sortOrder   : products/filters@sort.order
+sortKey     : products/filters@sort.key
+loadItems   : products/load()
+updateItems : products/update()
+```
+
+### Wildcard syntax
+通配符语法将属性名称组映射到`store`。
+
+```
+computed: {
+  ...get('products/*')
+},
+methods: {
+  ...call('products/*')
+}
+```
+
+```
+items    : products/items
+search   : products/search
+filters  : products/filters
+load     : products/load()
+update   : products/update()
+```
+
+此外，计算属性可以针对任何一组状态属性或子属性，因此以下都是有效的：
+
+```
+products/_
+products/filters@_
+products/filters@sort.\*
+```
+
+请注意，路径引擎支持部分匹配：
+```
+methods: {
+...call('products/\*Items')
+},
+```
+但是，过度使用部分匹配(partial matching)将会导致设计过于复杂并且需要重构！
+
+
+## Component property decorators
+<hr />
+
+用于单个属性访问的可选组件属性装饰器，可与基于类的组件一起使用。
+
+对于更倾向于`class-based`的组件开发的开发者，`Pathify`允许开发人员通过`@decorator`语法来生成计算属性。
+
+`Pathify`内部导入了`vue-class-component`。当然，这点在以后可能会被改变。
+
+## 使用方法（例子）
+ES (注意此时的语法首字母均为大写)
+```
+import { Get, Sync, Call } from "vue-pathify";
+// component
+@Component
+export default class Item extends Vue {
+  @Get('products/items') items
+  @Sync('products/tax') tax
+  @Call('products/setDiscount') setDiscount
+}
+```
+
+TS
+```
+import { Get, Sync, Call } from "vuex-pathify";
+
+// component 
+@Component
+export default class Item extends Vue {
+  @Get('products/items') items!: Item[]
+  @Sync('products/tax') tax!: number
+  @Call('products/setDiscount') setDiscount!: (rate: number) => any
+}
+```
+等同于
+```
+import { get, sync, call } from 'vuex-pathify';
+
+export default {
+  computed: {
+    items: get('products/items'),
+    tax: sync('products/tax')
+  },
+  methods: {
+    setDiscount: call('products/setDiscount')
+  }
+}
+```
+
+
+### Accessor priority 访问器具优先级
+
+- `Vuex`有两种方法
+  1. 获取数据： `state`和`getters`
+  2. 赋值数据（set）：`mutations`和`actions`
+- 当访问一个属性的时候，以`items`为例,
+  1. 一个映射的`getter`的优先级将高于一个映射的`state`（因为`getter`会引用它）
+  2. 一个映射的`action`的优先级将高于一个映射的`mutation`（因为`call`会调用它）
+
+如此设计的逻辑和实现是有几个目的的：
+  1. 减少`store`的决策过程； 如果你想要一个值，你可以直接获取它
+    ```
+    // don't care about the implementation, just get/set the value
+    store.get('items')
+    store.set('items', data)
+    ```
+  2. 减少模块中令人尴尬的语法：
+    ```
+    // single, unified format
+    store.get('products/items')
+    ```
+
+    ```
+    // rather than...
+    store.state.products.items
+    store.getters['products/items']
+    ```
+  3. 支持一种模式，其中`state`可以是“单一事实来源”，`getter` 作为“转换器”功能工作：
+    ```
+     state: {
+     // store item objects...
+            items: [ {}, {}, ... ],
+        },
+        getters: {
+            // ...return Item models
+            items (state) => state.items.map(item => new Item(item))
+        }
+    ```
