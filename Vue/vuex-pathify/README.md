@@ -1,6 +1,65 @@
 # vuex-pathify
 [Github Link](davestewart.github.io/vuex-pathif…)
 
+## Demo
+<hr />
+
+1. 配置`vuex-pathify.js`
+```
+import pathify from 'vuex-pathify';
+
+<!-- 配置项 -->
+pathify.options.mapping = 'simple';
+pathify.options.strict = true
+;
+export default pathify;
+```
+2. 在`store.js`·导入该配置文件
+```
+// Vue
+import Vue from 'vue';
+import Vuex from 'vuex';
+import pathfiy './vuex-pathify.js';
+
+<!-- Modules -->a
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+  plugins: [
+    pathify.plugin, // 配置pathfiy插件
+  ]
+});
+
+export default store;
+```
+3. 存取
+```
+<!-- 取 get -->
+import { get } from 'vuex-pathify';
+import store from './store';
+
+computed: {
+  demo: get('demo'),
+},
+
+<!-- 存 set -->
+store.set('a', val); // 设置根属性的值
+store.set('a/b', val); // 设置块属性的值
+store.set('a/b@c', val) // 设置块根属性的子属性的值
+
+<!-- 存 + 取 -->
+ value: sync('module/object@value'),
+ c: sync('module/object@a.b.c'),
+ ...sync('module', [ // 数组模式
+    'value',
+    'str'
+ ]),
+ ...sync('module', { // 对象模式,别名模式
+    altValue: 'value',
+    altStr: 'str'
+ })
+```
+
 ### Setup
 <hr />
 
@@ -68,6 +127,29 @@ mapping选项来决定pathify如何映射pathfiy操作到vuex的store成员。�
     - `const` - format as `CONST_CASE`
     - 也可以使用像`lodash`中的内置`formatters`
   E.g., `formatters.const('set', 'items') // SET_ITEMS`
-### mapping
-### mapping
-### mapping
+### deep
+- Type: Number
+- Default: 1
+`deep` 选项允许对 `Object` 类型的存储成员进行子属性读/写甚至创建：
+`store.set('sort@order', 'asc'`)
+- 0 - 禁止访问子属性
+- 1 - 启用对现有子属性的访问
+- 2 - 允许创建新的子属性
+- 如果启用子属性创建，则可以通过 `store.set()` 和 `sync()` 即时创建新的子属性。
+
+- 尝试在未经许可的情况下访问或创建子属性将失败，并会在开发过程中产生控制台错误。
+
+### strict
+- Type: Boolean
+- Default: true
+- 如果尝试访问不存在的属性，`strict` 选项会导致抛出错误。
+
+### cache
+- Type: Boolean
+- Default: true
+- 缓存选项可以缓存映射结果，从而在访问路径或重新创建计算属性时进行更快的查找。
+- 禁用缓存对性能的影响可以忽略不计。
+
+
+## Debug
+<hr />
