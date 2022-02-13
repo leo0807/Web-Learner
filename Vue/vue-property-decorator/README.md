@@ -101,13 +101,73 @@ export default {
   },
 }
 ```
+`@PropSync` 的工作方式类似于 `@Prop`，除了它将 `propName` 作为装饰器的参数之外，它还在幕后创建了一个计算的 `getter` 和 `setter`。通过这种方式，您可以像与常规数据属性一样与属性交互，同时使其像在父组件中附加 `.sync` 修饰符一样简单。
 
-## @Model
-`@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})`
+## `@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})`
 
 `@Model`装饰器允许用户在一个组件自定义`v-model`，它接收两个参数
 - `event: string` 事件名称
-- `options: Constructor | Constructor[] | PropOptions` 与@Prop 的第一个参数一致。
+- `options: Constructor | Constructor[] | PropOptions` 与`@Prop` 的第一个参数一致。
+
+```
+import { Vue, Component, Model } from 'vue-property-decorator'
+
+@Component
+export default class YourComponent extends Vue {
+  @Model('change', { type: Boolean }) readonly checked!: boolean
+}
+```
+等同于
+```
+export default {
+  model: {
+    prop: 'checked',
+    event: 'change',
+  },
+  props: {
+    checked: {
+      type: Boolean,
+    },
+  },
+}
+```
+`@Model`属性也可以通过`reflect-metadata`从它自身的类型定义设置`type`属性
+
+## `@ModelSync(propName: string, event?: string, options: (PropOptions | Constructor[] | Constructor) = {}) `
+```
+import { Vue, Component, ModelSync } from 'vue-property-decorator'
+
+@Component
+export default class YourComponent extends Vue {
+  @ModelSync('checked', 'change', { type: Boolean })
+  readonly checkedValue!: boolean
+}
+```
+等同于
+```
+export default {
+  model: {
+    prop: 'checked',
+    event: 'change',
+  },
+  props: {
+    checked: {
+      type: Boolean,
+    },
+  },
+  computed: {
+    checkedValue: {
+      get() {
+        return this.checked
+      },
+      set(value) {
+        this.$emit('change', value)
+      },
+    },
+  },
+}
+```
+`@ModelSync`属性也可以通过`reflect-metadata`从它自身的类型定义设置`type`属性
 
 ## #Watch
 `@Watch(path: string, options: WatchOptions = {})`
@@ -177,5 +237,210 @@ export default {
     onPersonChanged2(val, oldVal) {},
     onPersonAndChanged() {},
   },
+}
+```
+## `@Provide(key?: string | symbol) / @Inject(options?: { from?: InjectKey, default?: any } | InjectKey)` 装饰器
+
+```
+import { Component, Inject, Provide, Vue } from "vue-property-decorator";
+
+const symbol = Symbol=("baz");
+@Component
+export class MyComponent extends Vue {
+  @Inject() readonly foo!: string
+  @Inject("bar") bar!: string
+  @Inject({ from: "optional", default: "default" }) readonly optional!: string
+  @Inject(symbol) readonly baz!: string
+
+  @Provide() foo = "foo"
+  @Provide("bar") baz = "bar"
+}
+```
+等同于
+```
+const symbol = Symbol("baz");
+
+export const Mycomponent = Vue.extends({
+  inject: {
+    foo: "foo",
+    bar: "bar",
+    optional: { from: "optional", default: "default" },
+    baz: symbol,
+  },
+  data(){
+    return {
+      foo: "foo",
+      baz: "bar",
+    }
+  }m
+  provide() {
+    return {
+      foo: this.foo,
+      bar: this.baz
+    }
+  }
+})
+```
+
+
+
+## `@ProvideReactive(key?: string | symbol) / @InjectReactive(options?: { from?: InjectKey, default?: any } | InjectKey)` decorator
+这些是装饰器响应版本的`@Provide`和`@Inject`。如果一个被提供的值被父组件所修改，那么子组件可以捕捉到这次变化。
+```
+const key = Symbol();
+
+@Component
+class ParentComponent extends Vue{
+  @ProvideReactive() one = 'value'
+  @InjectReactive() two = 'value'
+}
+
+@Component
+class ChildComponent extends Vue {
+  @InjectReactive() one!: string
+  @InjectReactive(key) two!: string
+}
+```
+
+## `@Emit(event?: string)`decorator
+由`@Emit`和`$emit` 修饰的函数返回值后跟着的是它们的原始参数。 如果返回值是一个`Promise`，它会在发出之前被解析。
+
+如果事件名称不是通过事件参数提供的，则使用函数名称。 在这种情况下，`camelCase` 名称将转换为 `kebab-case`。
+
+```
+import { Vue, Component, Emit } from "vue-property-decorator";
+
+@Component
+export default class YourComponent extends Vue {
+  count = 0;
+
+  @Emit()
+  addToCount(n: number){
+    this.count += n;
+  }
+
+  @Emit('reset')
+  resetCount(){
+    this.count = 0;
+  }
+
+  @Emit()
+  returnValue(){
+    return 10;
+  }
+
+  @Emit()
+  onInputChange(e){
+    return e.target.value;
+  }
+
+  @Emit()
+  promise(){
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(20);
+      }, 0);
+    })
+  }
+}
+```
+等同于
+```
+export default {
+  data(){
+    return {
+      count: 0,
+    }
+  },
+  methods: {
+    addToCount(n){
+      this.count += n;
+      this.$emit('add-to-count', n);
+    },
+    resetCount(){
+      this.count = 0
+    },
+    returnValue(){
+      this.$emit('return-value', 10);
+    },
+    onInputChange(e){
+      this.$emit('on-input-change', e.target.value, e);
+    },
+    promise(){
+      const promise = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(20);
+        }, 0);
+      })
+
+      promise.then(value => {
+        this.$emit('promise', value);
+      })
+    }
+  }
+}
+```
+
+
+## `@Ref(refKey?: String)`decorator
+
+```
+import { Vue, Compoent, Ref } from "vue-property-decorator";
+import AnotherComponent from "@/path/to/another-component.vue";
+
+@Component
+export default class YourComponent extends Vue {
+  @Ref() readonly anotherComponent!: AnotherComponent
+  @Ref('aButton') readonly button!: HTMLButtonElement
+}
+```
+相当于
+```
+export default {
+  computed() {
+    anotherComponent: {
+      cache: false,
+      get() {
+        return this.$refs.anotherComponent as AnotherComponent
+      }
+    },
+    button: {
+      cache: false,
+      get() {
+        return this.$refs.aButton as HTMLButtonElement
+      }
+    }
+  }
+}
+```
+
+
+## `@VModel(propsArgs?: PropOptions)` decorator
+```
+import { Vue, Component, VModeal } from "vue-property-decorator";
+
+@Component
+export default class YourComponent extends Vue {
+  @VModel({ type: String }) name!: string
+}
+```
+相当于
+```
+export default {
+  props: {
+    value: {
+      type: String
+    }
+  },
+  computed: {
+    name: {
+      get() {
+        return this.value
+      },
+      set(value){
+        this.$emit('input', value)
+      }
+    }
+  }
 }
 ```
