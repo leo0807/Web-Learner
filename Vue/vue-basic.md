@@ -290,8 +290,28 @@ mounted(){
 - 优点
     - 不用像 props 一层层传递，可以跨层级传递。
 - 缺点
-    - 用这种方式传递的属性是非响应式的，所以尽可能来传递一些静态属性。
     - 引用官网的话是它将你的应用以目前的组件组织方式耦合了起来，使重构变得更加困难。，我对这句话的理解是用了 provide/inject 你就要遵循它的组件组织方式，在项目的重构时如果要破坏这个组织方式会有额外的开发成本，其实 event-bus 也有这个问题。
+- 响应式解决方法
+  - 传递`ref`属性或给`provide添加`响应式属性
+  如
+  ```
+  app.component('todo-list', {
+  // ...
+  // 使用属性模式(provide:{})无法访问到实例this
+    provide() {
+      return {
+        todoLength: Vue.computed(() => this.todos.length)
+      }
+    }
+  })
+
+  app.component('todo-list-statistics', {
+    inject: ['todoLength'],
+    created() {
+      console.log(`Injected property: ${this.todoLength.value}`) // > 注入的 property: 5
+    }
+  })
+  ```
 
 - 使用Vue.observable 响应式优化<a src="https://blog.csdn.net/xiasohuai/article/details/98887189
 ">来源</a>
