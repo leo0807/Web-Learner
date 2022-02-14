@@ -782,6 +782,10 @@ PS：仅仅影响实例本身和插入插槽内容的子组件，而不是所有
 
 `inheritAttrs：true 继承除 props 之外的所有属性(除外class和style)；inheritAttrs：false 只继承 class 属性`
 
+- 对于`inheritAttrs`的官方解释
+[Link](https://v3.cn.vuejs.org/api/options-misc.html#inheritattrs)
+默认情况下父作用域的不被认作 `props` 的 `attribute` 绑定 (`attribute bindings`) 将会“回退”且作为普通的 `HTML attribute` 应用在子组件的根元素上。当撰写包裹一个目标元素或另一个组件的组件时，这可能不会总是符合预期行为。通过设置 `inheritAttrs` 到 `false`，这些默认行为将会被去掉。而通过实例 `property $attrs` 可以让这些 `attribute` 生效，且可以通过 `v-bind` 显性的绑定到非根元素上。
+
 - `$attrs`: 包含了父作用域中不作为组件 `props` 或自定义事件的 `attribute` 绑定和事件。当一个组件没有声明任何 `prop` 时，这里会包含所有父作用域的绑定，并且可以通过 `v-bind="$attrs"` 传入内部组件——这在创建高阶的组件时会非常有用。
 - `$listeners`: 包含了父作用域中的 (不含 `.native` 修饰符) `v-on` 事件监听器。它可以通过 `v-on=”$listeners”` 传入内部组件。它是一个对象，里面包含了作用在这个组件上的所有事件监听器，相当于子组件继承了父组件的事件。
 
@@ -925,9 +929,39 @@ app.component('date-picker', {
 </div>
 ```
 
+
+
 ## 自定义事件
 
 ### `.sync`修饰符
+[Link](https://cn.vuejs.org/v2/guide/components-custom-events.html)
+在有些情况下，我们可能需要对一个 `prop` 进行“双向绑定”。不幸的是，真正的双向绑定会带来维护上的问题，因为子组件可以变更父组件，且在父组件和子组件两侧都没有明显的变更来源。
+
+这也是为什么我们推荐以 `update:myPropName` 的模式触发事件取而代之。举个例子，在一个包含 `title prop` 的假设的组件中，我们可以用以下方法表达对其赋新值的意图:
+
+```
+this.$emit('update:title', newTitle)
+```
+然后父组件可以监听那个事件并根据需要更新一个本地的数据 `property`。例如：
+```
+<text-document
+  v-bind:title="doc.title"
+  v-on:update:title="doc.title = $event"
+></text-document>
+```
+为了方便起见，我们为这种模式提供一个缩写，即 `.sync` 修饰符：
+`<text-document v-bind:title.sync="doc.title"></text-document>`
+
+- 注意带有 `.sync` 修饰符的 `v-bind` 不能和表达式一起使用 (例如 `v-bind:title.sync=”doc.title + ‘!’”` 是无效的)。取而代之的是，你只能提供你想要绑定的 `property` 名，类似 `v-model`。
+
+当我们用一个对象同时设置多个 `prop` 的时候，也可以将这个 `.sync` 修饰符和 `v-bind` 配合使用：
+
+`<text-document v-bind.sync="doc"></text-document>`
+这样会把 `doc` 对象中的每一个 `property` (如 `title`) 都作为一个独立的 `prop` 传进去，然后各自添加用于更新的 `v-on` 监听器。
+
+将 v-bind`.sync` 用在一个字面量的对象上，例如 `v-bind.sync=”{ title: doc.title }”`，是无法正常工作的，因为在解析一个像这样的复杂表达式的时候，有很多边缘情况需要考虑。
+
+
 <hr />
 
 
