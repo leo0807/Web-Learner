@@ -101,7 +101,8 @@ export default {
   },
 }
 ```
-`@PropSync` 的工作方式类似于 `@Prop`，除了它将 `propName` 作为装饰器的参数之外，它还在幕后创建了一个计算的 `getter` 和 `setter`。通过这种方式，您可以像与常规数据属性一样与属性交互，同时使其像在父组件中附加 `.sync` 修饰符一样简单。
+`@PropSync` 的工作方式类似于 `@Prop`，除了它将 `propName` 作为装饰器的参数之外，它还在幕后创建了一个计算的 `getter` 和 `setter`。通过这种方式，您可以像与常规数据属性一样与属性交互，同时使其像在父组件中附加 `.sync` 修饰符一样简单。`@PropSync` 需要配合父组件的`.sync` 修饰符使用。
+
 
 ## `@Model(event?: string, options: (PropOptions | Constructor[] | Constructor) = {})`
 
@@ -176,7 +177,9 @@ export default {
 - `path: string` 被侦听的属性名称
 - `options?: WatchOptions={} options` 可以包含两个属性：
   1. `immediate?: boolean`侦听开始之后是否立即调用该回调函数；
-  2. `deep?: boolean` 被真挺多一项的属性改变时，是否调用该回调函数
+  2. `deep?: boolean` 被侦听的一项的属性改变时，是否调用该回调函数
+
+侦听开始，发生在 `beforeCreate` 勾子之后，`created` 勾子之前。
 
 ```
 import { Vue, Component, Watch } from 'vue-property-decorator';
@@ -303,6 +306,11 @@ class ChildComponent extends Vue {
 ```
 
 ## `@Emit(event?: string)`decorator
+1. `@Emit` 装饰器接收一个可选参数，该参数是`$Emit`的第一个参数，充当`事件名(Event Name)`。如果没有提供这个参数，`$Emit` 会将回调函数名的 `camelCase` 转为 `kebab-case`，并将其作为事件名
+2. `@Emit` 会将回调函数的返回值作为第二个参数，如果返回值是一个 `Promise` 对象，`$emit`会在`Promise`对象被标记为`resolved`之后触发
+3. `@Emit`的回调函数的参数，会放在其返回值之后，一起被`$emit` 当做参数使用
+
+
 由`@Emit`和`$emit` 修饰的函数返回值后跟着的是它们的原始参数。 如果返回值是一个`Promise`，它会在发出之前被解析。
 
 如果事件名称不是通过事件参数提供的，则使用函数名称。 在这种情况下，`camelCase` 名称将转换为 `kebab-case`。
@@ -383,6 +391,7 @@ export default {
 
 
 ## `@Ref(refKey?: String)`decorator
+`@Ref` 装饰器接收一个可选参数，用来指向元素或子组件的`引用信息`。如果没有提供这个参数，会使用装饰器后面的属性名充当参数
 
 ```
 import { Vue, Compoent, Ref } from "vue-property-decorator";
