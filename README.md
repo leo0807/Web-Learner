@@ -11,7 +11,10 @@
     - C
 - Frontend Technology Stack
     - HTML5 (Canvas & SVG) (**√√√√√**)
-    - CSS3 (Less & Sass) (**√√√√√**)
+    - CSS3 (**√√√√√**)
+        - Less
+        - Sass
+        - TailWindCss
     - Javascript (TypeScript) (**√√√√√**)
     - JQuery
     - Client-side Framework
@@ -27,6 +30,8 @@
         - Vue (**√√√√√**)
             - vue-router
             - vuex
+            - vuex-pathify
+            - vuex-persistedstate
             - nuxtJS
             - vuetify
             - vue-class-component
