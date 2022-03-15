@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .forms import SearchForm
 # Create your views here.
 
 
@@ -23,3 +24,8 @@ def home(request):
 
 def educative(request):
     return HttpResponse("Welcome to Educative page!")
+
+
+def forms(request):
+    form = SearchForm()
+    return render(request, 'first_app/forms.html', {'form': form})
