@@ -4,7 +4,9 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello World!")
+    my_dict = {'insert_me': "Hello I am from views.py!"}
+    app_name = 'zing_it'
+    return render(request, 'first_app/index.html')
 
 
 def even_or_odd(request, num):
