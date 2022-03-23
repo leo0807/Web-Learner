@@ -54,5 +54,5 @@
     - Speech
     - Language
     - Decision
-- Azure Application Insights#
+- Azure Application Insights
   1. Application Insights is an Application Performance Management service (which comes as a feature of Azure Monitor) for web applications that enables you to monitor your website performance in Azure.
