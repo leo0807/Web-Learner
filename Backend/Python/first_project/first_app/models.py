@@ -11,6 +11,13 @@ class Topic(models.Model):
         return self.top_name
 
 
+class Title(models.Model):
+    top_name = models.CharField(max_length=264, unique=True)
+
+    def __str__(self) -> str:
+        return self.top_name
+
+
 class Webpage(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     name = models.CharField(max_length=264, unique=True)
