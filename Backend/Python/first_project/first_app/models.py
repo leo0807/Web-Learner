@@ -11,6 +11,13 @@ class Topic(models.Model):
         return self.top_name
 
 
+class Date(models.Model):
+    date = models.CharField(max_length=264, unique=True)
+
+    def __str__(self) -> str:
+        return self.date
+
+
 class Title(models.Model):
     top_name = models.CharField(max_length=264, unique=True)
 
