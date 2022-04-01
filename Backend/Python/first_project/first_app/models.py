@@ -12,7 +12,7 @@ class Topic(models.Model):
 
 
 class Date(models.Model):
-    date = models.CharField(max_length=264, unique=True)
+    date = models.DateField()
 
     def __str__(self) -> str:
         return self.date
