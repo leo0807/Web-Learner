@@ -18,10 +18,10 @@ class Date(models.Model):
 
 
 class Title(models.Model):
-    top_name = models.CharField(max_length=264, unique=True)
+    title_name = models.CharField(max_length=264, unique=True)
 
     def __str__(self) -> str:
-        return self.top_name
+        return self.title_name
 
 
 class Webpage(models.Model):
