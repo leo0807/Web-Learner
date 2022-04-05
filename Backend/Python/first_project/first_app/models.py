@@ -4,10 +4,10 @@ from datetime import date
 
 
 class Topic(models.Model):
-    top_name = models.CharField(max_length=264, unique=True)
+    topic_name = models.CharField(max_length=264, unique=True)
 
     def __str__(self) -> str:
-        return self.top_name
+        return self.topic_name
 
 
 class Date(models.Model):
