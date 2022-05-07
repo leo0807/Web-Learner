@@ -14,7 +14,7 @@
     - Spring注入属性
   2. Bean管理操作有两种方式
     - 给予XML配置方式
-      1. ```<bean id="名字" class="路径">```
+      1. ```<bean id="名字" class="路径"></bean>```
         - 在spring配置文件中，使用bean标签，标签里面添加对应属性，就可以创建对象
         - 在bean标签有很多属性，介绍常用的属性
           - id 属性： 标识
@@ -23,4 +23,43 @@
     - 基于注解方式
       1. DI：依赖注入，即注入属性
         - 使用set方法
+          - 
+            ```
+            <bean id="名字" class="路径">
+              <property name="name" value="value"></property>
+            </bean>
+            ```
+            也可以简化为
+            ```
+            <bean id="名字" class="路径" p:bname="bname" p:bvalue="bname">
+            </bean>
+            ```
+
         - 有参构造
+          - 
+            ```
+            <bean id="名字" class="路径">
+              <constructor-arg name="name" value="value"></constructor-arg>
+            </bean>
+            ```
+    - XML注入其他类型属性
+      - null值
+        - 
+          ```
+          <property name="name">
+            <null />
+          </property>
+          ```
+      - 属性值包含特殊符号
+        - 
+          ```
+          <property name="addr" value="&lt;&gt;<<南京>>"></property>
+          ```
+
+        - 
+          ```
+          <property name="addr">
+            <value><![CDATA[<<南京>>]]></value>
+          </property>
+          ```
+  3. 外部Bean
