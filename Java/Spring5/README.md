@@ -63,3 +63,5 @@
           </property>
           ```
   3. 外部Bean
+
+- Bean 生命周期
