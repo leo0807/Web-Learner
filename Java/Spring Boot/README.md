@@ -11,4 +11,5 @@
 
 - JPA
 - Springboot Security
+- Cloud
 ## Notes
