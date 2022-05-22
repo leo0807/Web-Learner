@@ -65,6 +65,14 @@
   3. 外部Bean
 - 什么是Bean
 - Bean 生命周期
+  - 实例化 Instantiation
+   - BeanFactory 管理的 Bean 是在使用到 Bean 的时候才会实例化 Bean
+   - ApplicantContext 管理的 Bean 在容器初始化的时候就回完成 Bean 实例化
+
+  - 属性赋值 Populate
+  - 初始化 Initialization
+  - 销毁 Destruction
+
 - lombok
 
 
