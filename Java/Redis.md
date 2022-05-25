@@ -33,13 +33,40 @@
 - LINSERT key before/after pivot value  在key的pivot之前/之后插入value
 
 ### Set
-
 - sadd key value      set添加值value
 - SMEMBERs key        查看set所有值
 - SISMEBER key value  查看value是否在set key中
 - scard key           查看set key中所有元素数量
 - srem key value      移除set key中的value
 - SRANDMEMBER key num 随机输出key中num个元素
+- spop key            随机删除key中的一个set
+- smove key1 key2 value
+- SDIFF key1 key2     差集
+- SINTER key1 key2    交集
+- SUNION key1 key2    并集 
+### Hash 
+- hset key field value
+- hget key field 
+- hgetall key
+- hdel key field ...
+- HEXISTS key field   
+- HINCRBY key field value
+
+### Zset 有序集合
+在set的基础上，增加了一个值 - 排序
+- zadd key rank value rank2 value2 ...
+- zrange key start stop
+- ZRANGEBYSCORE key min max
+- zcard key
+- zount key field
+
+### GeoSpatial （底层原理为Zset）
+- GEOADD    添加
+- GEODIST   查询距离
+- GEOHASH   将二维经纬度变成一维字符串
+- GEOPOS
+- GEORADIUS
+- GEORADIUSBYMEMBER 找出指定元素周围的其他元素
 
 - 为什么Redus单线程还这么快？
 1. 速度上CPU > 内存 > 硬盘
