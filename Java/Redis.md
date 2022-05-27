@@ -77,5 +77,5 @@
   - 一次性，顺序性和排它性
 - Redis 事务
   - 开启事务 multi
-  - 命令入队
+  - 命令入队 （Command NoSQL）
   - 执行事务 excute （取消事务/discard）
