@@ -82,6 +82,19 @@
 1. 速度上 CPU > 内存 > 硬盘
 2. Redis 是将所有数据全部放在内存中，所以单线程去操作效率就是最高的，多线程需要 CPU 上下文切换是很耗时的
 
+### Redis 配置
+- 对于clients的一些限制
+  - maxclients \<number\> # 设置连接上redis的最大客户端的数量
+  - maxmemory \<bytres\>  # Redis 配置最大的内存容量
+  - maxmemory-policy XXXX # 内存到达上限之后的处理策略
+    1. noeviction: 对可能导致增大内存的命令返回错误 (大多数写命令，DEL 除外) ;
+    2. volatile-ttl: 在设置了过期时间的 key 中，选择剩余寿命 (TTL) 最短的 key，将其淘汰;
+    3. volatile-lru: 在设置了过期时间的 key 中，选择最少使用的 key (RU) ，将其淘汰;
+    4. volatile-random: 在设置了过期时间的 key 中，随机选择一些 key，将其淘汰;
+    5. allkeys-1Lru: 在所有的 key 中，选择最少使用的 key (LRU) ，将其淘汰;
+    6. allkeys-random: 在所有的 key 中，随机选择一些 key，将其淘汰;
+
+
 - Redis 事务本质
   - 一组命令的集合，一个事物中的所有命令都会被序列化，在事务执行过程中，会按照顺序执行；
   - 一次性，顺序性和排它性
