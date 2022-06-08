@@ -103,6 +103,37 @@
 
 - lombok
 - Data
+### AOP
+- AOP 规则
+  1. `execution(public * *(..))execution(public * *(..))`
+    - `public 可以省略, 第一个* 代表方法的任意返回值 第二个参数代表任意包+类+方法 （..）任意参数`
+  2. 任何一个以`set`开始的方法的执行：
+    - `execution(* set*(..)`
+  3. UserService 接口的任意方法：
+    - `execution(* com.coffee.service.UserService.*(..))`
+  4. 定义在 `com.coffee.service 包里的任意方法的执行：
+    - `execution(* com.coffee.service..(..))`
+    - `第一个 .* 代表任意类, 第二个 .* 代表人以方法`
+  5. 定义在`service`包和所有子包里的任意类的任意方法的执行：
+    - `execution(* com.coffee.service...(..))`
+    - `..* 代表任意包或者子包`
+  6. 定义在 `com.coffee` 包和所有子包里的 `UserService` 类的任意方法的执行：
+    - `execution( com.coffee..UserService.(..))")`
+- `AOP` 的术语
+  1. 连接点(`Join point`)：
+    - 能够被拦截的地方：Spring AOP 是基于动态代理的，所以是方法拦截的。每个成员方法都可以称之为连接点~
+  2. 切点(`Poincut`)：
+    - 具体定位的连接点：上面也说了，每个方法都可以称之为连接点，我们具体定位到某一个方法就成为切点。
+  3. 增强/通知(`Advice`)：
+    - 表示添加到切点的一段`逻辑代码`，并定位连接点的`方位信息`。
+      - 简单来说就定义了是干什么的，具体是在哪干
+      - `Spring AOP` 提供了 5 种 `Advice` 类型给我们：前置、后置、返回、异常、环绕给开发者使用
+  4. 织入(`Weaving`)：
+    - 将`增强/通知`添加到目标类的具体连接点上的过程。
+  5. 引入/引介(`Introduction`)：
+    - 引入/引介允许我们向`现有的类添加新方法或属性`。是一种特殊的增强！
+  6. 切面(`Aspect`)：
+    - 切面由切点和`增强/通知`组成，它既包括了横切逻辑的定义、也包括了连接点的定义。
 
 - AOP 动态代理
 
