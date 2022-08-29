@@ -1,3 +1,25 @@
+### JDBC问题
+1. 数据库配置信息存在硬编码问题  // 配置文件
+2. 频繁创建释放数据库连接       // 连接池
+3. SQL语句，设置参数，获取结果集参数均存在硬编码问题 // 配置文件
+4. 需要手动封装返回结果集，步骤繁琐 // 反射。内省
+
+### 使用端:
+提供核心配置文件:
+sqlMapConfig.xml : 存放数据源信息，引入mapper.xml Mapper.xml : sql语句的配置文件信息
+框架端:
+1. 读取配置文件
+读取完成以后以流的形式存在，我们不能将读取到的配置信息以流的形式存放在内存中，不好操作，可以创建 javaBean来存储
+   - (1)Configuration : 存放数据库基本信息、Map<唯一标识，Mapper> 唯一标识:namespace + "." + id 
+   - (2)MappedStatement:sql语句、statement类型、输入参数java类型、输出参数java类型
+2. 解析配置文件
+   - 创建sqlSessionFactoryBuilder类:
+   - 方法:sqlSessionFactory build(): 第一:使用dom4j解析配置文件，将解析出来的内容封装到Configuration和MappedStatement中 第二:创建SqlSessionFactory的实现类DefaultSqlSession
+3. 创建SqlSessionFactory:
+   - 方法:openSession() : 获取sqlSession接口的实现类实例对象
+4. 创建sqlSession接口及实现类:主要封装crud方法 方法:selectList(String statementId,Object param):查询所有 selectOne(String statementId,Object param):查询单个 具体实现:封装JDBC完成对数据库表的查询操作
+- 涉及到的设计模式:
+   - Builder构建者设计模式、工厂模式、代理模式
 ### 缓存
 1.什么是缓存 [ Cache ]？
   - 存在内存中的临时数据。
