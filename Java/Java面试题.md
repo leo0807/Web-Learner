@@ -20,3 +20,6 @@
 5. Map 有两种实现，分别是 HashMap 和 TreeMap。而 HashMap 实现了 Map 接口并扩展了 AbstractMap 类。
 
 6. Map 和 HashMap 对象之间没有区别
+
+- Java 的基本数据类型
+  八种基本数据类型：byte、short、char、int、long、double、float、boolean。
