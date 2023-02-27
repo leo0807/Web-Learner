@@ -50,6 +50,12 @@
 
 - MySQL 利用一套基于权限的安全模型，即用户对数据库进行操作需要身份认证，系统也可以授予或禁止用户对某个数据库进行操作的权限。而且如果应用程序需要从数据库获取数据，就需要使用 SSL 这种安全协议建立加密连接。
 
+### 通过 docker 使用 mongodb
+
+- `docker pull mongo:latest`
+- `docker run -d --restart=always -p 27017:27017 --name mymongo -v /data/db:/data/db -d mongo`
+- `docker exec -it mymongo /bin/bash ` or `docker exec -it mongo mongosh admin`
+
 #### 参考资料
 
 - [MongoDB 应用场景](https://hevodata.com/learn/mongodb-use-case/)
