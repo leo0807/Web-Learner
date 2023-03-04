@@ -70,6 +70,14 @@
 
   - `String str = new String(“i”);`会将对象分配到堆中，即使内存一样，还是会重新创建一个新的对象
 
+- `throws`和`throw`的区别
+
+  - `throw` 作用在方法内，表示抛出具体异常由方法体内的语句处理；一定抛出了异常
+  - `throws` 作用在方法的声明上，表示抛出异常，由调用者来进行异常处理；可能出现异常，不一定会发生异常；
+
+- `try-catch-finnally`中，如果`catch`中`return`了，`finally`还会执行吗？
+  - 会，执行顺序为`catch -> finally -> catch中return` ；
+
 ### 参考文献
 
 - [10 万字 208 道 Java 经典面试题总结(附答案)](https://blog.csdn.net/guorui_java/article/details/119299329)
