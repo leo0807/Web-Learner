@@ -76,7 +76,14 @@
   - `throws` 作用在方法的声明上，表示抛出异常，由调用者来进行异常处理；可能出现异常，不一定会发生异常；
 
 - `try-catch-finnally`中，如果`catch`中`return`了，`finally`还会执行吗？
+
   - 会，执行顺序为`catch -> finally -> catch中return` ；
+
+- `ArrayList` 和 `LinkedList` 的区别是什么？
+
+  - `ArrayList`是动态数组的数据结构实现，查找和遍历的效率较高；
+
+  - `LinkedList` 是双向链表的数据结构，增加和删除的效率较高；
 
 ### 参考文献
 
