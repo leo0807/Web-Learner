@@ -25,5 +25,15 @@ public HashMap(int initialCapacity, float loadFactor) {
 }
   ```
   
-  - 关于如何选择 `initialCapacity`，我们看看阿里巴巴 Java 开发规范，规范要求在初始化 HashMap 时，必须指定 initialCapacity，因为这样可以减少 `resize` 次数，提高程序效率。
+- 关于如何选择 `initialCapacity`，我们看看阿里巴巴 Java 开发规范，规范要求在初始化 HashMap 时，必须指定 initialCapacity，因为这样可以减少 `resize` 次数，提高程序效率。
     因为 `threshold = initialCapacity * loadFactor`，所以 `initialCapacity = (需要存储元素个数 / loadFactor) + 1`。![Uploading image.png…]()
+### 示例
+- 想要使用 HashMap 存放 10000 条数据，应该设置 `initialCapacity = 10000 / 0.75 + 1 = 13334`，然后哈希表容量会被 `tableSizeFor` 方法调整到 `16384(2^14)`，`threshold = 16384 * 0.75 = 12288` 足够存储 `10000` 条数据而不会触发扩容。
+- `table.size = threshold * loadFactor`
+
+### 总结
+- HashMap 构造方法传递的 initialCapacity，虽然在处理后被存入了 loadFactor 中，但它实际表示 table 的容量。
+- 构造方法传递的 initialCapacity，最终会被 tableSizeFor() 方法动态调整为 2 的 N 次幂，以方便在扩容的时候，计算数据在 newTable 中的位置。
+- 如果设置了 table 的初始容量，会在初始化 table 时，将扩容阈值 threshold 重新调整为 table.size * loadFactor。
+- HashMap 是否扩容，由 threshold 决定，而 threshold 又由初始容量和 loadFactor 决定。
+- 如果我们预先知道 HashMap 数据量范围，可以预设 HashMap 的容量值来提升效率，但是需要注意要考虑装载因子的影响，才能保证不会触发预期之外的动态扩容。
