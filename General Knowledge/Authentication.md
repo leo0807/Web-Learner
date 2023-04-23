@@ -41,6 +41,27 @@
 ![OTP](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb27865df-e833-47c8-9340-cba5510a90a0_1600x1069.png)
 
 ### OAuth 2.0 and OpenID Connect (OIDC)
+- OAuth 2.0是一种授权框架，可以与OpenID Connect（OIDC）一起用于身份验证。OIDC是基于OAuth 2.0构建的身份验证层，允许验证用户身份并授权对受保护资源的受控访问。
 
+- 在使用“使用Google登录”或类似功能时，OAuth 2.0和OIDC共同用于简化身份验证过程。OIDC以标准化的JSON Web Token（JWT）形式提供用户身份数据。此令牌包含有关已验证用户的信息，允许第三方应用程序在不需要单独注册流程的情况下创建用户配置文件。
+
+- 在这种设置中，OAuth 2.0通过发放短期令牌而非密码来提供“安全委托访问”，允许第三方服务在资源所有者的许可下访问受保护的资源。这种方法增强了安全性，因为第三方服务不直接处理或存储用户的密码。
+
+综上所述，OAuth 2.0是一种授权框架，可以与OIDC一起用于身份验证。OIDC提供用户身份数据，OAuth 2.0通过发放短期令牌来提供安全委托访问。这种方法可以提高安全性，并简化身份验证过程。
+![OAuth 2.0](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F75a1f3e9-7bad-410a-b059-66ccd6189f6b_1600x998.png)
+
+在“使用Google登录”的例子中，OAuth 2.0定义了四个角色：
+- 资源所有者（Resource owner）：最终用户，控制其个人数据的访问。
+- 资源服务器（Resource server）：Google服务器，托管作为受保护资源的用户配置文件。它使用访问令牌来响应受保护资源请求，确保只有经过授权的服务才能访问数据。
+- 客户端（Client）：代表资源所有者进行请求的设备（PC或智能手机）。这个设备代表寻求访问用户数据的第三方应用程序。
+- 授权服务器（Authorization server）：颁发令牌给客户端的Google授权服务器，管理资源服务器和客户端之间的令牌安全交换。
+
+OAuth 2.0提供了四种授权授予类型，以适应不同的情况：
+- 授权码授权（Authorization code grant）：最完整和通用的模式，适用于大多数应用程序类型。更多细节见下文。
+- 隐式授权（Implicit grant）：设计用于仅具有前端的应用程序，如单页应用程序或移动应用程序。不再推荐使用。更多细节见下文。
+- 资源所有者密码凭据授权（Resource owner password credentials grant）：当用户信任第三方应用程序使用其凭据，如受信任的移动应用程序时使用。
+- 客户端凭据授权（Client credentials grant）：适用于无前端的情况，如命令行工具或服务器间通信，无需资源所有者交互。
+
+![Oauth 2.0](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fce0b4f94-1fae-4d70-a71e-1f82ef93220c_1600x1257.png)
 ## Reference
 - [bytebytego](https://blog.bytebytego.com/p/password-session-cookie-token-jwt-ec1)
