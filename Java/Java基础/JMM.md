@@ -105,11 +105,45 @@ private static synchronized void add() {
 }
 ```
 ### 禁止指令重排序
-首先要讲一下as-if-serial语义，不管怎么重排序，（单线程）程序的执行结果不能被改变。
+首先要讲一下`as-if-serial`语义，不管怎么重排序，（单线程）程序的执行结果不能被改变。
 
 为了使指令更加符合CPU的执行特性，最大限度的发挥机器的性能，提高程序的执行效率，只要程序的最终结果与它顺序化情况的结果相等，那么指令的执行顺序可以与代码逻辑顺序不一致，这个过程就叫做指令的重排序。
 
-重排序的种类分为三种，分别是：编译器重排序，指令级并行的重排序，内存系统重排序。整个过程如下所示：
+重排序的种类分为三种，分别是：`编译器重排序`，`指令级并行的重排序`，`内存系统重排序`。整个过程如下所示：
 ![JMM](https://pic1.zhimg.com/80/v2-f50b6067d0c759b20bc7bea72f0e4690_1440w.webp)
+- 指令重排序在单线程是没有问题的，不会影响执行结果，而且还提高了性能。但是在多线程的环境下就不能保证一定不会影响执行结果了。所以在多线程环境下，就需要禁止指令重排序。
+`volatile`关键字禁止指令重排序有两层意思：
+- 当程序执行到`volatile`变量的读操作或者写操作时，在其前面的操作的更改肯定全部已经进行，且结果已经对后面的操作可见，在其后面的操作肯定还没有进行。
+- 在进行指令优化时，不能将在对`volatile`变量访问的语句放在其后面执行，也不能把`volatile`变量后面的语句放到其前面执行。
+例子：
+```
+private static int a;//非volatile修饰变量
+private static int b;//非volatile修饰变量
+private static volatile int k;//volatile修饰变量
+
+private void hello() {
+    a = 1;  //语句1
+    b = 2;  //语句2
+    k = 3;  //语句3
+    a = 4;  //语句4
+    b = 5;  //语句5
+    //以下省略...
+}
+```
+变量a，b是非volatile修饰的变量，k则使用volatile修饰。所以语句3不能放在语句1、2前，也不能放在语句4、5后。但是语句1、2的顺序是不能保证的，同理，语句4、5也不能保证顺序。
+
+并且，执行到语句3的时候，语句1，2是肯定执行完毕的，而且语句1,2的执行结果对于语句3,4,5是可见的。
+### volatile禁止指令重排序的原理是什么
+首先要讲一下内存屏障，内存屏障可以分为以下几类：
+
+1. `LoadLoad` 屏障：对于这样的语句`Load1`，`LoadLoad`，`Load2`。在`Load2`及后续读取操作要读取的数据被访问前，保证`Load1`要读取的数据被读取完毕。
+2. `StoreStore`屏障：对于这样的语句`Store1`， `StoreStore`， `Store2`，在`Store2`及后续写入操作执行前，保证`Store1`的写入操作对其它处理器可见。
+3. `LoadStore` 屏障：对于这样的语句`Load1`， LoadStore，Store2，在`Store2`及后续写入操作被刷出前，保证`Load1`要读取的数据被读取完毕。
+4. `StoreLoad` 屏障：对于这样的语句`Store1`， StoreLoad，Load2，在`Load2`及后续所有读取操作执行前，保证`Store1`的写入对所有处理器可见。
+在每个`volatile`读操作后插入LoadLoad屏障，在读操作后插入LoadStore屏障。
+![Volatile](https://pic4.zhimg.com/80/v2-437ebf30028ea4364533da27460a3077_1440w.webp)
+在每个`volatile`写操作的前面插入一个`StoreStore`屏障，后面插入一个`SotreLoad`屏障。
+![Volatile](https://pic4.zhimg.com/80/v2-52d9c8897b541c9e4e5a41be59b482ef_1440w.webp)
+
 ## References
 - [面试官问我什么是JMM](https://zhuanlan.zhihu.com/p/258393139)
