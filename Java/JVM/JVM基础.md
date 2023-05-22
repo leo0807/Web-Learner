@@ -9,7 +9,7 @@
 
 ![JVM运行](https://img-blog.csdnimg.cn/182894a10cb0407281ff98564f4234f5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAaGlrZTc2,size_20,color_FFFFFF,t_70,g_se,x_16)
 
-一般情况下，即使不熟悉jvm的运行机制，也不影响业务代码的一个开发。因为在安装完JDK或者JRE之后，其中就已经内置了jvm。所以只需要将Class交给jvm运行就可以了。但当程序运行过程中，出现了问题，而这个问题发生在jvm层面的时候，我们就需要去熟悉jvm的运行机制，才能够去迅速排查并解决jvm的性能问题
+- 一般情况下，即使不熟悉jvm的运行机制，也不影响业务代码的一个开发。因为在安装完JDK或者JRE之后，其中就已经内置了jvm。所以只需要将Class交给jvm运行就可以了。但当程序运行过程中，出现了问题，而这个问题发生在jvm层面的时候，我们就需要去熟悉jvm的运行机制，才能够去迅速排查并解决jvm的性能问题
 ## 运行时数据区域
 ![运行时数据区域](https://imgconvert.csdnimg.cn/aHR0cHM6Ly91c2VyLWdvbGQtY2RuLnhpdHUuaW8vMjAxNy85LzQvZGQzYjE1YjNkODgyNmZhZWFlMjA2Mzk3NmZiOTkyMTM_aW1hZ2VWaWV3Mi8wL3cvMTI4MC9oLzk2MC9mb3JtYXQvd2VicC9pZ25vcmUtZXJyb3IvMQ)
 ### 程序计数机（PCR）的定义 特点和作用 
