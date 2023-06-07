@@ -120,7 +120,11 @@ SoftReference<byte[]> sr = new SoftReference<>(buff);
 当垃圾回收器准备回收一个对象时，如果发现它还有引用，就会在回收对象之前，把这个引用加入到引用队列中。
 
 程序可以通过判断引用队列中是否加入了引用，来判断被引用的对象是否将要被垃圾回收，这样可以在对象被回收之前采取一些必要的措施。
-
+#### `ArrayList`
+- `ArrayList()`会使用长度为0的数组
+- `ArrayList(int initialCapacity)`会使用指定容量的数组
+- `add(Object o)`首次扩容为10，再次扩容为上次容量的1.5倍
+- `addAll(Collection c)`没有元素时，扩容为`Math.max(10,实际元素个数)`,有元素时候为`Math.max(原容量，1.5倍*实际元素个数)`
 ### 参考文献
 
 - [10 万字 208 道 Java 经典面试题总结(附答案)](https://blog.csdn.net/guorui_java/article/details/119299329)
